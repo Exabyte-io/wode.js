@@ -1,7 +1,7 @@
 {
-    "name": "@exabyte-io/PROJECT_NAME",
+    "name": "@exabyte-io/wode.js",
     "version": "0.0.0",
-    "description": "PROJECT_DESCRIPTION",
+    "description": "WOrkflow DEfinitions",
     "scripts": {
         "test": "nyc --reporter=text mocha --recursive --bail --require @babel/register/lib --require tests/setup.js tests",
         "lint": "eslint src tests && prettier --write src tests",
@@ -13,7 +13,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Exabyte-io/PROJECT_NAME.git"
+        "url": "https://github.com/Exabyte-io/wode.js.git"
     },
     "main": "dist/index.js",
     "files": [
@@ -23,10 +23,10 @@
     ],
     "author": "Exabyte Inc.",
     "bugs": {
-        "url": "https://github.com/Exabyte-io/PROJECT_NAME/issues"
+        "url": "https://github.com/Exabyte-io/wode.js/issues"
     },
     "license": "Apache-2.0",
-    "homepage": "https://github.com/Exabyte-io/PROJECT_NAME",
+    "homepage": "https://github.com/Exabyte-io/wode.js",
     "dependencies": {
         "@babel/cli": "7.16.0",
         "@babel/core": "7.16.0",
