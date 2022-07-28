@@ -1,0 +1,4 @@
+name: 'ML: Kernel Ridge Regression Train Model'
+units:
+- name: train_kernel_ridge
+  type: subworkflow

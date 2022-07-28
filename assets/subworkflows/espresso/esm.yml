@@ -1,0 +1,14 @@
+application:
+    name: espresso
+    version: 5.4.0
+method:
+    name: PseudopotentialMethod
+model:
+    name: DFTModel
+name: Effective Screening Medium (ESM)
+units:
+-   config:
+        execName: pw.x
+        flavorName: pw_esm
+        name: pw_esm
+    type: executionBuilder

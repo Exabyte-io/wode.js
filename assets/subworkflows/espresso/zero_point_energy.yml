@@ -1,0 +1,19 @@
+application:
+    name: espresso
+    version: 5.4.0
+method:
+    name: PseudopotentialMethod
+model:
+    name: DFTModel
+name: Zero Point Energy
+units:
+-   config:
+        execName: pw.x
+        flavorName: pw_scf
+        name: pw_scf
+    type: executionBuilder
+-   config:
+        execName: ph.x
+        flavorName: ph_gamma
+        name: ph_zpe
+    type: executionBuilder

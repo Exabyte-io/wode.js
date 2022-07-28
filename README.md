@@ -79,3 +79,75 @@ npm run lint:fix
 In which case, you may need to then add the linter edits to your staging, which in the example above, puts the
 file back to identical with the base branch, resulting in no staged changes whatsoever.
 
+
+WoDe
+====
+
+The`WoDe` package synthesizes other entity definition (`De`) libraries
+in the Mat3ra workflow ecosystem and implements the following entities:
+
+- `Workflow` - a workflow to be executed on the Mat3ra platform
+- `Subworkflow` - a logical collection of units of work defined by a unique `Applidation`
+- `Units` - one of the following:
+  - `AssertionUnit` - assert an expression
+  - `AssignmentUnit` - assign a value
+  - `ConditionUnit` - evaluate a condition
+  - `IOUnit` - Read or write data
+  - `ExecutionUnit` - execute an `ADe` `Application`
+  - `MapUnit` - create a dynamic number of units based on output of a previous unit
+  - `ReduceUnit` - collect the results of a fanned out operation
+
+Workflow configurations are processed at build time using `build_workflows.js` and compiled into
+a single JS file so that workflow configurations can be accessed in the browser runtime, not just
+in a NodeJS process.
+
+
+Workflow Spec
+-------------
+
+Workflows defined as configuration conform to the following specification:
+
+- `Workflow: Object` - The workflow configuration itself
+  - `name: String` - a human readable name describing the functionality of the workflow
+  - `units: Array` - a list of workflow units where each unit takes the following shape *Not == Unit*
+    - `name: String` - the snake_case name of a subworkflow or another workflow that must exist
+    - `config: Optional[Object]` - see `Config` defined below
+    - `type: String` - one of:
+      - `subworkflow|workflow`
+        - **Note:** workflow units may specify `mapUnit: true` in their config
+    - `units: Optional[Array]` - if `type == workflow` see above (recursively defined)
+  - `config: Optional[Object]` - see `Config` defined below
+- `Subworkflow: Object` - a logical collection of workflow units
+  - `application: Object` - an application specification
+    - `name: String` - an application name recognized by ADe
+    - `version: Optional[String]` - (often a semver) application version string supported by ADe
+    - `build: Optional[String]` - application build string supported by ADe
+  - `method: Object` - a method specification
+    - `name: String` - a named method class exported from MeDe
+    - `config: Optional[Object]` - see `Config` defined below
+  - `model: Object` - a model specification 
+    - `name: String` - a named model class exported from MeDe
+    - `config: Optional[Object]` - see `Config` defined below
+  - `config: Optional[Object]` - see `Config` defined below
+  - `units: Array` - a list of subworkflow units where each unit is a Unit defined below
+- `Unit: Object` - a unit of computational work in a workflow
+  - `type: String` - one of:
+    - `execution|assignment|condition|io|processing|map|subworkflow|assertion`
+      - **Note:** optionally may have `Builder` appended to type to use unit builders instead of units directly
+        - `executionBuilder` is the primary use case for this
+  - `config: Object` - arguments to pass to constructor based on type
+  - `functions: Object` - similar to `Config`.functions defined below
+    - in the case of builders, functions are applied before calling build
+  - `attributes: Object` - similar to `Config`.attributes defined below
+    - in the case of builders, attributes are applied after calling build
+- `Config: Object` - custom configuration to apply to an entity
+  - **Note:** `functions` and `attributes` may not be supported for all entities, please check the implementation
+  - `functions: Object` - collection of functions defined on the entity to run
+    - `[key]: {{functionName}}: String` - name of function to run
+    - `[value]: {{args}}: Any` - arguments matching the call signature
+  - `attributes: Object` - collection of attributes to assign to the entity on creation
+    - `[key]: {{attributeName}}: String` - name of function to run
+    - `[value]: {{value}}: Any` - value to assign to attribute
+  - `[key]: {{constructorArgument}}: String` - parameter passed to constructor
+  - `[value]: {{constructorValue}}: Any` - value for a given constructor parameter
+

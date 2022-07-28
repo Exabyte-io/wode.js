@@ -1,0 +1,12 @@
+application:
+    name: python
+    version: 2.7.5
+dynamicSubworkflow:
+    name: getQpointIrrep
+    subfolder: espresso
+method:
+    name: UnknownMethod
+model:
+    name: UnknownModel
+name: espresso-xml-get-qpt-irr
+units: []

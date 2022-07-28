@@ -1,0 +1,19 @@
+application:
+    name: espresso
+    version: 5.4.0
+method:
+    name: PseudopotentialMethod
+model:
+    name: DFTModel
+name: Recalculate Bands
+units:
+-   config:
+        execName: pw.x
+        flavorName: pw_bands
+        name: pw_bands
+    type: executionBuilder
+-   config:
+        execName: bands.x
+        flavorName: bands
+        name: bands
+    type: executionBuilder

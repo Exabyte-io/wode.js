@@ -1,0 +1,14 @@
+application:
+    name: shell
+    version: 4.2.46
+method:
+    name: UnknownMethod
+model:
+    name: UnknownModel
+name: Shell Hello World
+units:
+-   config:
+        execName: sh
+        flavorName: hello_world
+        name: shell
+    type: executionBuilder

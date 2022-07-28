@@ -1,0 +1,4 @@
+name: Phonon Density of States
+units:
+- name: phonon_dos
+  type: subworkflow

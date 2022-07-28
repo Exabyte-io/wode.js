@@ -1,0 +1,4 @@
+name: Shell Hello World
+units:
+- name: hello_world
+  type: subworkflow

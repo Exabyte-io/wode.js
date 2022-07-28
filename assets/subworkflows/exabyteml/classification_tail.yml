@@ -1,0 +1,56 @@
+application:
+    name: python
+    version: 3.8.6
+method:
+    name: UnknownMethod
+model:
+    name: UnknownModel
+name: Machine Learning
+units:
+-   attributes:
+        enableRender: true
+    config:
+        execName: python
+        flavorName: pyml:setup_variables_packages
+        name: Setup Variables and Packages
+    type: executionBuilder
+-   config:
+        execName: python
+        flavorName: pyml:data_input:read_csv:pandas
+        name: Data Input
+    type: executionBuilder
+-   config:
+        execName: python
+        flavorName: pyml:data_input:train_test_split:sklearn
+        name: Train Test Split
+    type: executionBuilder
+-   config:
+        execName: python
+        flavorName: pyml:pre_processing:standardization:sklearn
+        name: Data Standardize
+    type: executionBuilder
+-   attributes:
+        results:
+        -   name: workflow:pyml_predict
+        tags:
+        - remove-all-results
+        - creates-predictions-csv-during-predict-phase
+    config:
+        execName: python
+        flavorName: pyml:model:random_forest_classification:sklearn
+        name: Model Train and Predict
+    type: executionBuilder
+-   attributes:
+        postProcessors:
+        -   name: remove_virtual_environment
+        results:
+        -   basename: my_roc_plot.png
+            filetype: image
+            name: file_content
+        tags:
+        - remove-all-results
+    config:
+        execName: python
+        flavorName: pyml:post_processing:roc_curve:sklearn
+        name: ROC Curve Plot
+    type: executionBuilder

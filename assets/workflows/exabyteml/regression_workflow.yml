@@ -1,0 +1,9 @@
+config:
+  attributes:
+    isUsingDataset: true
+name: Python ML Train Regression
+units:
+- name: train_head
+  type: subworkflow
+- name: regression_tail
+  type: subworkflow

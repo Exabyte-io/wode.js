@@ -1,0 +1,25 @@
+application:
+    name: vasp
+    version: 5.3.5
+config:
+    isMultiMaterial: true
+    functions:
+        setDefaultCompute: null
+method:
+    name: PseudopotentialMethod
+model:
+    name: DFTModel
+name: Initial/Final Total Energies
+units:
+-   config:
+        execName: vasp
+        flavorName: vasp_neb_initial
+        name: vasp_neb_initial
+    functions:
+        head: true
+    type: executionBuilder
+-   config:
+        execName: vasp
+        flavorName: vasp_neb_final
+        name: vasp_neb_final
+    type: executionBuilder

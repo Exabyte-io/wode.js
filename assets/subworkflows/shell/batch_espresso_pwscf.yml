@@ -1,0 +1,14 @@
+application:
+    name: shell
+    version: 4.2.46
+method:
+    name: UnknownMethod
+model:
+    name: UnknownModel
+name: Shell Batch Job (Espresso PWSCF)
+units:
+-   config:
+        execName: sh
+        flavorName: job_espresso_pw_scf
+        name: shell
+    type: executionBuilder
