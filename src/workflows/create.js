@@ -1,9 +1,9 @@
 import { createSubworkflow } from "../subworkflows/create";
+import { UnitFactory } from "../units";
+import { defaultMapConfig } from "../units/map";
+import { applyConfig } from "../utils";
 import { Workflow } from "./workflow";
 import { workflowData as allWorkflowData } from "./workflows";
-import { applyConfig } from "../utils";
-import { defaultMapConfig } from "../units/map";
-
 
 /**
  * @summary Helper for creating Map units for complex workflows
@@ -11,7 +11,7 @@ import { defaultMapConfig } from "../units/map";
  * @param unitFactoryCls {*} class factory for map unit
  * @returns {*} map unit
  */
-function createMapUnit({ config, unitFactoryCls }) {
+function createMapUnit({ config, unitFactoryCls = UnitFactory }) {
     let { input: defaultInput } = defaultMapConfig;
     if (config.input) {
         defaultInput = { ...defaultInput, ...config.input };
@@ -33,9 +33,9 @@ function createSubworkflowUnit({ appName, unitData, ...swArgs }) {
     const { [appName]: dataByApp } = subworkflows;
     const { [unitName]: subworkflowData } = dataByApp;
     return createSubworkflow({
-        subworkflowData, ...swArgs
+        subworkflowData,
+        ...swArgs,
     });
-
 }
 
 /**
@@ -72,11 +72,12 @@ function createWorkflowHead({ workflow, unit, type, workflowCls }) {
  * @returns {*} modified workflow
  */
 function composeWorkflow({ workflow, unit, config, type, unitFactoryCls }) {
+    /* eslint-disable no-case-declarations */
     switch (type) {
         case "workflow":
-            let { mapUnit, ...mapUnitConfig } = config;
-            if (mapUnit) {
-                mapUnit = createMapUnit({ config: mapUnitConfig, unitFactoryCls });
+            const { mapUnit: isMapUnit, ...mapUnitConfig } = config;
+            if (isMapUnit) {
+                const mapUnit = createMapUnit({ config: mapUnitConfig, unitFactoryCls });
                 workflow.addMapUnit(mapUnit, unit);
             } else {
                 console.log(`adding workflows directly to workflows is not supported.`);
@@ -88,6 +89,7 @@ function composeWorkflow({ workflow, unit, config, type, unitFactoryCls }) {
         default:
             throw new Error(`workflow type=${type} not understood.`);
     }
+    /* eslint-enable no-case-declarations */
     return workflow;
 }
 
@@ -100,18 +102,26 @@ function composeWorkflow({ workflow, unit, config, type, unitFactoryCls }) {
  */
 function createFromWorkflowUnits({ wfUnits, workflowCls, unitFactoryCls }) {
     let workflow, unit, config, type;
-    for (const wfUnit of wfUnits) {
+    wfUnits.map((wfUnit) => {
         ({ unit, config, type } = wfUnit);
         if (!workflow) {
             workflow = createWorkflowHead({
-                workflow, unit, type, workflowCls,
+                workflow,
+                unit,
+                type,
+                workflowCls,
             });
-            continue;
+        } else {
+            workflow = composeWorkflow({
+                workflow,
+                unit,
+                config,
+                type,
+                unitFactoryCls,
+            });
         }
-        workflow = composeWorkflow({
-            workflow, unit, config, type, unitFactoryCls,
-        });
-    }
+        return null;
+    });
     return applyConfig({ obj: workflow, config });
 }
 
@@ -127,28 +137,37 @@ function createWorkflowUnits({ appName, workflowData, workflowCls, ...swArgs }) 
     const wfUnits = [];
     const { units } = workflowData;
     let unit, config;
-    for (const unitData of units) {
+    units.map((unitData) => {
         const { type } = unitData;
         switch (type) {
             case "workflow":
                 ({ config } = unitData);
                 unit = createWorkflowUnits({
-                    appName, workflowData: unitData, workflowCls, ...swArgs,
+                    appName,
+                    workflowData: unitData,
+                    workflowCls,
+                    ...swArgs,
                 });
                 break;
             case "subworkflow":
                 ({ config } = workflowData);
                 unit = createSubworkflowUnit({
-                    appName, unitData, ...swArgs,
+                    appName,
+                    unitData,
+                    ...swArgs,
                 });
                 break;
             default:
-                continue;
+                break;
         }
         wfUnits.push({ config, unit, type });
-    }
+        return null;
+    });
     return createFromWorkflowUnits({
-        wfUnits, workflowCls, subworkflowCls: swArgs.subworkflowCls, unitFactoryCls: swArgs.unitFactoryCls,
+        wfUnits,
+        workflowCls,
+        subworkflowCls: swArgs.subworkflowCls,
+        unitFactoryCls: swArgs.unitFactoryCls,
     });
 }
 
@@ -156,13 +175,14 @@ function createWorkflow({ appName, workflowData, workflowCls = Workflow, ...swAr
     const { name } = workflowData;
     console.log(`creating ${appName} workflow ${name}`);
     const wf = createWorkflowUnits({
-        appName, workflowData, workflowCls, ...swArgs,
+        appName,
+        workflowData,
+        workflowCls,
+        ...swArgs,
     });
     wf.setName(name);
     wf.applicationName = appName;
     return wf;
 }
 
-export {
-    createWorkflow,
-}
+export { createWorkflow };

@@ -16,6 +16,7 @@ const allWorkflows = { workflows: {}, subworkflows: {} };
 
 const JSONstringifyOrder = (obj, space) => {
     const allKeys = new Set();
+    // eslint-disable-next-line no-sequences
     JSON.stringify(obj, (key, value) => (allKeys.add(key), value));
     return JSON.stringify(obj, Array.from(allKeys).sort(), space);
 };
@@ -26,29 +27,33 @@ const loadFile = (name, dir, file, type) => {
     allWorkflows[type][name][key] = yaml.load(obj);
 };
 
-const skip_ext = ".json";
-const write_path = "workflows.js";
-const write_json = "workflows.json";
-
 allApplications.forEach((name) => {
-    allWorkflows["workflows"][name] = {};
-    allWorkflows["subworkflows"][name] = {};
-    const wfDir = path.resolve(__dirname, "workflows", name);
-    const swDir = path.resolve(__dirname, "subworkflows", name);
+    allWorkflows.workflows[name] = {};
+    allWorkflows.subworkflows[name] = {};
+    const wfDir = path.resolve(__dirname, "assets", "workflows", name);
+    const swDir = path.resolve(__dirname, "assets", "subworkflows", name);
     try {
         const wfFiles = fs.readdirSync(wfDir);
         const swFiles = fs.readdirSync(swDir);
-        console.log(`Building ${name}: ${wfFiles.length} workflow(s) and ${swFiles.length} subworkflow(s)`);
+        console.log(
+            `Building ${name}: ${wfFiles.length} workflow(s) and ${swFiles.length} subworkflow(s)`,
+        );
         wfFiles.forEach((file) => loadFile(name, wfDir, file, "workflows"));
         swFiles.forEach((file) => loadFile(name, swDir, file, "subworkflows"));
     } catch (e) {
         console.log(e);
-        return;
-    };
+    }
 });
 
-
-fs.writeFileSync(`./dist/workflows/${write_path}`, "module.exports = {workflowData: " + JSONstringifyOrder(allWorkflows) + "}", "utf8")
-// fs.writeFileSync(`./dist/workflows/${write_json}`, JSONstringifyOrder(allWorkflows, 4), "utf8")
-
-
+const write_path = "workflows.js";
+// write to src for unit test coverage simplicity
+fs.writeFileSync(
+    `./src/workflows/${write_path}`,
+    "module.exports = {workflowData: " + JSONstringifyOrder(allWorkflows) + "}",
+    "utf8",
+);
+fs.writeFileSync(
+    `./dist/workflows/${write_path}`,
+    "module.exports = {workflowData: " + JSONstringifyOrder(allWorkflows) + "}",
+    "utf8",
+);

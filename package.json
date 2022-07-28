@@ -6,7 +6,7 @@
         "test": "nyc --reporter=text mocha --recursive --bail --require @babel/register/lib --require tests/setup.js tests",
         "lint": "eslint src tests && prettier --write src tests",
         "lint:fix": "eslint --fix --cache src tests && prettier --write src tests",
-        "transpile": "babel --out-dir dist src",
+        "transpile": "babel --out-dir dist src; node build_workflows.js",
         "postinstall": "npm run transpile",
         "prettier": "prettier --check src tests",
         "prepare": "husky install"
@@ -35,7 +35,16 @@
         "@babel/preset-env": "7.16.4",
         "@babel/preset-react": "7.16.7",
         "@babel/register": "^7.16.0",
-        "@babel/runtime-corejs3": "7.16.8"
+        "@babel/runtime-corejs3": "7.16.8",
+        "@exabyte-io/ade.js": "2022.7.27-0",
+        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#820fe1eaf06e1fe20323fe77036310edf12dca70",
+        "@exabyte-io/ide.js": "git+https://github.com/Exabyte-io/ide.js.git#e8d60aa03b77c40a193459d82c33ca57c42aa217",
+        "@exabyte-io/mode.js": "git+https://github.com/Exabyte-io/mode.js.git#0d6b429ddbb801f8d3ea72767f3976ae8ae87d94",
+        "js-yaml": "^4.1.0",
+        "lodash": "^4.17.21",
+        "mixwith": "^0.1.1",
+        "underscore": "^1.13.3",
+        "underscore.string": "^3.3.4"
     },
     "devDependencies": {
         "chai": "^4.3.4",
@@ -63,4 +72,3 @@
         "*.{js,css}": "prettier --write"
     }
 }
-
