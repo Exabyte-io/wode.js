@@ -1,6 +1,6 @@
 import { BaseUnit } from "./base";
 
-import { UNIT_TYPES } from "/imports/wode/enums";
+import { UNIT_TYPES } from "../enums";
 
 
 export class SubworkflowUnit extends BaseUnit {

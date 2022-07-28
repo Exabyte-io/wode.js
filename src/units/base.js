@@ -2,7 +2,7 @@ import lodash from "lodash";
 
 import { NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity } from "@exabyte-io/code.js/dist/entity";
 import { getUUID } from "@exabyte-io/code.js/dist/utils";
-import { UNIT_STATUSES } from "/imports/wode/enums";
+import { UNIT_STATUSES } from "../enums";
 
 export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity {
     constructor(config) {

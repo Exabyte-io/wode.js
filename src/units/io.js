@@ -2,7 +2,7 @@ import lodash from "lodash";
 
 import { BaseUnit } from "./base";
 
-import { UNIT_TYPES, IO_ID_COLUMN } from "/imports/wode/enums";
+import { UNIT_TYPES, IO_ID_COLUMN } from "../enums";
 
 export class IOUnit extends BaseUnit {
 

@@ -1,3 +1,4 @@
+import _ from "underscore";
 import lodash from "lodash";
 import { mix } from "mixwith";
 
@@ -5,13 +6,12 @@ import { NamedDefaultableRepetitionImportantSettingsInMemoryEntity } from "@exab
 import { calculateHashFromObject, getUUID, removeTimestampableKeysFromConfig } from "@exabyte-io/code.js/dist/utils";
 
 import { Application } from "@exabyte-io/ade.js";
-import { UnitFactory } from "/imports/wode";
-import { UNIT_TYPES } from "/imports/wode/enums";
 import { Model, ModelFactory } from "@exabyte-io/mode.js";
 
+import { UnitFactory } from "../units";
+import { UNIT_TYPES } from "../enums";
 import { setUnitsHead, setNextLinks } from "../utils";
 import { ConvergenceMixin } from "./convergence";
-import _ from "underscore";
 
 
 class BaseSubworkflow extends mix(NamedDefaultableRepetitionImportantSettingsInMemoryEntity).with(ConvergenceMixin) {}

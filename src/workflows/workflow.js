@@ -4,7 +4,7 @@ import { mix } from "mixwith";
 
 import { NamedDefaultableRepetitionContextAndRenderInMemoryEntity } from "@exabyte-io/code.js/dist/entity";
 import { getUUID } from "@exabyte-io/code.js/dist/utils";
-import { UNIT_TYPES } from "/imports/wode/enums";
+import { UNIT_TYPES } from "../enums";
 import { tree } from "@exabyte-io/mode.js";
 import { ComputedEntityMixin, getDefaultComputeConfig } from "@exabyte-io/ide.js";
 

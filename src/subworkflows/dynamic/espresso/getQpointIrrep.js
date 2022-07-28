@@ -1,4 +1,4 @@
-import { UNIT_TYPES } from "/imports/wode/enums";
+import { UNIT_TYPES } from "../../../enums";
 
 /**
  * @summary Get QptIrr units used in phonon map calculations

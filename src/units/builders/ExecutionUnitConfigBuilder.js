@@ -1,5 +1,5 @@
 import { Application, Executable, Flavor } from "@exabyte-io/ade.js";
-import { UNIT_TYPES } from "/imports/wode/enums";
+import { UNIT_TYPES } from "../../enums";
 
 import { UnitConfigBuilder } from "./UnitConfigBuilder";
 

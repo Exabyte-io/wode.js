@@ -1,4 +1,4 @@
-import { UNIT_TYPES } from "/imports/wode/enums";
+import { UNIT_TYPES } from "../enums";
 import { BaseUnit } from "./base";
 import { IOUnit } from "./io";
 import { MapUnit } from "./map";
