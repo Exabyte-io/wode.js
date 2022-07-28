@@ -1,0 +1,86 @@
+application:
+    name: exabyteml
+    version: 0.2.0
+config:
+    isDraft: true
+    isMultiMaterial: true
+method:
+    config:
+        data: {}
+        subtype: least_squares
+        type: linear
+    name: Method
+model:
+    config:
+        subtype: re
+        type: ml
+    name: Model
+name: 'ML: Linear Least Squares Train Model'
+units:
+-   config:
+        flowchartId: io
+        head: true
+        input:
+        -   endpoint: data-frame
+            endpoint_options:
+                features:
+                - elemental_ratio:Si
+                - elemental_ratio:Ge
+                - ionization_potential:Ge
+                - ionization_potential:Si
+                ids:
+                - KuAsBRwofzGfHPWiT
+                targets:
+                - band_gaps:indirect
+                - band_gaps:direct
+        name: input
+        next: data_transformation_manipulation
+        source: api
+        status: idle
+        subtype: dataFrame
+        type: io
+    type: io
+-   config:
+        flowchartId: data_transformation_manipulation
+        inputData:
+            cleanMissingData: true
+            removeDuplicateRows: true
+            replaceNoneValuesWith: 0
+        name: clean data
+        next: data_transformation_scale_and_reduce
+        operation: data_transformation
+        operationType: manipulation
+        status: idle
+        type: processing
+    type: processing
+-   config:
+        flowchartId: data_transformation_scale_and_reduce
+        inputData:
+            scaler: standard_scaler
+        name: scale and reduce
+        next: feature_selection_filter_based
+        operation: data_transformation
+        operationType: scale_and_reduce
+        status: idle
+        type: processing
+    type: processing
+-   config:
+        flowchartId: feature_selection_filter_based
+        inputData:
+            algorithm: f_regression
+            nFeatures: 0
+        name: select features
+        next: train
+        operation: feature_selection
+        operationType: filter_based
+        status: idle
+        type: processing
+    type: processing
+-   config:
+        name: train
+        execName: train
+        flavorName: train
+    attributes:
+        results:
+        -   name: workflow:ml_predict
+    type: executionBuilder

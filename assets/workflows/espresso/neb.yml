@@ -1,0 +1,4 @@
+name: Nudged Elastic Band (NEB)
+units:
+- name: neb
+  type: subworkflow

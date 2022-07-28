@@ -1,0 +1,16 @@
+application:
+    name: vasp
+    version: 5.3.5
+method:
+    name: PseudopotentialMethod
+model:
+    name: DFTModel
+name: Fixed-cell Relaxation
+units:
+-   config:
+        execName: vasp
+        flavorName: vasp_relax
+        name: vasp_relax
+    functions:
+        head: true
+    type: executionBuilder

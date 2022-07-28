@@ -1,0 +1,8 @@
+name: Nudged Elastic Band (NEB)
+units:
+- name: initial_final_total_energies
+  type: subworkflow
+- name: prepare_images
+  type: subworkflow
+- name: neb_subworkflow
+  type: subworkflow

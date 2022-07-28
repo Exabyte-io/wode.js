@@ -1,0 +1,14 @@
+application:
+    name: espresso
+    version: 5.4.0
+method:
+    name: PseudopotentialMethod
+model:
+    name: DFTModel
+name: ph-single-irr-qpt
+units:
+-   config:
+        execName: ph.x
+        flavorName: ph_single_irr_qpt
+        name: ph_single_irr_qpt
+    type: executionBuilder

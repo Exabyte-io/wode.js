@@ -1,0 +1,14 @@
+application:
+    name: python
+    version: 2.7.5
+method:
+    name: UnknownMethod
+model:
+    name: UnknownModel
+name: Python Script
+units:
+-   config:
+        execName: python
+        flavorName: hello_world
+        name: python
+    type: executionBuilder

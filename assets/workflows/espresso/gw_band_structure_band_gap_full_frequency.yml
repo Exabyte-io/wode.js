@@ -1,0 +1,4 @@
+name: Full Frequency GW Band Structure + Band Gap
+units:
+- name: gw_band_structure_band_gap_full_frequency
+  type: subworkflow

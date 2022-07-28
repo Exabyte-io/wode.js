@@ -1,0 +1,19 @@
+application:
+    name: espresso
+    version: 5.4.0
+method:
+    name: PseudopotentialMethod
+model:
+    name: DFTModel
+name: Electronic Density Mesh
+units:
+-   config:
+        execName: pw.x
+        flavorName: pw_scf
+        name: pw_scf
+    type: executionBuilder
+-   config:
+        execName: pp.x
+        flavorName: pp_density
+        name: pp_density
+    type: executionBuilder
