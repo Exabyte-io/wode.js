@@ -1,9 +1,11 @@
 import { allApplications } from "@exabyte-io/ade.js";
 
-import { Workflow } from "./workflow";
+// Import Template here to apply context provider patch
+// eslint-disable-next-line no-unused-vars
+import { Template } from "../patch";
 import { createWorkflow } from "./create";
+import { Workflow } from "./workflow";
 import { workflowData as allWorkflowData } from "./workflows";
-
 
 /*
     Workflow construction follows these rules:
@@ -13,22 +15,25 @@ import { workflowData as allWorkflowData } from "./workflows";
         4. map units are added along with their workflows according to data in "units"
         5. top-level subworkflows are added directly in the order also specified by "units"
  */
-function createWorkflows({
-    appName = null,
-    workflowCls = Workflow,
-    ...swArgs
-}) {
-    const apps = (appName !== null) ? [appName] : allApplications;
+function createWorkflows({ appName = null, workflowCls = Workflow, ...swArgs }) {
+    const apps = appName !== null ? [appName] : allApplications;
     const wfs = [];
     const { workflows } = allWorkflowData;
-    for (const appName of apps) {
-        const { [appName]: dataByApp } = workflows;
-        for (const workflowData of Object.values(dataByApp)) {
-            wfs.push(createWorkflow({
-                appName, workflowData, workflowCls, ...swArgs,
-            }));
-        }
-    }
+    apps.map((name) => {
+        const { [name]: dataByApp } = workflows;
+        Object.values(dataByApp).map((workflowData) => {
+            wfs.push(
+                createWorkflow({
+                    appName: name,
+                    workflowData,
+                    workflowCls,
+                    ...swArgs,
+                }),
+            );
+            return null;
+        });
+        return null;
+    });
     return wfs;
 }
 
