@@ -9,7 +9,7 @@
         "transpile": "babel --out-dir dist src; node build_workflows.js",
         "postinstall": "npm run transpile",
         "prettier": "prettier --check src tests",
-        "prepare": "husky install"
+        "prepare": "husky install || exit 0"
     },
     "repository": {
         "type": "git",
@@ -39,9 +39,9 @@
         "@babel/register": "^7.16.0",
         "@babel/runtime-corejs3": "7.16.8",
         "@exabyte-io/ade.js": "2022.7.27-0",
-        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#820fe1eaf06e1fe20323fe77036310edf12dca70",
-        "@exabyte-io/ide.js": "git+https://github.com/Exabyte-io/ide.js.git#e8d60aa03b77c40a193459d82c33ca57c42aa217",
-        "@exabyte-io/mode.js": "git+https://github.com/Exabyte-io/mode.js.git#0d6b429ddbb801f8d3ea72767f3976ae8ae87d94",
+        "@exabyte-io/code.js": "2022.7.28-1",
+        "@exabyte-io/ide.js": "2022.7.28-1",
+        "@exabyte-io/mode.js": "2022.7.28-0",
         "js-yaml": "^4.1.0",
         "lodash": "^4.17.21",
         "mixwith": "^0.1.1",
