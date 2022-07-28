@@ -3,10 +3,10 @@
 
 # wode.js
 
-wode.js houses entity definitions for use in the Mat3ra platform.
+WOrkflow DEfinitions in JavaScript - wode.js - houses entity definitions for use in the Mat3ra platform.
 
 
-### Installation
+## Installation
 
 For usage within a javascript project:
 
@@ -21,7 +21,7 @@ git clone https://github.com/Exabyte-io/wode.js.git
 ```
 
 
-### Contribution
+## Contribution
 
 This repository is an [open-source](LICENSE.md) work-in-progress and we welcome contributions.
 
@@ -151,3 +151,6 @@ Workflows defined as configuration conform to the following specification:
   - `[key]: {{constructorArgument}}: String` - parameter passed to constructor
   - `[value]: {{constructorValue}}: Any` - value for a given constructor parameter
 
+## Links
+
+1. Workflows explained in Mat3ra documentation: https://docs.mat3ra.com/workflows/overview/
