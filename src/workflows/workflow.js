@@ -39,6 +39,7 @@ export class Workflow extends BaseWorkflow {
         this.initialize();
     }
 
+    // TODO: figure out how to avoid circular dependency on import in the platform webapp and re-enable or remove
     // get _allRelaxationSubworkflows() {
     //     return {
     //         espresso: createSubworkflowByName({ appName: "espresso", swfName: "variable_cell_relaxation" }),
