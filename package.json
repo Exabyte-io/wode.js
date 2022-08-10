@@ -39,7 +39,7 @@
         "@babel/register": "^7.16.0",
         "@babel/runtime-corejs3": "7.16.8",
         "@exabyte-io/ade.js": "2022.7.27-0",
-        "@exabyte-io/code.js": "github:Exabyte-io/code.js#a6ced1382d5573446272f7fb949a46e960e84c23",
+        "@exabyte-io/code.js": "git+ssh://git@github.com:Exabyte-io/code.js#3da5bd8fa95b73d1c6ec9b6cbcda0b2c983c7d26",
         "@exabyte-io/ide.js": "2022.7.28-1",
         "@exabyte-io/mode.js": "2022.7.28-0",
         "js-yaml": "^4.1.0",
