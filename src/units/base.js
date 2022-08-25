@@ -1,7 +1,7 @@
-import lodash from "lodash";
-
 import { NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity } from "@exabyte-io/code.js/dist/entity";
 import { getUUID } from "@exabyte-io/code.js/dist/utils";
+import lodash from "lodash";
+
 import { UNIT_STATUSES } from "../enums";
 
 export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity {
@@ -47,8 +47,10 @@ export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSet
     }
 
     get lastStatusUpdate() {
-        const statusTrack = this.prop("statusTrack", []).filter(s => (s.repetition || 0) === this.repetition);
-        const sortedStatusTrack = lodash.sortBy(statusTrack || [], x => x.trackedAt);
+        const statusTrack = this.prop("statusTrack", []).filter(
+            (s) => (s.repetition || 0) === this.repetition,
+        );
+        const sortedStatusTrack = lodash.sortBy(statusTrack || [], (x) => x.trackedAt);
         return sortedStatusTrack[sortedStatusTrack.length - 1];
     }
 
@@ -61,7 +63,7 @@ export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSet
     }
 
     getHashObject() {
-        return { ...this.hashObjectFromRuntimeItems, type: this.type }
+        return { ...this.hashObjectFromRuntimeItems, type: this.type };
     }
 
     /**
@@ -71,7 +73,14 @@ export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSet
      * @returns Boolean
      */
     isInStatus(status) {
-        return (this.status === status);
+        return this.status === status;
     }
 
+    clone(extraContext) {
+        const flowchartIDOverrideConfigAsExtraContext = {
+            flowchartId: BaseUnit.defaultFlowchartId(),
+            ...extraContext,
+        };
+        return super.clone(flowchartIDOverrideConfigAsExtraContext);
+    }
 }
