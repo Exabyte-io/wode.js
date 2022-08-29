@@ -40,7 +40,7 @@
         "@babel/runtime-corejs3": "7.16.8",
         "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js.git#3dd63e1d3ca70bb9e25f275a6844943a28101e65",
         "@exabyte-io/ide.js": "2022.7.28-1",
-        "@exabyte-io/mode.js": "git+https://github.com/Exabyte-io/mode.js.git#bef2c48eca14a0d45227fc008ffd35daa7b26b38",
+        "@exabyte-io/mode.js": "git+https://github.com/Exabyte-io/mode.js.git#75f31952f60bfb8f9dea15251407eedeacfdcc4c",
         "@exabyte-io/code.js": "2022.8.16-0",
         "js-yaml": "^4.1.0",
         "lodash": "^4.17.21",
