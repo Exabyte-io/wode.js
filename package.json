@@ -38,7 +38,7 @@
         "@babel/preset-react": "7.16.7",
         "@babel/register": "^7.16.0",
         "@babel/runtime-corejs3": "7.16.8",
-        "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js.git#e558a7164c8b35ab24177dc1362eaf7f84225f9a",
+        "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js.git#3dd63e1d3ca70bb9e25f275a6844943a28101e65",
         "@exabyte-io/ide.js": "2022.7.28-1",
         "@exabyte-io/mode.js": "git+https://github.com/Exabyte-io/mode.js.git#bef2c48eca14a0d45227fc008ffd35daa7b26b38",
         "@exabyte-io/code.js": "2022.8.16-0",
