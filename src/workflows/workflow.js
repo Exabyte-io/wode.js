@@ -32,7 +32,7 @@ export class Workflow extends BaseWorkflow {
 
     constructor(config) {
         if (!config) {
-            throw new Error(`${this.constructor.name} is missing its config`);
+            throw new Error(`Workflow is missing its config`);
         }
         super(config);
         this._Subworkflow = Subworkflow;
