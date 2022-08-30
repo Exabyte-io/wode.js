@@ -31,6 +31,9 @@ export class Workflow extends BaseWorkflow {
     static getDefaultComputeConfig = getDefaultComputeConfig;
 
     constructor(config) {
+        if (!config) {
+            throw new Error(`${this.constructor.name} is missing its config`);
+        }
         super(config);
         this._Subworkflow = Subworkflow;
         this._UnitFactory = UnitFactory;

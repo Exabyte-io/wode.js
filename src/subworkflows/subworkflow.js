@@ -27,7 +27,11 @@ export class Subworkflow extends BaseSubworkflow {
     }
 
     initialize() {
-        this._application = new this._Application(this.prop("application"));
+        const app = this.prop("application");
+        if (!app) {
+            throw new Error(`${this.constructor.name} is missing its application.`);
+        }
+        this._application = new this._Application(app);
         this._model = this._ModelFactory.create({
             ...this.prop("model"),
             application: this.prop("application"),
