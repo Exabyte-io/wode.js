@@ -19,6 +19,12 @@ class BaseSubworkflow extends mix(NamedDefaultableRepetitionImportantSettingsInM
 
 export class Subworkflow extends BaseSubworkflow {
     constructor(config) {
+        if (!config) {
+            throw new Error(`${this.constructor.name} is missing its config.`);
+        }
+        if (!config.application) {
+            throw new Error(`${this.constructor.name} is missing its config.application.`);
+        }
         super(config);
         this._Application = Application;
         this._ModelFactory = ModelFactory;
