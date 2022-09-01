@@ -1,4 +1,5 @@
 import { context } from "@exabyte-io/mode.js";
+
 const {
     BoundaryConditionsFormDataProvider,
     MLSettingsContextProvider,
@@ -12,41 +13,68 @@ const {
 } = context;
 
 const CONTEXT_DOMAINS = {
-    important: "important",  // used to generate `ImportantSettings` form
-}
+    important: "important", // used to generate `ImportantSettings` form
+};
 
-const _makeImportant = (config) => Object.assign(config, {domain: CONTEXT_DOMAINS.important});
+const _makeImportant = (config) => Object.assign(config, { domain: CONTEXT_DOMAINS.important });
 
-/**********************************
+/** ********************************
  * Method-based context providers *
- **********************************/
+ ********************************* */
 
-// NOTE: subworkflow-level data manager. Will override the unit-level data with the same name via subworkflow context.
-export const PlanewaveCutoffDataManager = PlanewaveCutoffsContextProvider.getConstructorConfig(_makeImportant({
-    name: "cutoffs",
-    entityName: "subworkflow"
-}));
-export const KGridFormDataManager = PointsGridFormDataProvider.getConstructorConfig(_makeImportant({name: "kgrid"}));
-export const QGridFormDataManager = PointsGridFormDataProvider.getConstructorConfig(_makeImportant({
-    name: "qgrid",
-    divisor: 5,  // Using less points for Qgrid by default
-}));
-export const IGridFormDataManager = PointsGridFormDataProvider.getConstructorConfig(_makeImportant({
-    name: "igrid",
-    divisor: 0.2,  // Using more points for interpolated grid by default
-}));
-
-export const QPathFormDataManager = PointsPathFormDataProvider.getConstructorConfig(_makeImportant({name: "qpath"}));
-export const IPathFormDataManager = PointsPathFormDataProvider.getConstructorConfig(_makeImportant({name: "ipath"}));
-export const KPathFormDataManager = PointsPathFormDataProvider.getConstructorConfig(_makeImportant({name: "kpath"}));
-export const ExplicitKPathFormDataManager = ExplicitPointsPathFormDataProvider.getConstructorConfig(_makeImportant({name: "explicitKPath"}));
-export const ExplicitKPath2PIBAFormDataManager = ExplicitPointsPath2PIBAFormDataProvider.getConstructorConfig(_makeImportant({name: "explicitKPath2PIBA"}));
-
-// NEBFormDataManager context is stored under the same key (`input`) as InputDataManager contexts.
-export const NEBFormDataManager = NEBFormDataProvider.getConstructorConfig(_makeImportant({name: "neb"}));
-
-export const BoundaryConditionsFormDataManager = BoundaryConditionsFormDataProvider.getConstructorConfig(_makeImportant({name: "boundaryConditions"}));
-
-export const MLSettingsDataManager = MLSettingsContextProvider.getConstructorConfig(_makeImportant({name: "mlSettings"}));
-export const MLTrainTestSplitDataManager = MLTrainTestSplitContextProvider.getConstructorConfig(_makeImportant({name: "mlTrainTestSplit"}));
-
+export const wodeProviders = {
+    // NOTE: subworkflow-level data manager. Will override the unit-level data with the same name via subworkflow context.
+    PlanewaveCutoffDataManager: {
+        providerCls: PlanewaveCutoffsContextProvider,
+        config: _makeImportant({ name: "cutoffs", entityName: "subworkflow" }),
+    },
+    KGridFormDataManager: {
+        providerCls: PointsGridFormDataProvider,
+        config: _makeImportant({ name: "kgrid" }),
+    },
+    QGridFormDataManager: {
+        providerCls: PointsGridFormDataProvider,
+        config: _makeImportant({ name: "qgrid", divisor: 5 }), // Using less points for Qgrid by default
+    },
+    IGridFormDataManager: {
+        providerCls: PointsGridFormDataProvider,
+        config: _makeImportant({ name: "igrid", divisor: 0.2 }), // Using more points for interpolated grid by default
+    },
+    QPathFormDataManager: {
+        providerCls: PointsPathFormDataProvider,
+        config: _makeImportant({ name: "qpath" }),
+    },
+    IPathFormDataManager: {
+        providerCls: PointsPathFormDataProvider,
+        config: _makeImportant({ name: "ipath" }),
+    },
+    KPathFormDataManager: {
+        providerCls: PointsPathFormDataProvider,
+        config: _makeImportant({ name: "kpath" }),
+    },
+    ExplicitKPathFormDataManager: {
+        providerCls: ExplicitPointsPathFormDataProvider,
+        config: _makeImportant({ name: "explicitKPath" }),
+    },
+    ExplicitKPath2PIBAFormDataManager: {
+        providerCls: ExplicitPointsPath2PIBAFormDataProvider,
+        config: _makeImportant({ name: "explicitKPath2PIBA" }),
+    },
+    // NEBFormDataManager context is stored under the same key (`input`) as InputDataManager contexts.
+    NEBFormDataManager: {
+        providerCls: NEBFormDataProvider,
+        config: _makeImportant({ name: "neb" }),
+    },
+    BoundaryConditionsFormDataManager: {
+        providerCls: BoundaryConditionsFormDataProvider,
+        config: _makeImportant({ name: "boundaryConditions" }),
+    },
+    MLSettingsDataManager: {
+        providerCls: MLSettingsContextProvider,
+        config: _makeImportant({ name: "mlSettings" }),
+    },
+    MLTrainTestSplitDataManager: {
+        providerCls: MLTrainTestSplitContextProvider,
+        config: _makeImportant({ name: "mlTrainTestSplit" }),
+    },
+};
