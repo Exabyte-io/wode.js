@@ -1,13 +1,6 @@
 import { ContextProviderRegistry as clsInstance } from "@exabyte-io/ade.js";
-import _ from "underscore";
+import { extendAndPatchRegistry } from "@exabyte-io/code.js/dist/context";
 
-import * as allContextProviders from "./providers";
+import { wodeProviders } from "./providers";
 
-_.map(allContextProviders, (instance, name) =>
-    clsInstance.addProvider({
-        instance,
-        name,
-    }),
-);
-
-export const ContextProviderRegistry = clsInstance;
+export const ContextProviderRegistry = extendAndPatchRegistry(clsInstance, wodeProviders);
