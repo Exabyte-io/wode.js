@@ -32,7 +32,7 @@ export class Workflow extends BaseWorkflow {
         this._UnitFactory = UnitFactory;
         this._Workflow = Workflow;
         this._MapUnit = MapUnit;
-        this.initialize();
+        !config.skipInitialize && this.initialize();
     }
 
     // TODO: figure out how to avoid circular dependency on import in the platform webapp and re-enable or remove
