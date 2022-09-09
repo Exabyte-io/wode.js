@@ -1,21 +1,19 @@
-import lodash from "lodash";
-import s from "underscore.string";
-import { mix } from "mixwith";
-
 import { NamedDefaultableRepetitionContextAndRenderInMemoryEntity } from "@exabyte-io/code.js/dist/entity";
-import { getUUID } from "@exabyte-io/code.js/dist/utils";
-import { UNIT_TYPES } from "../enums";
-import { tree } from "@exabyte-io/mode.js";
+import { calculateHashFromObject, getUUID } from "@exabyte-io/code.js/dist/utils";
 import { ComputedEntityMixin, getDefaultComputeConfig } from "@exabyte-io/ide.js";
+import { tree } from "@exabyte-io/mode.js";
+import lodash from "lodash";
+import { mix } from "mixwith";
+import _ from "underscore";
+import s from "underscore.string";
 
+import { UNIT_TYPES } from "../enums";
+// import { createSubworkflowByName } from "../subworkflows";
 import { Subworkflow } from "../subworkflows/subworkflow";
-import { UnitFactory } from "../units/factory";
 import { MapUnit } from "../units";
+import { UnitFactory } from "../units/factory";
 import { setNextLinks, setUnitsHead } from "../utils";
 import defaultWorkflowConfig from "./default";
-import _ from "underscore";
-import { calculateHashFromObject } from "@exabyte-io/code.js/dist/utils";
-import { createSubworkflowByName } from "../subworkflows";
 import { RelaxationLogicMixin } from "./relaxation";
 
 const { MODEL_NAMES } = tree;
@@ -23,9 +21,7 @@ const { MODEL_NAMES } = tree;
 class BaseWorkflow extends mix(NamedDefaultableRepetitionContextAndRenderInMemoryEntity).with(
     ComputedEntityMixin,
     RelaxationLogicMixin,
-) {
-}
-
+) {}
 
 export class Workflow extends BaseWorkflow {
     static getDefaultComputeConfig = getDefaultComputeConfig;
@@ -49,10 +45,10 @@ export class Workflow extends BaseWorkflow {
 
     initialize() {
         const me = this;
-        this._subworkflows = this.prop("subworkflows").map(x => new me._Subworkflow(x));
-        this._units = this.prop("units").map(unit => me._UnitFactory.create(unit));
-        this._json.workflows = (this._json.workflows || []);
-        this._workflows = this.prop("workflows").map(x => new me._Workflow(x));
+        this._subworkflows = this.prop("subworkflows").map((x) => new me._Subworkflow(x));
+        this._units = this.prop("units").map((unit) => me._UnitFactory.create(unit));
+        this._json.workflows = this._json.workflows || [];
+        this._workflows = this.prop("workflows").map((x) => new me._Workflow(x));
     }
 
     static get defaultConfig() {
@@ -63,18 +59,22 @@ export class Workflow extends BaseWorkflow {
         return getUUID();
     }
 
-    static fromSubworkflow(subworkflow, cls = Workflow) {
+    static fromSubworkflow(subworkflow, ClsConstructor = Workflow) {
         const config = {
             name: subworkflow.name,
             subworkflows: [subworkflow.toJSON()],
             units: setNextLinks(setUnitsHead([subworkflow.getAsUnit().toJSON()])),
             properties: subworkflow.properties,
         };
-        return new cls(config);
+        return new ClsConstructor(config);
     }
 
-    static fromSubworkflows(name, cls = Workflow, ...subworkflows) {
-        return new cls(name, subworkflows, subworkflows.map(sw => sw.getAsUnit()));
+    static fromSubworkflows(name, ClsConstructor = Workflow, ...subworkflows) {
+        return new ClsConstructor(
+            name,
+            subworkflows,
+            subworkflows.map((sw) => sw.getAsUnit()),
+        );
     }
 
     /**
@@ -94,7 +94,7 @@ export class Workflow extends BaseWorkflow {
     }
 
     removeSubworkflow(id) {
-        const subworkflowUnit = this.units.find(u => u.id === id);
+        const subworkflowUnit = this.units.find((u) => u.id === id);
         subworkflowUnit && this.removeUnit(subworkflowUnit.flowchartId);
     }
 
@@ -118,39 +118,43 @@ export class Workflow extends BaseWorkflow {
 
     // returns a list of `app` Classes
     get usedApplications() {
-        const swApplications = this.subworkflows.map(sw => sw.application);
-        const wfApplications = lodash.flatten(this.workflows.map(w => w.usedApplications));
+        const swApplications = this.subworkflows.map((sw) => sw.application);
+        const wfApplications = lodash.flatten(this.workflows.map((w) => w.usedApplications));
         return lodash.uniqBy(swApplications.concat(wfApplications), (a) => a.name);
     }
 
     // return application names
     get usedApplicationNames() {
-        return this.usedApplications.map(a => a.name);
+        return this.usedApplications.map((a) => a.name);
     }
 
     get usedApplicationVersions() {
-        return this.usedApplications.map(a => a.version);
+        return this.usedApplications.map((a) => a.version);
     }
 
     get usedApplicationNamesWithVersions() {
-        return this.usedApplications.map(a => `${a.name} ${a.version}`);
+        return this.usedApplications.map((a) => `${a.name} ${a.version}`);
     }
 
     get usedModels() {
-        return lodash.uniq(this.subworkflows.map(sw => sw.model.type));
+        return lodash.uniq(this.subworkflows.map((sw) => sw.model.type));
     }
 
     get humanReadableUsedModels() {
-        return this.usedModels.filter(m => m !== "unknown").map(m => MODEL_NAMES[m]);
+        return this.usedModels.filter((m) => m !== "unknown").map((m) => MODEL_NAMES[m]);
     }
 
     toJSON(exclude = []) {
-        return lodash.omit(Object.assign({}, super.toJSON(), {
-            units: this._units.map(x => x.toJSON()),
-            subworkflows: this._subworkflows.map(x => x.toJSON()),
-            workflows: this.workflows.map(x => x.toJSON()),
-            compute: this.compute
-        }), exclude);
+        return lodash.omit(
+            {
+                ...super.toJSON(),
+                units: this._units.map((x) => x.toJSON()),
+                subworkflows: this._subworkflows.map((x) => x.toJSON()),
+                workflows: this.workflows.map((x) => x.toJSON()),
+                compute: this.compute,
+            },
+            exclude,
+        );
     }
 
     get isDefault() {
@@ -164,20 +168,20 @@ export class Workflow extends BaseWorkflow {
         return this.prop("isMultiMaterial") || fromSubworkflows;
     }
 
-    set isUsingDataset(value){
+    set isUsingDataset(value) {
         this.setProp("isUsingDataset", value);
     }
 
-    get isUsingDataset(){
+    get isUsingDataset() {
         return !!this.prop("isUsingDataset", false);
     }
 
     get properties() {
-        return lodash.uniq(lodash.flatten(this._subworkflows.map(x => x.properties)));
+        return lodash.uniq(lodash.flatten(this._subworkflows.map((x) => x.properties)));
     }
 
     get humanReadableProperties() {
-        return this.properties.map(name => s.humanize(name));
+        return this.properties.map((name) => s.humanize(name));
     }
 
     get systemName() {
@@ -185,7 +189,9 @@ export class Workflow extends BaseWorkflow {
     }
 
     get defaultDescription() {
-        return `${this.usedModels.join(", ").toUpperCase()} workflow using ${this.usedApplicationNames.join(", ")}.`;
+        return `${this.usedModels
+            .join(", ")
+            .toUpperCase()} workflow using ${this.usedApplicationNames.join(", ")}.`;
     }
 
     get exabyteId() {
@@ -201,18 +207,17 @@ export class Workflow extends BaseWorkflow {
     }
 
     get history() {
-        return this.prop("history", [])
+        return this.prop("history", []);
     }
 
-
     setMethodData(methodData) {
-        this.subworkflows.forEach(sw => {
+        this.subworkflows.forEach((sw) => {
             const method = methodData.getMethodBySubworkflow(sw);
             method && sw.model.setMethod(method);
         });
 
-        this.workflows.forEach(wf => {
-            wf.subworkflows.forEach(sw => {
+        this.workflows.forEach((wf) => {
+            wf.subworkflows.forEach((sw) => {
                 const method = methodData.getMethodBySubworkflow(sw);
                 method && sw.model.setMethod(method);
             });
@@ -225,17 +230,15 @@ export class Workflow extends BaseWorkflow {
      * @param index {Number}
      */
     addUnit(unit, head = false, index = -1) {
-        const units = this.units;
+        const { units } = this;
         if (units.length === 0) {
             unit.head = true;
             this.setUnits([unit]);
         } else {
             if (head) {
-                const first = lodash.first(units);
                 units.unshift(unit);
             } else {
-                const last = lodash.last(units);
-                (index >= 0) ? units.splice(index, 0, unit) : units.push(unit);
+                index >= 0 ? units.splice(index, 0, unit) : units.push(unit);
             }
             this.setUnits(setNextLinks(setUnitsHead(units)));
         }
@@ -244,15 +247,16 @@ export class Workflow extends BaseWorkflow {
     removeUnit(flowchartId) {
         if (this.units.length < 2) return;
 
-        const unit = this.units.find(x => x.flowchartId === flowchartId);
-        const previousUnit = this.units.find(x => x.next === unit.flowchartId);
+        const unit = this.units.find((x) => x.flowchartId === flowchartId);
+        const previousUnit = this.units.find((x) => x.next === unit.flowchartId);
         if (previousUnit) {
             delete previousUnit.next;
         }
 
-        this._subworkflows = this._subworkflows.filter(x => x.id !== unit.id);
-        this._units = setNextLinks(setUnitsHead(this._units.filter(x => x.flowchartId !== flowchartId)));
-
+        this._subworkflows = this._subworkflows.filter((x) => x.id !== unit.id);
+        this._units = setNextLinks(
+            setUnitsHead(this._units.filter((x) => x.flowchartId !== flowchartId)),
+        );
     }
 
     /**
@@ -274,11 +278,13 @@ export class Workflow extends BaseWorkflow {
     addUnitType(type, head = false, index = -1) {
         switch (type) {
             case UNIT_TYPES.map:
+                // eslint-disable-next-line no-case-declarations
                 const workflowConfig = defaultWorkflowConfig;
+                // eslint-disable-next-line no-case-declarations
+                const mapUnit = new this._MapUnit();
                 workflowConfig._id = this._Workflow.generateWorkflowId();
                 this.prop("workflows").push(workflowConfig);
-                this._workflows = this.prop("workflows").map(x => new this._Workflow(x));
-                const mapUnit = new this._MapUnit();
+                this._workflows = this.prop("workflows").map((x) => new this._Workflow(x));
                 mapUnit.setWorkflowId(workflowConfig._id);
                 this.addUnit(mapUnit, head, index);
                 break;
@@ -297,7 +303,7 @@ export class Workflow extends BaseWorkflow {
         this.addUnit(mapUnit);
         this._json.workflows.push(mapWorkflowConfig);
         const me = this;
-        this._workflows = this.prop("workflows").map(x => new me._Workflow(x));
+        this._workflows = this.prop("workflows").map((x) => new me._Workflow(x));
     }
 
     findSubworkflowById(id) {
@@ -306,19 +312,21 @@ export class Workflow extends BaseWorkflow {
         const workflows = this.workflows || [];
         const subworkflows = this.subworkflows || [];
 
-        const subworkflow = subworkflows.find(subworkflow => subworkflow.id === id);
+        const subworkflow = subworkflows.find((sw) => sw.id === id);
         if (subworkflow) return subworkflow;
 
-        const workflow = workflows.find(w => w.findSubworkflowById(id));
+        const workflow = workflows.find((w) => w.findSubworkflowById(id));
         if (workflow) return workflow.findSubworkflowById(id);
 
         console.warn("attempted to find a non-existing subworkflow");
     }
 
     get allSubworkflows() {
-        let subworkflowsList = [];
-        this.subworkflows.forEach(sw => subworkflowsList.push(sw));
-        this.workflows.forEach(workflow => Array.prototype.push.apply(subworkflowsList, workflow.allSubworkflows));
+        const subworkflowsList = [];
+        this.subworkflows.forEach((sw) => subworkflowsList.push(sw));
+        this.workflows.forEach((workflow) =>
+            Array.prototype.push.apply(subworkflowsList, workflow.allSubworkflows),
+        );
         return subworkflowsList;
     }
 
@@ -328,11 +336,10 @@ export class Workflow extends BaseWorkflow {
      */
     calculateHash() {
         const meaningfulFields = {
-            units: _.map(this.units, u => u.calculateHash()).join(),
-            subworkflows: _.map(this.subworkflows, s => s.calculateHash()).join(),
-            workflows: _.map(this.workflows, w => w.calculateHash()).join(),
+            units: _.map(this.units, (u) => u.calculateHash()).join(),
+            subworkflows: _.map(this.subworkflows, (sw) => sw.calculateHash()).join(),
+            workflows: _.map(this.workflows, (w) => w.calculateHash()).join(),
         };
         return calculateHashFromObject(meaningfulFields);
     }
-
 }
