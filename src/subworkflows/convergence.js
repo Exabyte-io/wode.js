@@ -37,7 +37,7 @@ export const ConvergenceMixin = (superclass) =>
                     shifts: [0, 0, 0],
                 },
                 isKgridEdited: true,
-                usesJinjaVariable: true,
+                isUsingJinjaVariables: true,
             });
 
             const prevResult = "prev_result";
