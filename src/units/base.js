@@ -10,11 +10,11 @@ export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSet
             ...config,
             status: config.status || UNIT_STATUSES.idle,
             statusTrack: config.statusTrack || [],
-            flowchartId: config.flowchartId || BaseUnit.defaultFlowchartId(),
+            flowchartId: config.flowchartId || BaseUnit.generateFlowChartId(),
         });
     }
 
-    static defaultFlowchartId() {
+    static generateFlowChartId() {
         return getUUID();
     }
 
@@ -78,7 +78,7 @@ export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSet
 
     clone(extraContext) {
         const flowchartIDOverrideConfigAsExtraContext = {
-            flowchartId: BaseUnit.defaultFlowchartId(),
+            flowchartId: BaseUnit.generateFlowChartId(),
             ...extraContext,
         };
         return super.clone(flowchartIDOverrideConfigAsExtraContext);
