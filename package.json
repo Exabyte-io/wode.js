@@ -41,7 +41,7 @@
         "@exabyte-io/ade.js": "2022.9.2-0",
         "@exabyte-io/ide.js": "2022.7.28-1",
         "@exabyte-io/mode.js": "git+https://github.com/Exabyte-io/mode.js#f863df9994c6ae24716694ac0f5cd476bf49b4b3",
-        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#30cb93e2100a9b2225fc47e86bf553c596d570e4",
+        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#a4647358b5f6442960857d42ff3d1e4e62065e6d",
         "js-yaml": "^4.1.0",
         "lodash": "^4.17.21",
         "mixwith": "^0.1.1",
