@@ -1,21 +1,26 @@
-import { mix } from "mixwith";
-import { HashedInputArrayMixin } from "@exabyte-io/code.js/dist/entity";
-import { extendThis, removeTimestampableKeysFromConfig } from "@exabyte-io/code.js/dist/utils";
 import { Application, Template } from "@exabyte-io/ade.js";
+import { HashedInputArrayMixin } from "@exabyte-io/code.js/dist/entity";
+import { removeTimestampableKeysFromConfig } from "@exabyte-io/code.js/dist/utils";
+import { mix } from "mixwith";
+import _ from "underscore";
 
 import { BaseUnit } from "./base";
-import _ from "underscore";
 
 export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     static Application = Application;
+
     static Template = Template;
 
     // keys to be omitted during toJSON
-    static omitKeys = ['job', 'workflow', 'material', 'materials', 'model', 'methodData', 'hasRelaxation'];
-
-    constructor(config) {
-        super(config);
-    }
+    static omitKeys = [
+        "job",
+        "workflow",
+        "material",
+        "materials",
+        "model",
+        "methodData",
+        "hasRelaxation",
+    ];
 
     _initApplication(config) {
         this._application = this.constructor.Application.create(config.application);
@@ -50,7 +55,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     }
 
     get templatesFromInput() {
-        return this.input.map(i => new this.constructor.Template(i));
+        return this.input.map((i) => new this.constructor.Template(i));
     }
 
     setApplication(application) {
@@ -77,17 +82,17 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         this.render(this.context, true);
     }
 
-     get defaultResults() {
-         return this.flavor.results;
-     }
+    get defaultResults() {
+        return this.flavor.results;
+    }
 
-     get defaultMonitors() {
-         return this.flavor.monitors;
-     }
+    get defaultMonitors() {
+        return this.flavor.monitors;
+    }
 
-     get defaultPostProcessors() {
-         return this.flavor.postProcessors;
-     }
+    get defaultPostProcessors() {
+        return this.flavor.postProcessors;
+    }
 
     get allowedResults() {
         return this.executable.results;
@@ -104,16 +109,22 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     get allContextProviders() {
         const list = [];
         // pass context below to keep UI changes
-        this.templates.forEach(i => list.push(...i.getContextProvidersAsClassInstances(this.getCombinedContext())));
+        this.templates.forEach((i) =>
+            list.push(...i.getContextProvidersAsClassInstances(this.getCombinedContext())),
+        );
         return list;
     }
 
     get contextProviders() {
-        return this.allContextProviders.filter(p => p.isUnitContextProvider);
+        return this.allContextProviders.filter((p) => p.isUnitContextProvider);
     }
 
     get input() {
-        return this.prop('input') || this.flavor.getInputAsRenderedTemplates(this.getCombinedContext()) || [];
+        return (
+            this.prop("input") ||
+            this.flavor.getInputAsRenderedTemplates(this.getCombinedContext()) ||
+            []
+        );
     }
 
     get renderingContext() {
@@ -135,13 +146,22 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     }
 
     render(context, fromTemplates = false) {
-        const newInput = [], newPersistentContext = {}, newRenderingContext = {};
-        const renderingContext = Object.assign({}, this.context, context);
-        this.updateContext(renderingContext);  // update in-memory context to properly render templates from input below
-        (fromTemplates ? this.templates : this.templatesFromInput).forEach(t => {
+        const newInput = [];
+        const newPersistentContext = {};
+        const newRenderingContext = {};
+        const renderingContext = { ...this.context, ...context };
+        this.updateContext(renderingContext); // update in-memory context to properly render templates from input below
+        (fromTemplates ? this.templates : this.templatesFromInput).forEach((t) => {
             newInput.push(t.getRenderedJSON(renderingContext));
-            Object.assign(newRenderingContext, t.getDataFromProvidersForRenderingContext(renderingContext));
-            Object.assign(newPersistentContext, t.getDataFromProvidersForPersistentContext(renderingContext));
+            Object.assign(
+                newRenderingContext,
+                t.getDataFromProvidersForRenderingContext(renderingContext),
+            );
+            Object.assign(
+                newPersistentContext,
+                t.getDataFromProvidersForPersistentContext(renderingContext),
+            );
+            Object.assign(newRenderingContext, { subworkflowContext: context.subworkflowContext });
         });
         this.setInput(newInput);
         this.renderingContext = newRenderingContext;
@@ -163,7 +183,8 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     }
 
     toJSON() {
-        return this.clean(Object.assign({}, super.toJSON(), {
+        return this.clean({
+            ...super.toJSON(),
             executable: this.executable.toJSON(),
             flavor: this.flavor.toJSON(),
             input: this.input,
@@ -171,7 +192,6 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
             name: this.name,
             // TODO: figure out the problem with storing context below
             // context: this.storedContext,
-        }));
+        });
     }
-
 }

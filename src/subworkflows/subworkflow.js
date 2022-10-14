@@ -194,7 +194,7 @@ export class Subworkflow extends BaseSubworkflow {
             model: this.model.toJSON(),
             // context below is assembled from context providers and passed to units to override theirs
             ...this.context,
-            ...this.contextFromAssignmentUnits,
+            subworkflowContext: this.contextFromAssignmentUnits,
         };
 
         this.units.forEach((u) => u.render(ctx));
