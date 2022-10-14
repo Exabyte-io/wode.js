@@ -176,6 +176,16 @@ export class Subworkflow extends BaseSubworkflow {
         });
     }
 
+    get contextFromAssignmentUnits() {
+        const ctx = {};
+        this.units
+            .find((u) => u.type === UNIT_TYPES.assignment)
+            .forEach((u) => {
+                ctx[u.operand] = u.value;
+            });
+        return ctx;
+    }
+
     render(context = {}) {
         const ctx = {
             ...context,
@@ -184,6 +194,7 @@ export class Subworkflow extends BaseSubworkflow {
             model: this.model.toJSON(),
             // context below is assembled from context providers and passed to units to override theirs
             ...this.context,
+            ...this.contextFromAssignmentUnits,
         };
 
         this.units.forEach((u) => u.render(ctx));
@@ -252,9 +263,6 @@ export class Subworkflow extends BaseSubworkflow {
         return ["total_energy", "pressure"];
     }
 
-    /**
-     * @return {Model}
-     */
     get isMultiMaterial() {
         return this.prop("isMultiMaterial", false);
     }
