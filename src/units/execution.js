@@ -145,6 +145,16 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         return _.omit(this.renderingContext, ...this.constructor.omitKeys);
     }
 
+    static getSubworkflowContext(context) {
+        const { subworkflowContext } = context;
+        return subworkflowContext ? { subworkflowContext } : {};
+    }
+
+    /** Update rendering context and persistent context
+     * Note: this function is sometimes being called without passing a context!
+     * @param context
+     * @param fromTemplates
+     */
     render(context, fromTemplates = false) {
         const newInput = [];
         const newPersistentContext = {};
@@ -156,12 +166,12 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
             Object.assign(
                 newRenderingContext,
                 t.getDataFromProvidersForRenderingContext(renderingContext),
-                { subworkflowContext: context ? context.subworkflowContext : {} },
+                ExecutionUnit.getSubworkflowContext(renderingContext),
             );
             Object.assign(
                 newPersistentContext,
                 t.getDataFromProvidersForPersistentContext(renderingContext),
-                { subworkflowContext: context ? context.subworkflowContext : {} },
+                ExecutionUnit.getSubworkflowContext(renderingContext),
             );
         });
         this.setInput(newInput);
