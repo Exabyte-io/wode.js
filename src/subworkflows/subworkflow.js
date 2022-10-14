@@ -179,7 +179,7 @@ export class Subworkflow extends BaseSubworkflow {
     get contextFromAssignmentUnits() {
         const ctx = {};
         this.units
-            .find((u) => u.type === UNIT_TYPES.assignment)
+            .filter((u) => u.type === UNIT_TYPES.assignment)
             .forEach((u) => {
                 ctx[u.operand] = u.value;
             });
