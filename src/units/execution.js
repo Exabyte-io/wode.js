@@ -161,7 +161,9 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
                 newPersistentContext,
                 t.getDataFromProvidersForPersistentContext(renderingContext),
             );
-            Object.assign(newRenderingContext, { subworkflowContext: context.subworkflowContext });
+            Object.assign(newRenderingContext, {
+                subworkflowContext: context ? context.subworkflowContext : {},
+            });
         });
         this.setInput(newInput);
         this.renderingContext = newRenderingContext;
