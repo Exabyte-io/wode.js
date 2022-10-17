@@ -1,6 +1,5 @@
-import _ from "underscore";
 import { getUUID } from "@exabyte-io/code.js/dist/utils";
-
+import _ from "underscore";
 
 export class UnitConfigBuilder {
     constructor({ name, type }) {
@@ -11,7 +10,7 @@ export class UnitConfigBuilder {
         this._monitors = [];
         this._preProcessors = [];
         this._postProcessors = [];
-        this._flowchartId = this.constructor.defaultFlowchartId();
+        this._flowchartId = this.constructor.generateFlowChartId();
     }
 
     name(str) {
@@ -24,7 +23,7 @@ export class UnitConfigBuilder {
         return this;
     }
 
-    static defaultFlowchartId() {
+    static generateFlowChartId() {
         return getUUID();
     }
 
@@ -33,27 +32,39 @@ export class UnitConfigBuilder {
         return this;
     }
 
-    _stringArrayToNamedObject(array) {
-        return array.map(name => _.isString(name) ? {name} : name);
+    static _stringArrayToNamedObject(array) {
+        return array.map((name) => (_.isString(name) ? { name } : name));
     }
 
     addPreProcessors(preProcessorNames) {
-        this._preProcessors = _.union(this._stringArrayToNamedObject(preProcessorNames), this._preProcessors);
+        this._preProcessors = _.union(
+            this.constructor._stringArrayToNamedObject(preProcessorNames),
+            this._preProcessors,
+        );
         return this;
     }
 
     addPostProcessors(postProcessorNames) {
-        this._postProcessors = _.union(this._stringArrayToNamedObject(postProcessorNames), this._postProcessors);
+        this._postProcessors = _.union(
+            this.constructor._stringArrayToNamedObject(postProcessorNames),
+            this._postProcessors,
+        );
         return this;
     }
 
     addResults(resultNames) {
-        this._results = _.union(this._stringArrayToNamedObject(resultNames), this._results);
+        this._results = _.union(
+            this.constructor._stringArrayToNamedObject(resultNames),
+            this._results,
+        );
         return this;
     }
 
     addMonitors(monitorNames) {
-        this._monitors = _.union(this._stringArrayToNamedObject(monitorNames), this._monitors);
+        this._monitors = _.union(
+            this.constructor._stringArrayToNamedObject(monitorNames),
+            this._monitors,
+        );
         return this;
     }
 
