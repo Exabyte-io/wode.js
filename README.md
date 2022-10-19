@@ -151,6 +151,14 @@ Workflows defined as configuration conform to the following specification:
   - `[key]: {{constructorArgument}}: String` - parameter passed to constructor
   - `[value]: {{constructorValue}}: Any` - value for a given constructor parameter
 
+
+Workflow Creation
+-----------------
+
+The Workflow instances associated with the workflow configurations are built by
+the `createWorkflows` function traversing all three levels (workflow, subworkflow, unit):
+![Workflow Generation Diagram](https://user-images.githubusercontent.com/10773967/196579112-d249cafb-d775-4834-b146-e3dedc796174.jpg)
+
 ## Links
 
 1. Workflows explained in Mat3ra documentation: https://docs.mat3ra.com/workflows/overview/
