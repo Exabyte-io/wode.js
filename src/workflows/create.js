@@ -1,7 +1,7 @@
 import { createSubworkflow } from "../subworkflows/create";
 import { UnitFactory } from "../units";
 import { defaultMapConfig } from "../units/map";
-import { applyConfig } from "../utils";
+import { applyConfig, applyPatch, findUnit } from "../utils";
 import { Workflow } from "./workflow";
 import { workflowData as allWorkflowData } from "./workflows";
 
@@ -21,6 +21,23 @@ function createMapUnit({ config, unitFactoryCls = UnitFactory }) {
 }
 
 /**
+ * @summary Update subworkflow units with patch configuration defined in the workflow config
+ * @param subworkflowData {Object} subworkflow data
+ * @param patchUnitConfig {Array<Object>} array of patch configs
+ * @returns subworkflowData {Object} subworkflowData with patches applied to units
+ */
+function patchUnits({ subworkflowData, patchUnitConfig }) {
+    patchUnitConfig.forEach((patch) => {
+        const { index, type, ...operations } = patch;
+        console.log(`patching ${type} unit ${index} of subworkflow ${subworkflowData.name}`);
+        const unit = findUnit({ subworkflowData, index, type });
+        applyPatch({ unit, operations });
+        return null;
+    });
+    return subworkflowData;
+}
+
+/**
  * @summary Use subworkflow.createSubworkflow to create a Subworkflow unit
  * @param appName {String} application name
  * @param unitData {*} object containing subworkflow configuration data
@@ -28,10 +45,11 @@ function createMapUnit({ config, unitFactoryCls = UnitFactory }) {
  * @returns {*} subworkflow object
  */
 function createSubworkflowUnit({ appName, unitData, ...swArgs }) {
-    const { name: unitName } = unitData;
+    const { name: unitName, patchUnitConfig } = unitData;
     const { subworkflows } = allWorkflowData;
     const { [appName]: dataByApp } = subworkflows;
-    const { [unitName]: subworkflowData } = dataByApp;
+    let { [unitName]: subworkflowData } = dataByApp;
+    if (patchUnitConfig) subworkflowData = patchUnits({ subworkflowData, patchUnitConfig });
     return createSubworkflow({
         subworkflowData,
         ...swArgs,

@@ -8,10 +8,9 @@ import lodash from "lodash";
 export function setUnitsHead(units) {
     if (units.length > 0) {
         units[0].head = true;
-        lodash.tail(units).map(x => x.head = false);
+        lodash.tail(units).map((x) => (x.head = false));
     }
     return units;
-
 }
 
 // TODO: fix setNextLinks on unit removal and convergence logic.
@@ -21,7 +20,7 @@ export function setUnitsHead(units) {
  * @returns units {Unit[]}
  */
 export function setNextLinks(units) {
-    const flowchartIds = units.map(u => u.flowchartId);
+    const flowchartIds = units.map((u) => u.flowchartId);
     for (let i = 0; i < units.length - 1; i++) {
         if (!units[i].next) {
             // newly added units don't have next set yet => set it
@@ -44,12 +43,41 @@ export function setNextLinks(units) {
  */
 export function applyConfig({ obj, config = {}, callBuild = false }) {
     const { functions = {}, attributes = {} } = config;
+    // eslint-disable-next-line no-restricted-syntax
     for (const [func, args] of Object.entries(functions)) {
-        obj[func] ? args ? obj[func](args) : obj[func]() : null;
+        // eslint-disable-next-line no-nested-ternary
+        obj[func] ? (args ? obj[func](args) : obj[func]()) : null;
     }
-    const modified = (callBuild) ? obj.build() : obj;
+    const modified = callBuild ? obj.build() : obj;
+    // eslint-disable-next-line no-restricted-syntax
     for (const [key, values] of Object.entries(attributes)) {
         modified[key] = values;
     }
     return modified;
+}
+
+/**
+ * @summary Safely extract unit object from subworkflow data
+ * @param subworkflowData {Object} subworkflow data
+ * @param index {number} index of subworkflow unit
+ * @param type {string} type of subworkflow unit
+ * @returns {Object|null} subworkflow unit object (not a unit class instance!)
+ */
+export function findUnit({ subworkflowData, index, type }) {
+    const unit = subworkflowData.units[index];
+    if (unit.type !== type) throw new Error("findUnit() error: unit type does not match!");
+    return unit;
+}
+
+/**
+ * @summary Apply the patch operation to a subworkflow unit
+ * @param unit {Object} subworkflow unit object
+ * @param operations {Object} patch instructions
+ * @todo Add more operations, e.g. setName, etc.
+ */
+export function applyPatch({ unit, operations }) {
+    const { setProp } = operations;
+    if (setProp) {
+        Object.entries(operations.setProp).forEach(([key, value]) => (unit.config[key] = value));
+    }
 }
