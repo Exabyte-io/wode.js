@@ -168,6 +168,10 @@ export class Workflow extends BaseWorkflow {
         return this.prop("isMultiMaterial") || fromSubworkflows;
     }
 
+    set isMultiMaterial(value) {
+        this.setProp("isMultiMaterial", value);
+    }
+
     set isUsingDataset(value) {
         this.setProp("isUsingDataset", value);
     }
