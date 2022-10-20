@@ -1,7 +1,7 @@
 import { createSubworkflow } from "../subworkflows/create";
 import { UnitFactory } from "../units";
 import { defaultMapConfig } from "../units/map";
-import { applyConfig, applyPatch, findUnit } from "../utils";
+import { applyConfig, findUnit } from "../utils";
 import { Workflow } from "./workflow";
 import { workflowData as allWorkflowData } from "./workflows";
 
@@ -23,15 +23,15 @@ function createMapUnit({ config, unitFactoryCls = UnitFactory }) {
 /**
  * @summary Update subworkflow units with patch configuration defined in the workflow config
  * @param subworkflowData {Object} subworkflow data
- * @param patchUnitConfig {Array<Object>} array of patch configs
+ * @param unitConfigs {Array<Object>} array of patch configs for subworkflow units
  * @returns subworkflowData {Object} subworkflowData with patches applied to units
  */
-function patchUnits({ subworkflowData, patchUnitConfig }) {
-    patchUnitConfig.forEach((patch) => {
-        const { index, type, ...operations } = patch;
-        console.log(`patching ${type} unit ${index} of subworkflow ${subworkflowData.name}`);
+function updateUnitConfigs({ subworkflowData, unitConfigs }) {
+    unitConfigs.forEach((config) => {
+        const { index, type, config: unitConfig } = config; // unitConfig should contain 'attributes' key
         const unit = findUnit({ subworkflowData, index, type });
-        applyPatch({ unit, operations });
+        console.log(`  patching ${type} unit ${index} of subworkflow ${subworkflowData.name}`);
+        unit.config = applyConfig({ obj: unit.config, config: unitConfig });
         return null;
     });
     return subworkflowData;
@@ -45,11 +45,11 @@ function patchUnits({ subworkflowData, patchUnitConfig }) {
  * @returns {*} subworkflow object
  */
 function createSubworkflowUnit({ appName, unitData, ...swArgs }) {
-    const { name: unitName, patchUnitConfig } = unitData;
+    const { name: unitName, unitConfigs } = unitData;
     const { subworkflows } = allWorkflowData;
     const { [appName]: dataByApp } = subworkflows;
     let { [unitName]: subworkflowData } = dataByApp;
-    if (patchUnitConfig) subworkflowData = patchUnits({ subworkflowData, patchUnitConfig });
+    if (unitConfigs) subworkflowData = updateUnitConfigs({ subworkflowData, unitConfigs });
     return createSubworkflow({
         subworkflowData,
         ...swArgs,

@@ -68,16 +68,3 @@ export function findUnit({ subworkflowData, index, type }) {
     if (unit.type !== type) throw new Error("findUnit() error: unit type does not match!");
     return unit;
 }
-
-/**
- * @summary Apply the patch operation to a subworkflow unit
- * @param unit {Object} subworkflow unit object
- * @param operations {Object} patch instructions
- * @todo Add more operations, e.g. setName, etc.
- */
-export function applyPatch({ unit, operations }) {
-    const { setProp } = operations;
-    if (setProp) {
-        Object.entries(operations.setProp).forEach(([key, value]) => (unit.config[key] = value));
-    }
-}
