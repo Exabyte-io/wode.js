@@ -161,11 +161,13 @@ export class Workflow extends BaseWorkflow {
         return this.prop("isDefault", false);
     }
 
-    // returns true if any of subworkflows are multimaterial
     get isMultiMaterial() {
-        const _getMM = (x) => lodash.get(x, "isMultiMaterial", false);
-        const fromSubworkflows = this.subworkflows.reduce((a, b) => _getMM(a) || _getMM(b), 0);
+        const fromSubworkflows = this.subworkflows.some((sw) => sw.isMultiMaterial);
         return this.prop("isMultiMaterial") || fromSubworkflows;
+    }
+
+    set isMultiMaterial(value) {
+        this.setProp("isMultiMaterial", value);
     }
 
     set isUsingDataset(value) {
