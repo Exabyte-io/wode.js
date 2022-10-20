@@ -40,6 +40,54 @@ module.exports = {
                         },
                     ],
                 },
+                band_structure_average_esp: {
+                    application: { name: "espresso", version: "5.4.0" },
+                    method: { name: "PseudopotentialMethod" },
+                    model: { name: "DFTModel" },
+                    name: "Band Structure + averaged ESP",
+                    units: [
+                        {
+                            config: {
+                                name: "Set Material Index",
+                                operand: "MATERIAL_INDEX",
+                                value: 0,
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: { execName: "pw.x", flavorName: "pw_scf", name: "pw_scf" },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: { execName: "pw.x", flavorName: "pw_scf", name: "pw_scf" },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: { execName: "pw.x", flavorName: "pw_bands", name: "pw_bands" },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: { execName: "bands.x", flavorName: "bands", name: "bands" },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: {
+                                execName: "pp.x",
+                                flavorName: "pp_electrostatic_potential",
+                                name: "ESP",
+                            },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: {
+                                execName: "average.x",
+                                flavorName: "average",
+                                name: "average ESP",
+                            },
+                            type: "executionBuilder",
+                        },
+                    ],
+                },
                 band_structure_dos: {
                     application: { name: "espresso", version: "5.4.0" },
                     method: { name: "PseudopotentialMethod" },
@@ -1405,6 +1453,49 @@ module.exports = {
                 total_energy: {
                     name: "Total Energy",
                     units: [{ name: "total_energy", type: "subworkflow" }],
+                },
+                valence_band_offset: {
+                    name: "Valence Band Offset (2D)",
+                    units: [
+                        {
+                            config: { name: "BS + Avg ESP (Interface)" },
+                            name: "band_structure_average_esp",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: { attributes: { operand: "INTERFACE", value: 0 } },
+                                    index: 0,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                        {
+                            config: { name: "BS + Avg ESP (interface left)" },
+                            name: "band_structure_average_esp",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: { attributes: { operand: "INTERFACE_LEFT", value: 1 } },
+                                    index: 0,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                        {
+                            config: { name: "BS + Avg ESP (interface right)" },
+                            name: "band_structure_average_esp",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: {
+                                        attributes: { operand: "INTERFACE_RIGHT", value: 2 },
+                                    },
+                                    index: 0,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                    ],
                 },
                 variable_cell_relaxation: {
                     name: "Variable-cell Relaxation",
