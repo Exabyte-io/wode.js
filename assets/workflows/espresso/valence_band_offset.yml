@@ -1,0 +1,35 @@
+name: Valence Band Offset (2D)
+units:
+- name: band_structure_average_esp
+  type: subworkflow
+  config:
+    name: BS + Avg ESP (Interface)
+  unitConfigs:
+    - index: 0
+      type: assignment
+      config:
+        attributes:
+          operand: INTERFACE
+          value: 0
+- name: band_structure_average_esp
+  type: subworkflow
+  config:
+    name: BS + Avg ESP (interface left)
+  unitConfigs:
+    - index: 0
+      type: assignment
+      config:
+        attributes:
+          operand: INTERFACE_LEFT
+          value: 1
+- name: band_structure_average_esp
+  type: subworkflow
+  config:
+    name: BS + Avg ESP (interface right)
+  unitConfigs:
+    - index: 0
+      type: assignment
+      config:
+        attributes:
+          operand: INTERFACE_RIGHT
+          value: 2
