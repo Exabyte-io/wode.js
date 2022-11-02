@@ -45,7 +45,7 @@
         "underscore.string": "^3.3.4"
     },
     "devDependencies": {
-        "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js.git#eee6925c74a5d4a67250346fc3ec84ff63c47cad",
+        "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js.git#6d35be2a44f59a82f3cdf8a249b06015a5ac59ed",
         "@exabyte-io/ide.js": "2022.7.28-1",
         "@exabyte-io/mode.js": "2022.10.11-0",
         "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#0d82444794d72f84865ac0c2623508a0ee9435ee",
