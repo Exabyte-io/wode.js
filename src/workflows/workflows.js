@@ -1567,7 +1567,12 @@ module.exports = {
                             type: "subworkflow",
                             unitConfigs: [
                                 {
-                                    config: { attributes: { operand: "INTERFACE", value: "0" } },
+                                    config: {
+                                        attributes: {
+                                            name: "Set Material Index (Interface)",
+                                            value: "0",
+                                        },
+                                    },
                                     index: 0,
                                     type: "assignment",
                                 },
@@ -1592,7 +1597,10 @@ module.exports = {
                             unitConfigs: [
                                 {
                                     config: {
-                                        attributes: { operand: "INTERFACE_LEFT", value: "1" },
+                                        attributes: {
+                                            name: "Set Material Index (Interface left)",
+                                            value: "1",
+                                        },
                                     },
                                     index: 0,
                                     type: "assignment",
@@ -1663,7 +1671,10 @@ module.exports = {
                             unitConfigs: [
                                 {
                                     config: {
-                                        attributes: { operand: "INTERFACE_RIGHT", value: "2" },
+                                        attributes: {
+                                            name: "Set Material Index (Interface right)",
+                                            value: "2",
+                                        },
                                     },
                                     index: 0,
                                     type: "assignment",

@@ -11,7 +11,7 @@ units:
       type: assignment
       config:
         attributes:
-          operand: INTERFACE
+          name: Set Material Index (Interface)
           value: '0'
 - name: processing_find_minima
   type: subworkflow
@@ -35,7 +35,7 @@ units:
       type: assignment
       config:
         attributes:
-          operand: INTERFACE_LEFT
+          name: Set Material Index (Interface left)
           value: '1'
     - index: 2
       type: executionBuilder
@@ -84,7 +84,7 @@ units:
       type: assignment
       config:
         attributes:
-          operand: INTERFACE_RIGHT
+          name: Set Material Index (Interface right)
           value: '2'
     - index: 2
       type: executionBuilder
