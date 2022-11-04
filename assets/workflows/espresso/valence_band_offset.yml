@@ -54,6 +54,18 @@ units:
       config:
         attributes:
           operand: VBM_LEFT
+    - index: 7
+      type: executionBuilder
+      config:
+        attributes:
+          flowchartId: average-electrostatic-potential-left
+    - index: 8
+      type: assignment
+      config:
+        attributes:
+          input:
+            - name: averaged_potential_profile
+              scope: average-electrostatic-potential-left
 - name: processing_find_minima
   type: subworkflow
   config:
@@ -103,6 +115,18 @@ units:
       config:
         attributes:
           operand: VBM_RIGHT
+    - index: 7
+      type: executionBuilder
+      config:
+        attributes:
+          flowchartId: average-electrostatic-potential-right
+    - index: 8
+      type: assignment
+      config:
+        attributes:
+          input:
+            - name: averaged_potential_profile
+              scope: average-electrostatic-potential-right
 - name: processing_find_minima
   type: subworkflow
   config:

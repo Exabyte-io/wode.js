@@ -1637,6 +1637,29 @@ module.exports = {
                                     index: 4,
                                     type: "assignment",
                                 },
+                                {
+                                    config: {
+                                        attributes: {
+                                            flowchartId: "average-electrostatic-potential-left",
+                                        },
+                                    },
+                                    index: 7,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "averaged_potential_profile",
+                                                    scope: "average-electrostatic-potential-left",
+                                                },
+                                            ],
+                                        },
+                                    },
+                                    index: 8,
+                                    type: "assignment",
+                                },
                             ],
                         },
                         {
@@ -1709,6 +1732,29 @@ module.exports = {
                                 {
                                     config: { attributes: { operand: "VBM_RIGHT" } },
                                     index: 4,
+                                    type: "assignment",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            flowchartId: "average-electrostatic-potential-right",
+                                        },
+                                    },
+                                    index: 7,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "averaged_potential_profile",
+                                                    scope: "average-electrostatic-potential-right",
+                                                },
+                                            ],
+                                        },
+                                    },
+                                    index: 8,
                                     type: "assignment",
                                 },
                             ],
