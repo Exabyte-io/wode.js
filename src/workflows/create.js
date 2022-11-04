@@ -45,10 +45,11 @@ function updateUnitConfigs({ subworkflowData, unitConfigs }) {
  * @returns {*} subworkflow object
  */
 function createSubworkflowUnit({ appName, unitData, ...swArgs }) {
-    const { name: unitName, unitConfigs } = unitData;
+    const { name: unitName, unitConfigs, config } = unitData;
     const { subworkflows } = allWorkflowData;
     const { [appName]: dataByApp } = subworkflows;
     let { [unitName]: subworkflowData } = dataByApp;
+    subworkflowData.config = { ...subworkflowData.config, ...config };
     if (unitConfigs) subworkflowData = updateUnitConfigs({ subworkflowData, unitConfigs });
     return createSubworkflow({
         subworkflowData,
