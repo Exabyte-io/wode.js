@@ -179,7 +179,7 @@ module.exports = {
                             config: {
                                 name: "Difference of macroscopically averaged ESP in bulk",
                                 operand: "AVG_ESP_DIFF",
-                                value: "AVG_ESP_LEFT - AVG_ESP_RIGHT",
+                                value: "AVG_ESP_LEFT[0] - AVG_ESP_RIGHT[0]",
                             },
                             type: "assignment",
                         },
