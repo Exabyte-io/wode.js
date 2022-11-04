@@ -4,18 +4,20 @@ units:
 - name: band_structure_average_esp
   type: subworkflow
   config:
-    name: BS + Avg ESP (Interface)
+    attributes:
+      name: BS + Avg ESP (Interface)
   unitConfigs:
     - index: 0
       type: assignment
       config:
         attributes:
           operand: INTERFACE
-          value: 0
+          value: '0'
 - name: processing_find_minima
   type: subworkflow
   config:
-    name: Find ESP Values (Interface)
+    attributes:
+      name: Find ESP Values (Interface)
   unitConfigs:
     - index: 1
       type: assignment
@@ -26,15 +28,28 @@ units:
 - name: band_structure_average_esp
   type: subworkflow
   config:
-    name: BS + Avg ESP (interface left)
+    attributes:
+      name: BS + Avg ESP (interface left)
   unitConfigs:
     - index: 0
       type: assignment
       config:
         attributes:
           operand: INTERFACE_LEFT
-          value: 1
+          value: '1'
+    - index: 2
+      type: executionBuilder
+      config:
+        attributes:
+          flowchartId: pw-bands-calculate-band-gap-left
     - index: 3
+      type: assignment
+      config:
+        attributes:
+          input:
+            - name: band_gaps
+              scope: pw-bands-calculate-band-gap-left
+    - index: 4
       type: assignment
       config:
         attributes:
@@ -42,26 +57,48 @@ units:
 - name: processing_find_minima
   type: subworkflow
   config:
-    name: Find ESP Value (Interface left)
+    attributes:
+      name: Find ESP Value (Interface left)
   unitConfigs:
+    - index: 0
+      type: executionBuilder
+      config:
+        attributes:
+          flowchartId: python-find-extrema-left
     - index: 1
       type: assignment
       config:
         attributes:
           operand: AVG_ESP_LEFT
+          input:
+            - name: STDOUT
+              scope: python-find-extrema-left
 # interface-right-related subworkflows
 - name: band_structure_average_esp
   type: subworkflow
   config:
-    name: BS + Avg ESP (interface right)
+    attributes:
+      name: BS + Avg ESP (interface right)
   unitConfigs:
     - index: 0
       type: assignment
       config:
         attributes:
           operand: INTERFACE_RIGHT
-          value: 2
+          value: '2'
+    - index: 2
+      type: executionBuilder
+      config:
+        attributes:
+          flowchartId: pw-bands-calculate-band-gap-right
     - index: 3
+      type: assignment
+      config:
+        attributes:
+          input:
+            - name: band_gaps
+              scope: pw-bands-calculate-band-gap-right
+    - index: 4
       type: assignment
       config:
         attributes:
@@ -69,13 +106,22 @@ units:
 - name: processing_find_minima
   type: subworkflow
   config:
-    name: Find ESP Value (Interface right)
+    attributes:
+      name: Find ESP Value (Interface right)
   unitConfigs:
+    - index: 0
+      type: executionBuilder
+      config:
+        attributes:
+          flowchartId: python-find-extrema-right
     - index: 1
       type: assignment
       config:
         attributes:
           operand: AVG_ESP_RIGHT
+          input:
+            - name: STDOUT
+              scope: python-find-extrema-right
 # final subworkflow to calculate valence band offset
 - name: calc_valence_band_offset
   type: subworkflow

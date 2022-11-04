@@ -42,6 +42,7 @@ module.exports = {
                 },
                 band_structure_average_esp: {
                     application: { name: "espresso", version: "5.4.0" },
+                    config: { isMultiMaterial: true },
                     method: { name: "PseudopotentialMethod" },
                     model: { name: "DFTModel" },
                     name: "Band Structure + averaged ESP",
@@ -102,7 +103,7 @@ module.exports = {
                         {
                             config: {
                                 execName: "average.x",
-                                flavorName: "average",
+                                flavorName: "averaged_potential",
                                 flowchartId: "average-electrostatic-potential",
                                 name: "average ESP",
                             },
@@ -117,7 +118,7 @@ module.exports = {
                                     },
                                 ],
                                 name: "Set Macroscopically Averaged ESP Data",
-                                operand: "AVG_DATA",
+                                operand: "array_from_context",
                                 value: 'averaged_potential_profile["yDataSeries"][1]',
                             },
                             type: "assignment",
@@ -1561,19 +1562,19 @@ module.exports = {
                     name: "Valence Band Offset (2D)",
                     units: [
                         {
-                            config: { name: "BS + Avg ESP (Interface)" },
+                            config: { attributes: { name: "BS + Avg ESP (Interface)" } },
                             name: "band_structure_average_esp",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
-                                    config: { attributes: { operand: "INTERFACE", value: 0 } },
+                                    config: { attributes: { operand: "INTERFACE", value: "0" } },
                                     index: 0,
                                     type: "assignment",
                                 },
                             ],
                         },
                         {
-                            config: { name: "Find ESP Values (Interface)" },
+                            config: { attributes: { name: "Find ESP Values (Interface)" } },
                             name: "processing_find_minima",
                             type: "subworkflow",
                             unitConfigs: [
@@ -1585,60 +1586,142 @@ module.exports = {
                             ],
                         },
                         {
-                            config: { name: "BS + Avg ESP (interface left)" },
+                            config: { attributes: { name: "BS + Avg ESP (interface left)" } },
                             name: "band_structure_average_esp",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
-                                    config: { attributes: { operand: "INTERFACE_LEFT", value: 1 } },
+                                    config: {
+                                        attributes: { operand: "INTERFACE_LEFT", value: "1" },
+                                    },
                                     index: 0,
                                     type: "assignment",
                                 },
                                 {
-                                    config: { attributes: { operand: "VBM_LEFT" } },
+                                    config: {
+                                        attributes: {
+                                            flowchartId: "pw-bands-calculate-band-gap-left",
+                                        },
+                                    },
+                                    index: 2,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "band_gaps",
+                                                    scope: "pw-bands-calculate-band-gap-left",
+                                                },
+                                            ],
+                                        },
+                                    },
                                     index: 3,
+                                    type: "assignment",
+                                },
+                                {
+                                    config: { attributes: { operand: "VBM_LEFT" } },
+                                    index: 4,
                                     type: "assignment",
                                 },
                             ],
                         },
                         {
-                            config: { name: "Find ESP Value (Interface left)" },
+                            config: { attributes: { name: "Find ESP Value (Interface left)" } },
                             name: "processing_find_minima",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
-                                    config: { attributes: { operand: "AVG_ESP_LEFT" } },
+                                    config: {
+                                        attributes: { flowchartId: "python-find-extrema-left" },
+                                    },
+                                    index: 0,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "STDOUT",
+                                                    scope: "python-find-extrema-left",
+                                                },
+                                            ],
+                                            operand: "AVG_ESP_LEFT",
+                                        },
+                                    },
                                     index: 1,
                                     type: "assignment",
                                 },
                             ],
                         },
                         {
-                            config: { name: "BS + Avg ESP (interface right)" },
+                            config: { attributes: { name: "BS + Avg ESP (interface right)" } },
                             name: "band_structure_average_esp",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
                                     config: {
-                                        attributes: { operand: "INTERFACE_RIGHT", value: 2 },
+                                        attributes: { operand: "INTERFACE_RIGHT", value: "2" },
                                     },
                                     index: 0,
                                     type: "assignment",
                                 },
                                 {
-                                    config: { attributes: { operand: "VBM_RIGHT" } },
+                                    config: {
+                                        attributes: {
+                                            flowchartId: "pw-bands-calculate-band-gap-right",
+                                        },
+                                    },
+                                    index: 2,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "band_gaps",
+                                                    scope: "pw-bands-calculate-band-gap-right",
+                                                },
+                                            ],
+                                        },
+                                    },
                                     index: 3,
+                                    type: "assignment",
+                                },
+                                {
+                                    config: { attributes: { operand: "VBM_RIGHT" } },
+                                    index: 4,
                                     type: "assignment",
                                 },
                             ],
                         },
                         {
-                            config: { name: "Find ESP Value (Interface right)" },
+                            config: { attributes: { name: "Find ESP Value (Interface right)" } },
                             name: "processing_find_minima",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
-                                    config: { attributes: { operand: "AVG_ESP_RIGHT" } },
+                                    config: {
+                                        attributes: { flowchartId: "python-find-extrema-right" },
+                                    },
+                                    index: 0,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "STDOUT",
+                                                    scope: "python-find-extrema-right",
+                                                },
+                                            ],
+                                            operand: "AVG_ESP_RIGHT",
+                                        },
+                                    },
                                     index: 1,
                                     type: "assignment",
                                 },

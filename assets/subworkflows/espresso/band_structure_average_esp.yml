@@ -1,3 +1,5 @@
+config:
+    isMultiMaterial: true
 application:
     name: espresso
     version: 5.4.0
@@ -51,13 +53,13 @@ units:
     type: executionBuilder
 -   config:
         execName: average.x
-        flavorName: average
+        flavorName: averaged_potential
         name: average ESP
         flowchartId: average-electrostatic-potential
     type: executionBuilder
 -   config:
         name: Set Macroscopically Averaged ESP Data
-        operand: AVG_DATA
+        operand: array_from_context
         value: 'averaged_potential_profile["yDataSeries"][1]'
         input:
           - name: averaged_potential_profile
