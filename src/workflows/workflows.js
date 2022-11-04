@@ -59,12 +59,33 @@ module.exports = {
                             type: "executionBuilder",
                         },
                         {
-                            config: { execName: "pw.x", flavorName: "pw_scf", name: "pw_scf" },
+                            attributes: { results: [{ name: "band_gaps" }] },
+                            config: {
+                                execName: "pw.x",
+                                flavorName: "pw_bands",
+                                flowchartId: "pw-bands-calculate-band-gap",
+                                name: "pw_bands",
+                            },
                             type: "executionBuilder",
                         },
                         {
-                            config: { execName: "pw.x", flavorName: "pw_bands", name: "pw_bands" },
-                            type: "executionBuilder",
+                            config: {
+                                input: [
+                                    { name: "band_gaps", scope: "pw-bands-calculate-band-gap" },
+                                ],
+                                name: "Select indirect band gap",
+                                operand: "BAND_GAP_INDIRECT",
+                                value: '[bandgap for bandgap in band_gaps["values"] if bandgap["type"] == "indirect"][0]',
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: {
+                                name: "Set Valence Band Maximum",
+                                operand: "VBM",
+                                value: 'BAND_GAP_INDIRECT["eigenvalueValence"]',
+                            },
+                            type: "assignment",
                         },
                         {
                             config: { execName: "bands.x", flavorName: "bands", name: "bands" },
@@ -82,9 +103,24 @@ module.exports = {
                             config: {
                                 execName: "average.x",
                                 flavorName: "average",
+                                flowchartId: "average-electrostatic-potential",
                                 name: "average ESP",
                             },
                             type: "executionBuilder",
+                        },
+                        {
+                            config: {
+                                input: [
+                                    {
+                                        name: "averaged_potential_profile",
+                                        scope: "average-electrostatic-potential",
+                                    },
+                                ],
+                                name: "Set Macroscopically Averaged ESP Data",
+                                operand: "AVG_DATA",
+                                value: 'averaged_potential_profile["yDataSeries"][1]',
+                            },
+                            type: "assignment",
                         },
                     ],
                 },
@@ -117,6 +153,46 @@ module.exports = {
                                 name: "projwfc",
                             },
                             type: "executionBuilder",
+                        },
+                    ],
+                },
+                calc_valence_band_offset: {
+                    application: { name: "python", version: "3.8.6" },
+                    method: { name: "UnknownMethod" },
+                    model: { name: "UnknownModel" },
+                    name: "Calculate VBO",
+                    units: [
+                        {
+                            config: {
+                                name: "Difference of valence band maxima",
+                                operand: "VBM_DIFF",
+                                value: "VBM_LEFT - VBM_RIGHT",
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: {
+                                name: "Difference of macroscopically averaged ESP in bulk",
+                                operand: "AVG_ESP_DIFF",
+                                value: "AVG_ESP_LEFT - AVG_ESP_RIGHT",
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: {
+                                name: "Lineup of macroscopically averaged ESP in interface",
+                                operand: "ESP_LINEUP",
+                                value: "np.abs(AVG_ESP[0] - AVG_ESP[1])",
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: {
+                                name: "Valence Band Offset",
+                                operand: "AVG_ESP",
+                                value: "VBM_DIFF - AVG_ESP_DIFF + (np.sign(AVG_ESP_DIFF) * ESP_LINEUP)",
+                            },
+                            type: "assignment",
                         },
                     ],
                 },
@@ -457,6 +533,32 @@ module.exports = {
                                 name: "shell",
                             },
                             type: "executionBuilder",
+                        },
+                    ],
+                },
+                processing_find_minima: {
+                    application: { name: "python", version: "3.8.6" },
+                    method: { name: "UnknownMethod" },
+                    model: { name: "UnknownModel" },
+                    name: "Find ESP Value",
+                    units: [
+                        {
+                            config: {
+                                execName: "python",
+                                flavorName: "processing:find_extrema",
+                                flowchartId: "python-find-extrema",
+                                name: "Find Extrema",
+                            },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: {
+                                input: [{ name: "STDOUT", scope: "python-find-extrema" }],
+                                name: "Set Averaged ESP Value",
+                                operand: "AVG_ESP",
+                                value: 'json.loads(STDOUT)["minima"]',
+                            },
+                            type: "assignment",
                         },
                     ],
                 },
@@ -1470,6 +1572,18 @@ module.exports = {
                             ],
                         },
                         {
+                            config: { name: "Find ESP Values (Interface)" },
+                            name: "processing_find_minima",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: { attributes: { operand: "AVG_ESP_INTERFACE" } },
+                                    index: 1,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                        {
                             config: { name: "BS + Avg ESP (interface left)" },
                             name: "band_structure_average_esp",
                             type: "subworkflow",
@@ -1477,6 +1591,23 @@ module.exports = {
                                 {
                                     config: { attributes: { operand: "INTERFACE_LEFT", value: 1 } },
                                     index: 0,
+                                    type: "assignment",
+                                },
+                                {
+                                    config: { attributes: { operand: "VBM_LEFT" } },
+                                    index: 3,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                        {
+                            config: { name: "Find ESP Value (Interface left)" },
+                            name: "processing_find_minima",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: { attributes: { operand: "AVG_ESP_LEFT" } },
+                                    index: 1,
                                     type: "assignment",
                                 },
                             ],
@@ -1493,8 +1624,26 @@ module.exports = {
                                     index: 0,
                                     type: "assignment",
                                 },
+                                {
+                                    config: { attributes: { operand: "VBM_RIGHT" } },
+                                    index: 3,
+                                    type: "assignment",
+                                },
                             ],
                         },
+                        {
+                            config: { name: "Find ESP Value (Interface right)" },
+                            name: "processing_find_minima",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: { attributes: { operand: "AVG_ESP_RIGHT" } },
+                                    index: 1,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                        { name: "calc_valence_band_offset", type: "subworkflow" },
                     ],
                 },
                 variable_cell_relaxation: {
