@@ -46,7 +46,7 @@
     },
     "devDependencies": {
         "@exabyte-io/made.js": "2022.6.15-0",
-        "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js.git#33d5d3c728defe1b819b2536e261f8823840b0ba",
+        "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js.git#29b7657320a20111ebab5fd40d0aa965618b313e",
         "@exabyte-io/ide.js": "2022.7.28-1",
         "@exabyte-io/mode.js": "2022.10.11-0",
         "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#0d82444794d72f84865ac0c2623508a0ee9435ee",
