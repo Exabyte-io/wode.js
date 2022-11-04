@@ -24,6 +24,8 @@ units:
     type: assignment
 -   config:
         name: Valence Band Offset
-        operand: AVG_ESP
+        operand: VALENCE_BAND_OFFSET
         value: 'VBM_DIFF - AVG_ESP_DIFF + (np.sign(AVG_ESP_DIFF) * ESP_LINEUP)'
+        results:
+          - name: valence_band_offset
     type: assignment

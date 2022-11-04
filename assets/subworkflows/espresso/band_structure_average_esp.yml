@@ -47,7 +47,7 @@ units:
 -   config:
         execName: pp.x
         flavorName: pp_electrostatic_potential
-        name: ESP
+        name: Electrostatic Potential (ESP)
     type: executionBuilder
 -   config:
         execName: average.x

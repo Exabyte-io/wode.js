@@ -170,7 +170,7 @@ function createSubworkflow({
             }),
         );
     });
-    if (dynamicSubworkflow)
+    if (dynamicSubworkflow) {
         units = createDynamicUnits({
             dynamicSubworkflow,
             units,
@@ -178,6 +178,7 @@ function createSubworkflow({
             unitFactoryCls,
             application,
         });
+    }
 
     const { functions = {}, attributes = {}, ...cfg } = config;
     let subworkflow = subworkflowCls.fromArguments(application, model, method, name, units, cfg);
