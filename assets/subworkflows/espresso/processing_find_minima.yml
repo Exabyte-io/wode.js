@@ -1,0 +1,23 @@
+application:
+    name: python
+    version: 3.8.6
+method:
+    name: UnknownMethod
+model:
+    name: UnknownModel
+name: Find ESP Value
+units:
+-   config:
+        name: Find Extrema
+        execName: python
+        flavorName: processing:find_extrema
+        flowchartId: python-find-extrema
+    type: executionBuilder
+-   config:
+        name: Set Averaged ESP Value
+        operand: AVG_ESP
+        value: 'json.loads(STDOUT)["minima"]'
+        input:
+          - name: STDOUT
+            scope: python-find-extrema
+    type: assignment

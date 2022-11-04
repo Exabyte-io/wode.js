@@ -1,5 +1,6 @@
 name: Valence Band Offset (2D)
 units:
+# interface-related subworkflows
 - name: band_structure_average_esp
   type: subworkflow
   config:
@@ -11,6 +12,17 @@ units:
         attributes:
           operand: INTERFACE
           value: 0
+- name: processing_find_minima
+  type: subworkflow
+  config:
+    name: Find ESP Values (Interface)
+  unitConfigs:
+    - index: 1
+      type: assignment
+      config:
+        attributes:
+          operand: AVG_ESP_INTERFACE
+# interface-left-related subworkflows
 - name: band_structure_average_esp
   type: subworkflow
   config:
@@ -22,6 +34,22 @@ units:
         attributes:
           operand: INTERFACE_LEFT
           value: 1
+    - index: 3
+      type: assignment
+      config:
+        attributes:
+          operand: VBM_LEFT
+- name: processing_find_minima
+  type: subworkflow
+  config:
+    name: Find ESP Value (Interface left)
+  unitConfigs:
+    - index: 1
+      type: assignment
+      config:
+        attributes:
+          operand: AVG_ESP_LEFT
+# interface-right-related subworkflows
 - name: band_structure_average_esp
   type: subworkflow
   config:
@@ -33,3 +61,21 @@ units:
         attributes:
           operand: INTERFACE_RIGHT
           value: 2
+    - index: 3
+      type: assignment
+      config:
+        attributes:
+          operand: VBM_RIGHT
+- name: processing_find_minima
+  type: subworkflow
+  config:
+    name: Find ESP Value (Interface right)
+  unitConfigs:
+    - index: 1
+      type: assignment
+      config:
+        attributes:
+          operand: AVG_ESP_RIGHT
+# final subworkflow to calculate valence band offset
+- name: calc_valence_band_offset
+  type: subworkflow
