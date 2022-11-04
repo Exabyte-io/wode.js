@@ -95,7 +95,7 @@ module.exports = {
                             config: {
                                 execName: "pp.x",
                                 flavorName: "pp_electrostatic_potential",
-                                name: "ESP",
+                                name: "Electrostatic Potential (ESP)",
                             },
                             type: "executionBuilder",
                         },
@@ -189,7 +189,8 @@ module.exports = {
                         {
                             config: {
                                 name: "Valence Band Offset",
-                                operand: "AVG_ESP",
+                                operand: "VALENCE_BAND_OFFSET",
+                                results: [{ name: "valence_band_offset" }],
                                 value: "VBM_DIFF - AVG_ESP_DIFF + (np.sign(AVG_ESP_DIFF) * ESP_LINEUP)",
                             },
                             type: "assignment",
