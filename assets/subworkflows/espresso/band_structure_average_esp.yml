@@ -16,12 +16,12 @@ units:
     type: assignment
 -   config:
         execName: pw.x
-        flavorName: pw_scf
+        flavorName: pw_scf_multimaterial
         name: pw_scf
     type: executionBuilder
 -   config:
         execName: pw.x
-        flavorName: pw_bands
+        flavorName: pw_bands_multimaterial
         name: pw_bands
         flowchartId: pw-bands-calculate-band-gap
     type: executionBuilder
