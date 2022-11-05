@@ -187,7 +187,7 @@ module.exports = {
                             config: {
                                 name: "Lineup of macroscopically averaged ESP in interface",
                                 operand: "ESP_LINEUP",
-                                value: "np.abs(AVG_ESP[0] - AVG_ESP[1])",
+                                value: "np.abs(AVG_ESP_INTERFACE[0] - AVG_ESP_INTERFACE[1])",
                             },
                             type: "assignment",
                         },
