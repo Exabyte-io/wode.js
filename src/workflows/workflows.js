@@ -192,7 +192,7 @@ module.exports = {
                                 name: "Valence Band Offset",
                                 operand: "VALENCE_BAND_OFFSET",
                                 results: [{ name: "valence_band_offset" }],
-                                value: "VBM_DIFF - AVG_ESP_DIFF + (np.sign(AVG_ESP_DIFF) * ESP_LINEUP)",
+                                value: "abs(VBM_DIFF - AVG_ESP_DIFF + (np.sign(AVG_ESP_DIFF) * ESP_LINEUP))",
                             },
                             type: "assignment",
                         },
