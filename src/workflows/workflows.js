@@ -56,18 +56,14 @@ module.exports = {
                             type: "assignment",
                         },
                         {
-                            config: {
-                                execName: "pw.x",
-                                flavorName: "pw_scf_multimaterial",
-                                name: "pw_scf",
-                            },
+                            config: { execName: "pw.x", flavorName: "pw_scf", name: "pw_scf" },
                             type: "executionBuilder",
                         },
                         {
                             attributes: { results: [{ name: "band_gaps" }] },
                             config: {
                                 execName: "pw.x",
-                                flavorName: "pw_bands_multimaterial",
+                                flavorName: "pw_bands",
                                 flowchartId: "pw-bands-calculate-band-gap",
                                 name: "pw_bands",
                             },
@@ -551,7 +547,7 @@ module.exports = {
                         {
                             config: {
                                 execName: "python",
-                                flavorName: "processing:find_extrema",
+                                flavorName: "generic:processing:find_extrema:scipy",
                                 flowchartId: "python-find-extrema",
                                 name: "Find Extrema",
                             },

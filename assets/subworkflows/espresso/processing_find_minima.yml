@@ -10,7 +10,7 @@ units:
 -   config:
         name: Find Extrema
         execName: python
-        flavorName: processing:find_extrema
+        flavorName: generic:processing:find_extrema:scipy
         flowchartId: python-find-extrema
     type: executionBuilder
 -   config:
