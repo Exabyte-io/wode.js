@@ -5,6 +5,7 @@ import {
     MethodFactory,
     ModelFactory,
 } from "@exabyte-io/mode.js";
+import _ from "lodash";
 
 import { UnitFactory } from "../units";
 import { builders } from "../units/builders";
@@ -49,12 +50,10 @@ function createModel({ config, modelFactoryCls }) {
 /**
  * @summary Create method from subworkflow data
  * @param config {Object} method configuration
- * @param application {any} application to create method from
  * @param methodFactoryCls {any}
  * @returns {{method, setSearchText}}
  */
-// eslint-disable-next-line no-unused-vars
-function createMethod({ config, application, methodFactoryCls }) {
+function createMethod({ config, methodFactoryCls }) {
     const { name, setSearchText = null, config: methodConfig = {} } = config;
     const defaultConfig = _getConfigFromModelOrMethodName(name, "Method");
     const method = methodFactoryCls.create({ ...defaultConfig, ...methodConfig });
@@ -73,11 +72,7 @@ function createTopLevel({ subworkflowData, applicationCls, modelFactoryCls, meth
     const { application: appConfig, model: modelConfig, method: methodConfig } = subworkflowData;
     const application = createApplication({ config: appConfig, applicationCls });
     const model = createModel({ config: modelConfig, modelFactoryCls });
-    const { method, setSearchText } = createMethod({
-        config: methodConfig,
-        application,
-        methodFactoryCls,
-    });
+    const { method, setSearchText } = createMethod({ config: methodConfig, methodFactoryCls });
     return { application, model, method, setSearchText };
 }
 
@@ -128,14 +123,13 @@ function createDynamicUnits({
     application = null,
 }) {
     const { name, subfolder } = dynamicSubworkflow;
+    const func = subfolder && _.get(dynamicSubworkflowsByApp, `${subfolder}.${name}`, () => {});
     switch (name) {
         case "surfaceEnergy":
             // eslint-disable-next-line no-case-declarations
             const [scfUnit] = units;
             return getSurfaceEnergySubworkflowUnits({ scfUnit, unitBuilders });
         case "getQpointIrrep":
-            // eslint-disable-next-line no-case-declarations
-            const func = dynamicSubworkflowsByApp[subfolder][name];
             return func({ unitBuilders, unitFactoryCls, application });
         default:
             throw new Error(`dynamicSubworkflow=${name} not recognized`);
