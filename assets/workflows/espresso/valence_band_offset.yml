@@ -7,7 +7,7 @@
 name: Valence Band Offset (2D)
 units:
 # interface-related subworkflows
-- name: band_structure_average_esp
+- name: average_electrostatic_potential_via_band_structure
   type: subworkflow
   config:
     attributes:
@@ -19,7 +19,7 @@ units:
         attributes:
           name: Set Material Index (Interface)
           value: '0'
-- name: processing_find_minima
+- name: average_electrostastatic_potential_find_minima
   type: subworkflow
   config:
     attributes:
@@ -31,7 +31,7 @@ units:
         attributes:
           operand: AVG_ESP_INTERFACE
 # interface-left-related subworkflows
-- name: band_structure_average_esp
+- name: average_electrostatic_potential_via_band_structure
   type: subworkflow
   config:
     attributes:
@@ -72,7 +72,7 @@ units:
           input:
             - name: averaged_potential_profile
               scope: average-electrostatic-potential-left
-- name: processing_find_minima
+- name: average_electrostastatic_potential_find_minima
   type: subworkflow
   config:
     attributes:
@@ -92,7 +92,7 @@ units:
             - name: STDOUT
               scope: python-find-extrema-left
 # interface-right-related subworkflows
-- name: band_structure_average_esp
+- name: average_electrostatic_potential_via_band_structure
   type: subworkflow
   config:
     attributes:
@@ -133,7 +133,7 @@ units:
           input:
             - name: averaged_potential_profile
               scope: average-electrostatic-potential-right
-- name: processing_find_minima
+- name: average_electrostastatic_potential_find_minima
   type: subworkflow
   config:
     attributes:
@@ -153,5 +153,5 @@ units:
             - name: STDOUT
               scope: python-find-extrema-right
 # final subworkflow to calculate valence band offset
-- name: calc_valence_band_offset
+- name: valence_band_offset_calc_from_previous_esp_vbm
   type: subworkflow
