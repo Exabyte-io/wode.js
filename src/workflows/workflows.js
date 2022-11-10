@@ -2,45 +2,33 @@ module.exports = {
     workflowData: {
         subworkflows: {
             espresso: {
-                band_gap: {
-                    application: { name: "espresso", version: "5.4.0" },
-                    method: { name: "PseudopotentialMethod" },
-                    model: { name: "DFTModel" },
-                    name: "Band Gap",
+                average_electrostastatic_potential_find_minima: {
+                    application: { name: "python", version: "3.8.6" },
+                    method: { name: "UnknownMethod" },
+                    model: { name: "UnknownModel" },
+                    name: "Find ESP Value",
                     units: [
                         {
-                            config: { execName: "pw.x", flavorName: "pw_scf", name: "pw_scf" },
-                            functions: { head: true },
+                            config: {
+                                execName: "python",
+                                flavorName: "generic:processing:find_extrema:scipy",
+                                flowchartId: "python-find-extrema",
+                                name: "Find Extrema",
+                            },
                             type: "executionBuilder",
                         },
                         {
-                            config: { execName: "pw.x", flavorName: "pw_nscf", name: "pw_nscf" },
-                            type: "executionBuilder",
+                            config: {
+                                input: [{ name: "STDOUT", scope: "python-find-extrema" }],
+                                name: "Set Averaged ESP Value",
+                                operand: "AVG_ESP",
+                                value: 'json.loads(STDOUT)["minima"]',
+                            },
+                            type: "assignment",
                         },
                     ],
                 },
-                band_structure: {
-                    application: { name: "espresso", version: "5.4.0" },
-                    method: { name: "PseudopotentialMethod" },
-                    model: { name: "DFTModel" },
-                    name: "Band Structure",
-                    units: [
-                        {
-                            config: { execName: "pw.x", flavorName: "pw_scf", name: "pw_scf" },
-                            functions: { head: true },
-                            type: "executionBuilder",
-                        },
-                        {
-                            config: { execName: "pw.x", flavorName: "pw_bands", name: "pw_bands" },
-                            type: "executionBuilder",
-                        },
-                        {
-                            config: { execName: "bands.x", flavorName: "bands", name: "bands" },
-                            type: "executionBuilder",
-                        },
-                    ],
-                },
-                band_structure_average_esp: {
+                average_electrostatic_potential_via_band_structure: {
                     application: { name: "espresso", version: "5.4.0" },
                     config: { isMultiMaterial: true },
                     method: { name: "PseudopotentialMethod" },
@@ -125,6 +113,44 @@ module.exports = {
                         },
                     ],
                 },
+                band_gap: {
+                    application: { name: "espresso", version: "5.4.0" },
+                    method: { name: "PseudopotentialMethod" },
+                    model: { name: "DFTModel" },
+                    name: "Band Gap",
+                    units: [
+                        {
+                            config: { execName: "pw.x", flavorName: "pw_scf", name: "pw_scf" },
+                            functions: { head: true },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: { execName: "pw.x", flavorName: "pw_nscf", name: "pw_nscf" },
+                            type: "executionBuilder",
+                        },
+                    ],
+                },
+                band_structure: {
+                    application: { name: "espresso", version: "5.4.0" },
+                    method: { name: "PseudopotentialMethod" },
+                    model: { name: "DFTModel" },
+                    name: "Band Structure",
+                    units: [
+                        {
+                            config: { execName: "pw.x", flavorName: "pw_scf", name: "pw_scf" },
+                            functions: { head: true },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: { execName: "pw.x", flavorName: "pw_bands", name: "pw_bands" },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: { execName: "bands.x", flavorName: "bands", name: "bands" },
+                            type: "executionBuilder",
+                        },
+                    ],
+                },
                 band_structure_dos: {
                     application: { name: "espresso", version: "5.4.0" },
                     method: { name: "PseudopotentialMethod" },
@@ -154,47 +180,6 @@ module.exports = {
                                 name: "projwfc",
                             },
                             type: "executionBuilder",
-                        },
-                    ],
-                },
-                calc_valence_band_offset: {
-                    application: { name: "python", version: "3.8.6" },
-                    method: { name: "UnknownMethod" },
-                    model: { name: "UnknownModel" },
-                    name: "Calculate VBO",
-                    units: [
-                        {
-                            config: {
-                                name: "Difference of valence band maxima",
-                                operand: "VBM_DIFF",
-                                value: "VBM_LEFT - VBM_RIGHT",
-                            },
-                            type: "assignment",
-                        },
-                        {
-                            config: {
-                                name: "Difference of macroscopically averaged ESP in bulk",
-                                operand: "AVG_ESP_DIFF",
-                                value: "AVG_ESP_LEFT[0] - AVG_ESP_RIGHT[0]",
-                            },
-                            type: "assignment",
-                        },
-                        {
-                            config: {
-                                name: "Lineup of macroscopically averaged ESP in interface",
-                                operand: "ESP_LINEUP",
-                                value: "np.abs(AVG_ESP_INTERFACE[0] - AVG_ESP_INTERFACE[1])",
-                            },
-                            type: "assignment",
-                        },
-                        {
-                            config: {
-                                name: "Valence Band Offset",
-                                operand: "VALENCE_BAND_OFFSET",
-                                results: [{ name: "valence_band_offset" }],
-                                value: "abs(VBM_DIFF - AVG_ESP_DIFF + (np.sign(AVG_ESP_DIFF) * ESP_LINEUP))",
-                            },
-                            type: "assignment",
                         },
                     ],
                 },
@@ -538,32 +523,6 @@ module.exports = {
                         },
                     ],
                 },
-                processing_find_minima: {
-                    application: { name: "python", version: "3.8.6" },
-                    method: { name: "UnknownMethod" },
-                    model: { name: "UnknownModel" },
-                    name: "Find ESP Value",
-                    units: [
-                        {
-                            config: {
-                                execName: "python",
-                                flavorName: "generic:processing:find_extrema:scipy",
-                                flowchartId: "python-find-extrema",
-                                name: "Find Extrema",
-                            },
-                            type: "executionBuilder",
-                        },
-                        {
-                            config: {
-                                input: [{ name: "STDOUT", scope: "python-find-extrema" }],
-                                name: "Set Averaged ESP Value",
-                                operand: "AVG_ESP",
-                                value: 'json.loads(STDOUT)["minima"]',
-                            },
-                            type: "assignment",
-                        },
-                    ],
-                },
                 pw_scf: {
                     application: { name: "espresso", version: "5.4.0" },
                     method: { name: "PseudopotentialMethod" },
@@ -616,6 +575,47 @@ module.exports = {
                             config: { execName: "pw.x", flavorName: "pw_scf", name: "pw_scf" },
                             functions: { head: true },
                             type: "executionBuilder",
+                        },
+                    ],
+                },
+                valence_band_offset_calc_from_previous_esp_vbm: {
+                    application: { name: "python", version: "3.8.6" },
+                    method: { name: "UnknownMethod" },
+                    model: { name: "UnknownModel" },
+                    name: "Calculate VBO",
+                    units: [
+                        {
+                            config: {
+                                name: "Difference of valence band maxima",
+                                operand: "VBM_DIFF",
+                                value: "VBM_LEFT - VBM_RIGHT",
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: {
+                                name: "Difference of macroscopically averaged ESP in bulk",
+                                operand: "AVG_ESP_DIFF",
+                                value: "AVG_ESP_LEFT[0] - AVG_ESP_RIGHT[0]",
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: {
+                                name: "Lineup of macroscopically averaged ESP in interface",
+                                operand: "ESP_LINEUP",
+                                value: "np.abs(AVG_ESP_INTERFACE[0] - AVG_ESP_INTERFACE[1])",
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: {
+                                name: "Valence Band Offset",
+                                operand: "VALENCE_BAND_OFFSET",
+                                results: [{ name: "valence_band_offset" }],
+                                value: "abs(VBM_DIFF - AVG_ESP_DIFF + (np.sign(AVG_ESP_DIFF) * ESP_LINEUP))",
+                            },
+                            type: "assignment",
                         },
                     ],
                 },
@@ -1563,7 +1563,7 @@ module.exports = {
                     units: [
                         {
                             config: { attributes: { name: "BS + Avg ESP (Interface)" } },
-                            name: "band_structure_average_esp",
+                            name: "average_electrostatic_potential_via_band_structure",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
@@ -1580,7 +1580,7 @@ module.exports = {
                         },
                         {
                             config: { attributes: { name: "Find ESP Values (Interface)" } },
-                            name: "processing_find_minima",
+                            name: "average_electrostastatic_potential_find_minima",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
@@ -1592,7 +1592,7 @@ module.exports = {
                         },
                         {
                             config: { attributes: { name: "BS + Avg ESP (interface left)" } },
-                            name: "band_structure_average_esp",
+                            name: "average_electrostatic_potential_via_band_structure",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
@@ -1660,7 +1660,7 @@ module.exports = {
                         },
                         {
                             config: { attributes: { name: "Find ESP Value (Interface left)" } },
-                            name: "processing_find_minima",
+                            name: "average_electrostastatic_potential_find_minima",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
@@ -1689,7 +1689,7 @@ module.exports = {
                         },
                         {
                             config: { attributes: { name: "BS + Avg ESP (interface right)" } },
-                            name: "band_structure_average_esp",
+                            name: "average_electrostatic_potential_via_band_structure",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
@@ -1757,7 +1757,7 @@ module.exports = {
                         },
                         {
                             config: { attributes: { name: "Find ESP Value (Interface right)" } },
-                            name: "processing_find_minima",
+                            name: "average_electrostastatic_potential_find_minima",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
@@ -1784,7 +1784,10 @@ module.exports = {
                                 },
                             ],
                         },
-                        { name: "calc_valence_band_offset", type: "subworkflow" },
+                        {
+                            name: "valence_band_offset_calc_from_previous_esp_vbm",
+                            type: "subworkflow",
+                        },
                     ],
                 },
                 variable_cell_relaxation: {
