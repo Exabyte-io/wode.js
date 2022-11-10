@@ -1,3 +1,7 @@
+# Note: this subworkflow is assumed to be used as part of the valence band offset workflow
+# and is this NOT self-sufficient!
+# Furthermore, this subworkflow expects the following variable(s) to exist in the global context:
+# array_from_context
 application:
     name: python
     version: 3.8.6
