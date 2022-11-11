@@ -26,7 +26,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         this._application = this.constructor.Application.create(config.application);
         this._executable = this._application.getExecutableByConfig(config.executable);
         this._flavor = this._executable.getFlavorByConfig(config.flavor);
-        this._templates = this._flavor.inputAsTemplates;
+        this._templates = this._flavor ? this._flavor.inputAsTemplates : [];
     }
 
     _initRuntimeItems(keys, config) {
