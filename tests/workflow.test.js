@@ -1,6 +1,8 @@
 import { expect } from "chai";
 
 import { createWorkflows } from "../src/workflows";
+import { createWorkflow } from "../src/workflows/create";
+import { workflowData as allWorkflowData } from "../src/workflows/workflows";
 
 describe("workflows", () => {
     it("can all be created", () => {
@@ -10,5 +12,16 @@ describe("workflows", () => {
             expect(wf).to.exist;
             return null;
         });
+    });
+});
+
+describe("workflow property", () => {
+    it("isMultiMaterial is read correctly", () => {
+        // Nudged Elastic Band is multi-material
+        const mmWorkflow = createWorkflow({
+            appName: "espresso",
+            workflowData: allWorkflowData.workflows.espresso.neb,
+        });
+        expect(mmWorkflow.isMultiMaterial).to.be.true;
     });
 });

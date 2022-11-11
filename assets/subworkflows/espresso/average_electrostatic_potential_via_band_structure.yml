@@ -1,0 +1,67 @@
+config:
+    isMultiMaterial: true
+application:
+    name: espresso
+    version: 5.4.0
+method:
+    name: PseudopotentialMethod
+model:
+    name: DFTModel
+name: Band Structure + averaged ESP
+units:
+-   config:
+        name: Set Material Index
+        operand: MATERIAL_INDEX
+        value: 0
+    type: assignment
+-   config:
+        execName: pw.x
+        flavorName: pw_scf
+        name: pw_scf
+    type: executionBuilder
+-   config:
+        execName: pw.x
+        flavorName: pw_bands
+        name: pw_bands
+        flowchartId: pw-bands-calculate-band-gap
+    type: executionBuilder
+    attributes:
+      results:
+        - name: band_gaps
+-   config:
+        name: Select indirect band gap
+        operand: BAND_GAP_INDIRECT
+        value: '[bandgap for bandgap in band_gaps["values"] if bandgap["type"] == "indirect"][0]'
+        input:
+          - name: band_gaps
+            scope: pw-bands-calculate-band-gap
+    type: assignment
+-   config:
+        name: Set Valence Band Maximum
+        operand: VBM
+        value: 'BAND_GAP_INDIRECT["eigenvalueValence"]'
+    type: assignment
+-   config:
+        execName: bands.x
+        flavorName: bands
+        name: bands
+    type: executionBuilder
+-   config:
+        execName: pp.x
+        flavorName: pp_electrostatic_potential
+        name: Electrostatic Potential (ESP)
+    type: executionBuilder
+-   config:
+        execName: average.x
+        flavorName: averaged_potential
+        name: average ESP
+        flowchartId: average-electrostatic-potential
+    type: executionBuilder
+-   config:
+        name: Set Macroscopically Averaged ESP Data
+        operand: array_from_context
+        value: 'averaged_potential_profile["yDataSeries"][1]'
+        input:
+          - name: averaged_potential_profile
+            scope: average-electrostatic-potential
+    type: assignment

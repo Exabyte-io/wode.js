@@ -45,10 +45,11 @@
         "underscore.string": "^3.3.4"
     },
     "devDependencies": {
-        "@exabyte-io/ade.js": "2022.9.2-0",
+        "@exabyte-io/made.js": "2022.6.15-0",
+        "@exabyte-io/ade.js": "2022.11.11-0",
         "@exabyte-io/ide.js": "2022.7.28-1",
         "@exabyte-io/mode.js": "2022.10.11-0",
-        "@exabyte-io/code.js": "2022.10.11-0",
+        "@exabyte-io/code.js": "2022.11.11-0",
         "chai": "^4.3.4",
         "eslint": "7.32.0",
         "eslint-config-airbnb": "19.0.2",

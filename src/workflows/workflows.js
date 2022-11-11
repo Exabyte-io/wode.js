@@ -2,6 +2,117 @@ module.exports = {
     workflowData: {
         subworkflows: {
             espresso: {
+                average_electrostastatic_potential_find_minima: {
+                    application: { name: "python", version: "3.8.6" },
+                    method: { name: "UnknownMethod" },
+                    model: { name: "UnknownModel" },
+                    name: "Find ESP Value",
+                    units: [
+                        {
+                            config: {
+                                execName: "python",
+                                flavorName: "generic:processing:find_extrema:scipy",
+                                flowchartId: "python-find-extrema",
+                                name: "Find Extrema",
+                            },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: {
+                                input: [{ name: "STDOUT", scope: "python-find-extrema" }],
+                                name: "Set Averaged ESP Value",
+                                operand: "AVG_ESP",
+                                value: 'json.loads(STDOUT)["minima"]',
+                            },
+                            type: "assignment",
+                        },
+                    ],
+                },
+                average_electrostatic_potential_via_band_structure: {
+                    application: { name: "espresso", version: "5.4.0" },
+                    config: { isMultiMaterial: true },
+                    method: { name: "PseudopotentialMethod" },
+                    model: { name: "DFTModel" },
+                    name: "Band Structure + averaged ESP",
+                    units: [
+                        {
+                            config: {
+                                name: "Set Material Index",
+                                operand: "MATERIAL_INDEX",
+                                value: 0,
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: { execName: "pw.x", flavorName: "pw_scf", name: "pw_scf" },
+                            type: "executionBuilder",
+                        },
+                        {
+                            attributes: { results: [{ name: "band_gaps" }] },
+                            config: {
+                                execName: "pw.x",
+                                flavorName: "pw_bands",
+                                flowchartId: "pw-bands-calculate-band-gap",
+                                name: "pw_bands",
+                            },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: {
+                                input: [
+                                    { name: "band_gaps", scope: "pw-bands-calculate-band-gap" },
+                                ],
+                                name: "Select indirect band gap",
+                                operand: "BAND_GAP_INDIRECT",
+                                value: '[bandgap for bandgap in band_gaps["values"] if bandgap["type"] == "indirect"][0]',
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: {
+                                name: "Set Valence Band Maximum",
+                                operand: "VBM",
+                                value: 'BAND_GAP_INDIRECT["eigenvalueValence"]',
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: { execName: "bands.x", flavorName: "bands", name: "bands" },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: {
+                                execName: "pp.x",
+                                flavorName: "pp_electrostatic_potential",
+                                name: "Electrostatic Potential (ESP)",
+                            },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: {
+                                execName: "average.x",
+                                flavorName: "averaged_potential",
+                                flowchartId: "average-electrostatic-potential",
+                                name: "average ESP",
+                            },
+                            type: "executionBuilder",
+                        },
+                        {
+                            config: {
+                                input: [
+                                    {
+                                        name: "averaged_potential_profile",
+                                        scope: "average-electrostatic-potential",
+                                    },
+                                ],
+                                name: "Set Macroscopically Averaged ESP Data",
+                                operand: "array_from_context",
+                                value: 'averaged_potential_profile["yDataSeries"][1]',
+                            },
+                            type: "assignment",
+                        },
+                    ],
+                },
                 band_gap: {
                     application: { name: "espresso", version: "5.4.0" },
                     method: { name: "PseudopotentialMethod" },
@@ -464,6 +575,47 @@ module.exports = {
                             config: { execName: "pw.x", flavorName: "pw_scf", name: "pw_scf" },
                             functions: { head: true },
                             type: "executionBuilder",
+                        },
+                    ],
+                },
+                valence_band_offset_calc_from_previous_esp_vbm: {
+                    application: { name: "python", version: "3.8.6" },
+                    method: { name: "UnknownMethod" },
+                    model: { name: "UnknownModel" },
+                    name: "Calculate VBO",
+                    units: [
+                        {
+                            config: {
+                                name: "Difference of valence band maxima",
+                                operand: "VBM_DIFF",
+                                value: "VBM_LEFT - VBM_RIGHT",
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: {
+                                name: "Difference of macroscopically averaged ESP in bulk",
+                                operand: "AVG_ESP_DIFF",
+                                value: "AVG_ESP_LEFT[0] - AVG_ESP_RIGHT[0]",
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: {
+                                name: "Lineup of macroscopically averaged ESP in interface",
+                                operand: "ESP_LINEUP",
+                                value: "np.abs(AVG_ESP_INTERFACE[0] - AVG_ESP_INTERFACE[1])",
+                            },
+                            type: "assignment",
+                        },
+                        {
+                            config: {
+                                name: "Valence Band Offset",
+                                operand: "VALENCE_BAND_OFFSET",
+                                results: [{ name: "valence_band_offset" }],
+                                value: "abs(VBM_DIFF - AVG_ESP_DIFF + (np.sign(AVG_ESP_DIFF) * ESP_LINEUP))",
+                            },
+                            type: "assignment",
                         },
                     ],
                 },
@@ -1405,6 +1557,238 @@ module.exports = {
                 total_energy: {
                     name: "Total Energy",
                     units: [{ name: "total_energy", type: "subworkflow" }],
+                },
+                valence_band_offset: {
+                    name: "Valence Band Offset (2D)",
+                    units: [
+                        {
+                            config: { attributes: { name: "BS + Avg ESP (Interface)" } },
+                            name: "average_electrostatic_potential_via_band_structure",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: {
+                                        attributes: {
+                                            name: "Set Material Index (Interface)",
+                                            value: "0",
+                                        },
+                                    },
+                                    index: 0,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                        {
+                            config: { attributes: { name: "Find ESP Values (Interface)" } },
+                            name: "average_electrostastatic_potential_find_minima",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: { attributes: { operand: "AVG_ESP_INTERFACE" } },
+                                    index: 1,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                        {
+                            config: { attributes: { name: "BS + Avg ESP (interface left)" } },
+                            name: "average_electrostatic_potential_via_band_structure",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: {
+                                        attributes: {
+                                            name: "Set Material Index (Interface left)",
+                                            value: "1",
+                                        },
+                                    },
+                                    index: 0,
+                                    type: "assignment",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            flowchartId: "pw-bands-calculate-band-gap-left",
+                                        },
+                                    },
+                                    index: 2,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "band_gaps",
+                                                    scope: "pw-bands-calculate-band-gap-left",
+                                                },
+                                            ],
+                                        },
+                                    },
+                                    index: 3,
+                                    type: "assignment",
+                                },
+                                {
+                                    config: { attributes: { operand: "VBM_LEFT" } },
+                                    index: 4,
+                                    type: "assignment",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            flowchartId: "average-electrostatic-potential-left",
+                                        },
+                                    },
+                                    index: 7,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "averaged_potential_profile",
+                                                    scope: "average-electrostatic-potential-left",
+                                                },
+                                            ],
+                                        },
+                                    },
+                                    index: 8,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                        {
+                            config: { attributes: { name: "Find ESP Value (Interface left)" } },
+                            name: "average_electrostastatic_potential_find_minima",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: {
+                                        attributes: { flowchartId: "python-find-extrema-left" },
+                                    },
+                                    index: 0,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "STDOUT",
+                                                    scope: "python-find-extrema-left",
+                                                },
+                                            ],
+                                            operand: "AVG_ESP_LEFT",
+                                        },
+                                    },
+                                    index: 1,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                        {
+                            config: { attributes: { name: "BS + Avg ESP (interface right)" } },
+                            name: "average_electrostatic_potential_via_band_structure",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: {
+                                        attributes: {
+                                            name: "Set Material Index (Interface right)",
+                                            value: "2",
+                                        },
+                                    },
+                                    index: 0,
+                                    type: "assignment",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            flowchartId: "pw-bands-calculate-band-gap-right",
+                                        },
+                                    },
+                                    index: 2,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "band_gaps",
+                                                    scope: "pw-bands-calculate-band-gap-right",
+                                                },
+                                            ],
+                                        },
+                                    },
+                                    index: 3,
+                                    type: "assignment",
+                                },
+                                {
+                                    config: { attributes: { operand: "VBM_RIGHT" } },
+                                    index: 4,
+                                    type: "assignment",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            flowchartId: "average-electrostatic-potential-right",
+                                        },
+                                    },
+                                    index: 7,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "averaged_potential_profile",
+                                                    scope: "average-electrostatic-potential-right",
+                                                },
+                                            ],
+                                        },
+                                    },
+                                    index: 8,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                        {
+                            config: { attributes: { name: "Find ESP Value (Interface right)" } },
+                            name: "average_electrostastatic_potential_find_minima",
+                            type: "subworkflow",
+                            unitConfigs: [
+                                {
+                                    config: {
+                                        attributes: { flowchartId: "python-find-extrema-right" },
+                                    },
+                                    index: 0,
+                                    type: "executionBuilder",
+                                },
+                                {
+                                    config: {
+                                        attributes: {
+                                            input: [
+                                                {
+                                                    name: "STDOUT",
+                                                    scope: "python-find-extrema-right",
+                                                },
+                                            ],
+                                            operand: "AVG_ESP_RIGHT",
+                                        },
+                                    },
+                                    index: 1,
+                                    type: "assignment",
+                                },
+                            ],
+                        },
+                        {
+                            name: "valence_band_offset_calc_from_previous_esp_vbm",
+                            type: "subworkflow",
+                        },
+                    ],
                 },
                 variable_cell_relaxation: {
                     name: "Variable-cell Relaxation",
