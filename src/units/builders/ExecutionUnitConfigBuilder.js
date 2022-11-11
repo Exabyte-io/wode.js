@@ -1,16 +1,17 @@
 import { Application, Executable, Flavor } from "@exabyte-io/ade.js";
+
 import { UNIT_TYPES } from "../../enums";
-
 import { UnitConfigBuilder } from "./UnitConfigBuilder";
-
 
 export class ExecutionUnitConfigBuilder extends UnitConfigBuilder {
     static Application = Application;
+
     static Executable = Executable;
+
     static Flavor = Flavor;
 
-    constructor(name, application, execName, flavorName) {
-        super({name, type: UNIT_TYPES.execution});
+    constructor(name, application, execName, flavorName, flowchartId) {
+        super({ name, type: UNIT_TYPES.execution, flowchartId });
 
         try {
             this.initialize(application, execName, flavorName);
@@ -28,8 +29,14 @@ export class ExecutionUnitConfigBuilder extends UnitConfigBuilder {
 
     initialize(application, execName, flavorName) {
         this.application = application;
-        this.executable = this.constructor.Executable.create({name: execName, application: this.application});
-        this.flavor = this.constructor.Flavor.create({name: flavorName, executable: this.executable});
+        this.executable = this.constructor.Executable.create({
+            name: execName,
+            application: this.application,
+        });
+        this.flavor = this.constructor.Flavor.create({
+            name: flavorName,
+            executable: this.executable,
+        });
     }
 
     build() {
