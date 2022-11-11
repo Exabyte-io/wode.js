@@ -8,9 +8,9 @@
 # Then, calculates the band offset based on the data extracted.
 #
 # Relevant references:
-# - http://dx.doi.org/10.1103/PhysRevLett.61.734
-# - http://dx.doi.org/10.1103/physrevb.44.5572
-# - http://dx.doi.org/10.1088/0953-8984/19/21/213203
+#   - http://dx.doi.org/10.1103/PhysRevLett.61.734
+#   - http://dx.doi.org/10.1103/physrevb.44.5572
+#   - http://dx.doi.org/10.1088/0953-8984/19/21/213203
 #
 
 name: Valence Band Offset (2D)
