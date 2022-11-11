@@ -1,11 +1,21 @@
-# Determines the valence band offset for a 2D interface via the potential lineup method
+# Valence band offset for an interface via the potential lineup method.
+# Designed to work with a 2D heterostructure, e.g. MoS2 on WS2.
+# The workflow assumes 3 structures being present:
+#   - Interface - e.g. MoS2/WS2 heterostructure
+#   - Interface Left - e.g. MoS2
+#   - Interface Right - e.g. WS2
+# and repeats bandstructure + electrostatic potential calculation (subworkflow) for them.
+# Then, calculates the band offset based on the data extracted.
 #
 # Relevant references:
-# http://dx.doi.org/10.1103/PhysRevLett.61.734
-# http://dx.doi.org/10.1103/physrevb.44.5572
-# http://dx.doi.org/10.1088/0953-8984/19/21/213203
+# - http://dx.doi.org/10.1103/PhysRevLett.61.734
+# - http://dx.doi.org/10.1103/physrevb.44.5572
+# - http://dx.doi.org/10.1088/0953-8984/19/21/213203
+#
+
 name: Valence Band Offset (2D)
 units:
+
 # interface-related subworkflows
 - name: average_electrostatic_potential_via_band_structure
   type: subworkflow
@@ -30,6 +40,7 @@ units:
       config:
         attributes:
           operand: AVG_ESP_INTERFACE
+
 # interface-left-related subworkflows
 - name: average_electrostatic_potential_via_band_structure
   type: subworkflow
@@ -91,6 +102,7 @@ units:
           input:
             - name: STDOUT
               scope: python-find-extrema-left
+
 # interface-right-related subworkflows
 - name: average_electrostatic_potential_via_band_structure
   type: subworkflow
@@ -152,6 +164,7 @@ units:
           input:
             - name: STDOUT
               scope: python-find-extrema-right
+
 # final subworkflow to calculate valence band offset
 - name: valence_band_offset_calc_from_previous_esp_vbm
   type: subworkflow
