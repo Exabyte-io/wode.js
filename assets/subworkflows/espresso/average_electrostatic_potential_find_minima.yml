@@ -18,7 +18,7 @@ units:
         flowchartId: python-find-extrema
     type: executionBuilder
 -   config:
-        name: Set Averaged ESP Value
+        name: Set Average ESP Value
         operand: AVG_ESP
         value: 'json.loads(STDOUT)["minima"]'
         input:
