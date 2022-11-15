@@ -2,7 +2,7 @@ module.exports = {
     workflowData: {
         subworkflows: {
             espresso: {
-                average_electrostastatic_potential_find_minima: {
+                average_electrostatic_potential_find_minima: {
                     application: { name: "python", version: "3.8.6" },
                     method: { name: "UnknownMethod" },
                     model: { name: "UnknownModel" },
@@ -20,7 +20,7 @@ module.exports = {
                         {
                             config: {
                                 input: [{ name: "STDOUT", scope: "python-find-extrema" }],
-                                name: "Set Averaged ESP Value",
+                                name: "Set Average ESP Value",
                                 operand: "AVG_ESP",
                                 value: 'json.loads(STDOUT)["minima"]',
                             },
@@ -33,7 +33,7 @@ module.exports = {
                     config: { isMultiMaterial: true },
                     method: { name: "PseudopotentialMethod" },
                     model: { name: "DFTModel" },
-                    name: "Band Structure + averaged ESP",
+                    name: "Band Structure + average ESP",
                     units: [
                         {
                             config: {
@@ -91,7 +91,7 @@ module.exports = {
                         {
                             config: {
                                 execName: "average.x",
-                                flavorName: "averaged_potential",
+                                flavorName: "average_potential",
                                 flowchartId: "average-electrostatic-potential",
                                 name: "average ESP",
                             },
@@ -101,13 +101,13 @@ module.exports = {
                             config: {
                                 input: [
                                     {
-                                        name: "averaged_potential_profile",
+                                        name: "average_potential_profile",
                                         scope: "average-electrostatic-potential",
                                     },
                                 ],
                                 name: "Set Macroscopically Averaged ESP Data",
                                 operand: "array_from_context",
-                                value: 'averaged_potential_profile["yDataSeries"][1]',
+                                value: 'average_potential_profile["yDataSeries"][1]',
                             },
                             type: "assignment",
                         },
@@ -1580,7 +1580,7 @@ module.exports = {
                         },
                         {
                             config: { attributes: { name: "Find ESP Values (Interface)" } },
-                            name: "average_electrostastatic_potential_find_minima",
+                            name: "average_electrostatic_potential_find_minima",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
@@ -1647,7 +1647,7 @@ module.exports = {
                                         attributes: {
                                             input: [
                                                 {
-                                                    name: "averaged_potential_profile",
+                                                    name: "average_potential_profile",
                                                     scope: "average-electrostatic-potential-left",
                                                 },
                                             ],
@@ -1660,7 +1660,7 @@ module.exports = {
                         },
                         {
                             config: { attributes: { name: "Find ESP Value (Interface left)" } },
-                            name: "average_electrostastatic_potential_find_minima",
+                            name: "average_electrostatic_potential_find_minima",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
@@ -1744,7 +1744,7 @@ module.exports = {
                                         attributes: {
                                             input: [
                                                 {
-                                                    name: "averaged_potential_profile",
+                                                    name: "average_potential_profile",
                                                     scope: "average-electrostatic-potential-right",
                                                 },
                                             ],
@@ -1757,7 +1757,7 @@ module.exports = {
                         },
                         {
                             config: { attributes: { name: "Find ESP Value (Interface right)" } },
-                            name: "average_electrostastatic_potential_find_minima",
+                            name: "average_electrostatic_potential_find_minima",
                             type: "subworkflow",
                             unitConfigs: [
                                 {
