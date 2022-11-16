@@ -53,7 +53,9 @@ export class IOUnit extends BaseUnit {
 
     get availableFeatures() {
         const { materials } = this;
-        return lodash.uniq(lodash.flatten(materials.map((x) => lodash.keys(x.propertiesDict()))).concat(this.features));
+        return lodash
+            .uniq(lodash.flatten(materials.map((x) => lodash.keys(x.propertiesDict())))
+                .concat(this.features));
     }
 
     get availableFeaturesWithoutId() {

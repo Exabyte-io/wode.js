@@ -46,7 +46,10 @@ export function applyConfig({ obj, config = {}, callBuild = false }) {
     // eslint-disable-next-line no-restricted-syntax
     for (const [func, args] of Object.entries(functions)) {
         // eslint-disable-next-line no-nested-ternary
-        obj[func] ? (args ? obj[func](args) : obj[func]()) : null;
+        if (obj[func]) {
+            if (args) obj[func](args);
+            else obj[func]();
+        }
     }
     const modified = callBuild ? obj.build() : obj;
     // eslint-disable-next-line no-restricted-syntax

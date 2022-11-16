@@ -17,8 +17,12 @@ function getAssignmentUnitInput(unit, name) {
     ];
 }
 
-const getSurfaceEnergySubworkflowUnits = function ({ scfUnit, unitBuilders }) {
-    const { IOUnitConfigBuilder, AssignmentUnitConfigBuilder, AssertionUnitConfigBuilder } = unitBuilders;
+function getSurfaceEnergySubworkflowUnits({ scfUnit, unitBuilders }) {
+    const {
+        IOUnitConfigBuilder,
+        AssignmentUnitConfigBuilder,
+        AssertionUnitConfigBuilder,
+    } = unitBuilders;
 
     let input,
         endpointOptions;
@@ -82,6 +86,6 @@ const getSurfaceEnergySubworkflowUnits = function ({ scfUnit, unitBuilders }) {
         setESlabUnit,
         surfaceEnergyUnit,
     ];
-};
+}
 
 export { getSurfaceEnergySubworkflowUnits };

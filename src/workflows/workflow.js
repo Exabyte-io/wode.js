@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { NamedDefaultableRepetitionContextAndRenderInMemoryEntity } from "@exabyte-io/code.js/dist/entity";
 import { calculateHashFromObject, getUUID } from "@exabyte-io/code.js/dist/utils";
 import { ComputedEntityMixin, getDefaultComputeConfig } from "@exabyte-io/ide.js";
@@ -32,7 +33,7 @@ export class Workflow extends BaseWorkflow {
         this._UnitFactory = UnitFactory;
         this._Workflow = Workflow;
         this._MapUnit = MapUnit;
-        !config.skipInitialize && this.initialize();
+        if (!config.skipInitialize) this.initialize();
     }
 
     // TODO: figure out how to avoid circular dependency on import in the platform webapp and re-enable or remove
@@ -95,7 +96,7 @@ export class Workflow extends BaseWorkflow {
 
     removeSubworkflow(id) {
         const subworkflowUnit = this.units.find((u) => u.id === id);
-        subworkflowUnit && this.removeUnit(subworkflowUnit.flowchartId);
+        if (subworkflowUnit) this.removeUnit(subworkflowUnit.flowchartId);
     }
 
     subworkflowId(index) {
@@ -215,13 +216,13 @@ export class Workflow extends BaseWorkflow {
     setMethodData(methodData) {
         this.subworkflows.forEach((sw) => {
             const method = methodData.getMethodBySubworkflow(sw);
-            method && sw.model.setMethod(method);
+            if (method) sw.model.setMethod(method);
         });
 
         this.workflows.forEach((wf) => {
             wf.subworkflows.forEach((sw) => {
                 const method = methodData.getMethodBySubworkflow(sw);
-                method && sw.model.setMethod(method);
+                if (method) sw.model.setMethod(method);
             });
         });
     }
@@ -239,8 +240,10 @@ export class Workflow extends BaseWorkflow {
         } else {
             if (head) {
                 units.unshift(unit);
+            } else if (index >= 0) {
+                units.splice(index, 0, unit);
             } else {
-                index >= 0 ? units.splice(index, 0, unit) : units.push(unit);
+                units.push(unit);
             }
             this.setUnits(setNextLinks(setUnitsHead(units)));
         }
@@ -326,7 +329,9 @@ export class Workflow extends BaseWorkflow {
     get allSubworkflows() {
         const subworkflowsList = [];
         this.subworkflows.forEach((sw) => subworkflowsList.push(sw));
-        this.workflows.forEach((workflow) => Array.prototype.push.apply(subworkflowsList, workflow.allSubworkflows));
+        this.workflows.forEach((workflow) => {
+            return Array.prototype.push.apply(subworkflowsList, workflow.allSubworkflows);
+        });
         return subworkflowsList;
     }
 

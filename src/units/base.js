@@ -4,6 +4,7 @@ import lodash from "lodash";
 
 import { UNIT_STATUSES } from "../enums";
 
+// eslint-disable-next-line max-len
 export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity {
     constructor(config) {
         super({

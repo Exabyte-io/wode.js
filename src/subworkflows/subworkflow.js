@@ -217,7 +217,8 @@ export class Subworkflow extends BaseSubworkflow {
             } else {
                 const last = lodash.last(units);
                 last.next = unit.flowchartId;
-                index >= 0 ? units.splice(index, 0, unit) : units.push(unit);
+                if (index >= 0) units.splice(index, 0, unit);
+                else units.push(unit);
             }
             this.setUnits(setNextLinks(setUnitsHead(units)));
         }
