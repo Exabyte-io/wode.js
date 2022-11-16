@@ -46,7 +46,7 @@
     },
     "devDependencies": {
         "@exabyte-io/made.js": "2022.6.15-0",
-        "@exabyte-io/ade.js": "2022.11.15-0",
+        "@exabyte-io/ade.js": "2022.11.16-0",
         "@exabyte-io/ide.js": "2022.7.28-1",
         "@exabyte-io/mode.js": "2022.10.11-0",
         "@exabyte-io/code.js": "2022.11.11-0",
