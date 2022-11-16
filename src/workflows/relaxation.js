@@ -1,7 +1,6 @@
 import { createSubworkflowByName } from "../subworkflows";
 
 export const RelaxationLogicMixin = (superclass) => class extends superclass {
-
     // TODO: figure out how to avoid circular dependency on import in the platform webapp and re-enable or remove
     // get _allRelaxationSubworkflows() {
     //     /*
@@ -24,21 +23,20 @@ export const RelaxationLogicMixin = (superclass) => class extends superclass {
     }
 
     isRelaxationSubworkflow(subworkflow) {
-        return Object.values(this._allRelaxationSubworkflows).map(sw => sw.systemName).includes(subworkflow.systemName)
+        return Object.values(this._allRelaxationSubworkflows).map((sw) => sw.systemName).includes(subworkflow.systemName);
     }
 
     get hasRelaxation() {
-        return Boolean(this.subworkflows.find(subworkflow => this.isRelaxationSubworkflow(subworkflow)));
+        return Boolean(this.subworkflows.find((subworkflow) => this.isRelaxationSubworkflow(subworkflow)));
     }
 
     toggleRelaxation() {
         if (this.hasRelaxation) {
-            const relaxSubworkflow = this.subworkflows.find(sw => this.isRelaxationSubworkflow(sw));
+            const relaxSubworkflow = this.subworkflows.find((sw) => this.isRelaxationSubworkflow(sw));
             this.removeSubworkflow(relaxSubworkflow.id);
         } else {
             const vcRelax = this.relaxationSubworkflow;
             this.addSubworkflow(vcRelax, true);
         }
     }
-
 };

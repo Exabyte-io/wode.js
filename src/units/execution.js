@@ -109,9 +109,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     get allContextProviders() {
         const list = [];
         // pass context below to keep UI changes
-        this.templates.forEach((i) =>
-            list.push(...i.getContextProvidersAsClassInstances(this.getCombinedContext())),
-        );
+        this.templates.forEach((i) => list.push(...i.getContextProvidersAsClassInstances(this.getCombinedContext())));
         return list;
     }
 
@@ -121,9 +119,9 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
 
     get input() {
         return (
-            this.prop("input") ||
-            this.flavor.getInputAsRenderedTemplates(this.getCombinedContext()) ||
-            []
+            this.prop("input")
+            || this.flavor.getInputAsRenderedTemplates(this.getCombinedContext())
+            || []
         );
     }
 

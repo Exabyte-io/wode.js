@@ -1,6 +1,5 @@
 import { UNIT_TYPES } from "../../enums";
-
-import {UnitConfigBuilder} from "./UnitConfigBuilder";
+import { UnitConfigBuilder } from "./UnitConfigBuilder";
 
 export class IOUnitConfigBuilder extends UnitConfigBuilder {
     constructor(name, endpointName, endpointOptions) {
@@ -47,8 +46,8 @@ export class IOUnitConfigBuilder extends UnitConfigBuilder {
                     endpoint: this._endpointName,
                     endpoint_options: this._endpointOptions,
                     name: this._variableName,
-                }
-            ]
+                },
+            ],
         };
     }
 }

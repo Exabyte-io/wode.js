@@ -1,6 +1,5 @@
-import { BaseUnit } from "./base";
-
 import { UNIT_TYPES } from "../enums";
+import { BaseUnit } from "./base";
 
 export class AssignmentUnit extends BaseUnit {
     constructor(config) {
@@ -14,7 +13,7 @@ export class AssignmentUnit extends BaseUnit {
             operand: "X",
             value: 1,
             input: [],
-        }
+        };
     }
 
     get operand() {
@@ -30,6 +29,6 @@ export class AssignmentUnit extends BaseUnit {
     }
 
     getHashObject() {
-        return { input: this.input, operand: this.operand, value: this.value }
+        return { input: this.input, operand: this.operand, value: this.value };
     }
 }

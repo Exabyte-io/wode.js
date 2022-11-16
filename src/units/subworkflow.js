@@ -1,10 +1,7 @@
+import { UNIT_TYPES } from "../enums";
 import { BaseUnit } from "./base";
 
-import { UNIT_TYPES } from "../enums";
-
-
 export class SubworkflowUnit extends BaseUnit {
-
     constructor(config) {
         super({ ...SubworkflowUnit.getSubworkflowConfig(), ...config });
     }
@@ -13,7 +10,6 @@ export class SubworkflowUnit extends BaseUnit {
         return {
             name: "New Subworkflow",
             type: UNIT_TYPES.subworkflow,
-        }
+        };
     }
-
 }

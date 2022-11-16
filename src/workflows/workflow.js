@@ -326,9 +326,7 @@ export class Workflow extends BaseWorkflow {
     get allSubworkflows() {
         const subworkflowsList = [];
         this.subworkflows.forEach((sw) => subworkflowsList.push(sw));
-        this.workflows.forEach((workflow) =>
-            Array.prototype.push.apply(subworkflowsList, workflow.allSubworkflows),
-        );
+        this.workflows.forEach((workflow) => Array.prototype.push.apply(subworkflowsList, workflow.allSubworkflows));
         return subworkflowsList;
     }
 

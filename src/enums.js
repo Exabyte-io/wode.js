@@ -7,31 +7,31 @@ export const IO_ID_COLUMN = "exabyteId";
 
 export const UNIT_TYPES = {
     // not currently used
-    convergence: 'convergence',
-    exit: 'exit',
+    convergence: "convergence",
+    exit: "exit",
     // actively used
-    execution: 'execution',
-    map: 'map',
-    reduce: 'reduce',
-    assignment: 'assignment',
-    condition: 'condition',
-    subworkflow: 'subworkflow',
-    processing: 'processing',
-    io: 'io',
-    assertion: 'assertion',
+    execution: "execution",
+    map: "map",
+    reduce: "reduce",
+    assignment: "assignment",
+    condition: "condition",
+    subworkflow: "subworkflow",
+    processing: "processing",
+    io: "io",
+    assertion: "assertion",
 };
 
 export const UNIT_STATUSES = {
-    idle: 'idle',
-    active: 'active',
-    finished: 'finished',
-    error: 'error',
-    warning: 'warning'
+    idle: "idle",
+    active: "active",
+    finished: "finished",
+    error: "error",
+    warning: "warning",
 };
 
 export const WORKFLOW_STATUSES = {
     "up-to-date": "up-to-date",
-    "outdated": "outdated",
+    outdated: "outdated",
 };
 
 export const TAB_NAVIGATION_CONFIG = {
@@ -57,4 +57,4 @@ export const TAB_NAVIGATION_CONFIG = {
     },
 };
 
-export const UNIT_NAME_INVALID_CHARS = '/';
+export const UNIT_NAME_INVALID_CHARS = "/";

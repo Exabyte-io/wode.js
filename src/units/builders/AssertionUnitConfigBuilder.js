@@ -1,6 +1,5 @@
 import { UNIT_TYPES } from "../../enums";
-
-import {UnitConfigBuilder} from "./UnitConfigBuilder";
+import { UnitConfigBuilder } from "./UnitConfigBuilder";
 
 export class AssertionUnitConfigBuilder extends UnitConfigBuilder {
     constructor(name, statement, errorMessage) {

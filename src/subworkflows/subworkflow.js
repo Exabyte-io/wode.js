@@ -40,11 +40,9 @@ export class Subworkflow extends BaseSubworkflow {
             ...this.prop("model"),
             application: this.prop("application"),
         });
-        this._units = setNextLinks(setUnitsHead(this.prop("units", [])), this.id).map((cfg) =>
-            this._UnitFactory.create(
-                Object.assign(cfg, { application: this.application.toJSON() }),
-            ),
-        );
+        this._units = setNextLinks(setUnitsHead(this.prop("units", [])), this.id).map((cfg) => this._UnitFactory.create(
+            Object.assign(cfg, { application: this.application.toJSON() }),
+        ));
     }
 
     static generateSubworkflowId() {

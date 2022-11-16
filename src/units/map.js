@@ -1,17 +1,17 @@
-import { BaseUnit } from "./base";
 import { UNIT_TYPES } from "../enums";
+import { BaseUnit } from "./base";
 
 export const defaultMapConfig = {
     name: UNIT_TYPES.map,
     type: UNIT_TYPES.map,
-    "workflowId": "",
-    "input": {
-        "target": "MAP_DATA",
-        "scope": "global",
-        "name": "",
-        "values": [],
-        "useValues": false
-    }
+    workflowId: "",
+    input: {
+        target: "MAP_DATA",
+        scope: "global",
+        name: "",
+        values: [],
+        useValues: false,
+    },
 };
 
 export class MapUnit extends BaseUnit {
@@ -30,5 +30,4 @@ export class MapUnit extends BaseUnit {
     setWorkflowId(id) {
         this.setProp("workflowId", id);
     }
-
 }

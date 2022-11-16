@@ -1,6 +1,5 @@
-import { BaseUnit } from "./base";
-
 import { UNIT_TYPES } from "../enums";
+import { BaseUnit } from "./base";
 
 export class ProcessingUnit extends BaseUnit {
     constructor(config) {
@@ -11,7 +10,7 @@ export class ProcessingUnit extends BaseUnit {
         return {
             name: UNIT_TYPES.processing,
             type: UNIT_TYPES.processing,
-        }
+        };
     }
 
     setOperation(op) {
@@ -37,5 +36,4 @@ export class ProcessingUnit extends BaseUnit {
     get input() {
         return this.prop("input");
     }
-
 }

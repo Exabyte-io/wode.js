@@ -68,12 +68,16 @@ function createMethod({ config, methodFactoryCls }) {
  * @param methodFactoryCls {any} method factory class
  * @returns {{application: *, method: *, model: (DFTModel|Model), setSearchText: String|null}}
  */
-function createTopLevel({ subworkflowData, applicationCls, modelFactoryCls, methodFactoryCls }) {
+function createTopLevel({
+    subworkflowData, applicationCls, modelFactoryCls, methodFactoryCls,
+}) {
     const { application: appConfig, model: modelConfig, method: methodConfig } = subworkflowData;
     const application = createApplication({ config: appConfig, applicationCls });
     const model = createModel({ config: modelConfig, modelFactoryCls });
     const { method, setSearchText } = createMethod({ config: methodConfig, methodFactoryCls });
-    return { application, model, method, setSearchText };
+    return {
+        application, model, method, setSearchText,
+    };
 }
 
 /**
@@ -86,10 +90,14 @@ function createTopLevel({ subworkflowData, applicationCls, modelFactoryCls, meth
  * @param unitFactoryCls {*} workflow unit class factory
  * @returns {*|{head: boolean, preProcessors: [], postProcessors: [], name: *, flowchartId: *, type: *, results: [], monitors: []}}
  */
-function createUnit({ config, application, unitBuilders, unitFactoryCls }) {
+function createUnit({
+    config, application, unitBuilders, unitFactoryCls,
+}) {
     const { type, config: unitConfig } = config;
     if (type === "executionBuilder") {
-        const { name, execName, flavorName, flowchartId } = unitConfig;
+        const {
+            name, execName, flavorName, flowchartId,
+        } = unitConfig;
         const builder = new unitBuilders.ExecutionUnitConfigBuilder(
             name,
             application,
@@ -145,7 +153,9 @@ function createSubworkflow({
     unitFactoryCls = UnitFactory,
     unitBuilders = builders,
 }) {
-    const { application, model, method, setSearchText } = createTopLevel({
+    const {
+        application, model, method, setSearchText,
+    } = createTopLevel({
         subworkflowData,
         applicationCls,
         modelFactoryCls,
@@ -153,7 +163,9 @@ function createSubworkflow({
     });
 
     let units = [];
-    const { name, units: unitConfigs, config = {}, dynamicSubworkflow = null } = subworkflowData;
+    const {
+        name, units: unitConfigs, config = {}, dynamicSubworkflow = null,
+    } = subworkflowData;
     unitConfigs.forEach((_config) => {
         units.push(
             createUnit({

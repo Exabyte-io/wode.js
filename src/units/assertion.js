@@ -1,7 +1,5 @@
-import { BaseUnit } from "./base";
-
 import { UNIT_TYPES } from "../enums";
-
+import { BaseUnit } from "./base";
 
 export class AssertionUnit extends BaseUnit {
     constructor(config) {
@@ -14,7 +12,7 @@ export class AssertionUnit extends BaseUnit {
             type: UNIT_TYPES.assertion,
             statement: "true",
             errorMessage: "assertion failed",
-        }
+        };
     }
 
     get statement() {
@@ -28,5 +26,4 @@ export class AssertionUnit extends BaseUnit {
     getHashObject() {
         return { statement: this.statement, errorMessage: this.errorMessage };
     }
-
 }
