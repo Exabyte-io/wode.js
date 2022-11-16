@@ -7,7 +7,7 @@ method:
     name: PseudopotentialMethod
 model:
     name: DFTModel
-name: Band Structure + averaged ESP
+name: Band Structure + average ESP
 units:
 -   config:
         name: Set Material Index
@@ -53,15 +53,15 @@ units:
     type: executionBuilder
 -   config:
         execName: average.x
-        flavorName: averaged_potential
+        flavorName: average_potential
         name: average ESP
         flowchartId: average-electrostatic-potential
     type: executionBuilder
 -   config:
         name: Set Macroscopically Averaged ESP Data
         operand: array_from_context
-        value: 'averaged_potential_profile["yDataSeries"][1]'
+        value: 'average_potential_profile["yDataSeries"][1]'
         input:
-          - name: averaged_potential_profile
+          - name: average_potential_profile
             scope: average-electrostatic-potential
     type: assignment

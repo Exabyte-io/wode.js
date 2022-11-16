@@ -29,7 +29,7 @@ units:
         attributes:
           name: Set Material Index (Interface)
           value: '0'
-- name: average_electrostastatic_potential_find_minima
+- name: average_electrostatic_potential_find_minima
   type: subworkflow
   config:
     attributes:
@@ -81,9 +81,9 @@ units:
       config:
         attributes:
           input:
-            - name: averaged_potential_profile
+            - name: average_potential_profile
               scope: average-electrostatic-potential-left
-- name: average_electrostastatic_potential_find_minima
+- name: average_electrostatic_potential_find_minima
   type: subworkflow
   config:
     attributes:
@@ -143,9 +143,9 @@ units:
       config:
         attributes:
           input:
-            - name: averaged_potential_profile
+            - name: average_potential_profile
               scope: average-electrostatic-potential-right
-- name: average_electrostastatic_potential_find_minima
+- name: average_electrostatic_potential_find_minima
   type: subworkflow
   config:
     attributes:
