@@ -30,7 +30,11 @@ export class IOUnit extends BaseUnit {
         this._materials = [];
         this._defaultTargets = ["band_gaps:direct", "band_gaps:indirect"];
         this._features = lodash.get(config, "input.0.endpoint_options.data.features", []);
-        this._targets = lodash.get(config, "input.0.endpoint_options.data.targets", this._defaultTargets);
+        this._targets = lodash.get(
+            config,
+            "input.0.endpoint_options.data.targets",
+            this._defaultTargets,
+        );
         this._ids = lodash.get(config, "input.0.endpoint_options.data.ids", []);
         this._jobId = null;
     }
@@ -53,9 +57,11 @@ export class IOUnit extends BaseUnit {
 
     get availableFeatures() {
         const { materials } = this;
-        return lodash
-            .uniq(lodash.flatten(materials.map((x) => lodash.keys(x.propertiesDict())))
-                .concat(this.features));
+        return lodash.uniq(
+            lodash
+                .flatten(materials.map((x) => lodash.keys(x.propertiesDict())))
+                .concat(this.features),
+        );
     }
 
     get availableFeaturesWithoutId() {
@@ -107,7 +113,6 @@ export class IOUnit extends BaseUnit {
                     },
                 },
             ],
-
         };
     }
 

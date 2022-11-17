@@ -10,7 +10,12 @@ import { UNIT_TYPES } from "../../../enums";
 function getQpointIrrep({ unitBuilders, unitFactoryCls, application }) {
     const { ExecutionUnitConfigBuilder } = unitBuilders;
 
-    const pythonUnit = new ExecutionUnitConfigBuilder("python", application, "python", "espresso_xml_get_qpt_irr").build();
+    const pythonUnit = new ExecutionUnitConfigBuilder(
+        "python",
+        application,
+        "python",
+        "espresso_xml_get_qpt_irr",
+    ).build();
 
     const assignmentUnit = unitFactoryCls.create({
         type: UNIT_TYPES.assignment,
@@ -24,10 +29,7 @@ function getQpointIrrep({ unitBuilders, unitFactoryCls, application }) {
         value: "json.loads(STDOUT)",
     });
 
-    return [
-        pythonUnit,
-        assignmentUnit,
-    ];
+    return [pythonUnit, assignmentUnit];
 }
 
 export { getQpointIrrep };

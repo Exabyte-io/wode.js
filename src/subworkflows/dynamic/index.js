@@ -5,7 +5,4 @@ const dynamicSubworkflowsByApp = {
     espresso: { getQpointIrrep },
 };
 
-export {
-    getSurfaceEnergySubworkflowUnits,
-    dynamicSubworkflowsByApp,
-};
+export { getSurfaceEnergySubworkflowUnits, dynamicSubworkflowsByApp };

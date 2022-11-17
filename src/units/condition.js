@@ -18,7 +18,6 @@ export class ConditionUnit extends BaseUnit {
             else: undefined,
             statement: "true",
             maxOccurrences: 100,
-
         };
     }
 
