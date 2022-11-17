@@ -2,7 +2,7 @@ import { getUUID } from "@exabyte-io/code.js/dist/utils";
 import _ from "underscore";
 
 export class UnitConfigBuilder {
-    constructor({ name, type }) {
+    constructor({ name, type, flowchartId }) {
         this.type = type;
         this._name = name;
         this._head = false;
@@ -10,7 +10,7 @@ export class UnitConfigBuilder {
         this._monitors = [];
         this._preProcessors = [];
         this._postProcessors = [];
-        this._flowchartId = this.constructor.generateFlowChartId();
+        this._flowchartId = flowchartId || this.constructor.generateFlowChartId();
     }
 
     name(str) {

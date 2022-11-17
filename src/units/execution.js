@@ -26,7 +26,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         this._application = this.constructor.Application.create(config.application);
         this._executable = this._application.getExecutableByConfig(config.executable);
         this._flavor = this._executable.getFlavorByConfig(config.flavor);
-        this._templates = this._flavor.inputAsTemplates;
+        this._templates = this._flavor ? this._flavor.inputAsTemplates : [];
     }
 
     _initRuntimeItems(keys, config) {
@@ -146,6 +146,16 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         return _.omit(this.renderingContext, ...this.constructor.omitKeys);
     }
 
+    static getSubworkflowContext(context) {
+        const { subworkflowContext } = context;
+        return subworkflowContext ? { subworkflowContext } : {};
+    }
+
+    /** Update rendering context and persistent context
+     * Note: this function is sometimes being called without passing a context!
+     * @param context
+     * @param fromTemplates
+     */
     render(context, fromTemplates = false) {
         const newInput = [];
         const newPersistentContext = {};
@@ -157,10 +167,12 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
             Object.assign(
                 newRenderingContext,
                 t.getDataFromProvidersForRenderingContext(renderingContext),
+                ExecutionUnit.getSubworkflowContext(renderingContext),
             );
             Object.assign(
                 newPersistentContext,
                 t.getDataFromProvidersForPersistentContext(renderingContext),
+                ExecutionUnit.getSubworkflowContext(renderingContext),
             );
         });
         this.setInput(newInput);

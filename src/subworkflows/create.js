@@ -1,16 +1,18 @@
 import { Application } from "@exabyte-io/ade.js";
-import { MethodFactory, ModelFactory } from "@exabyte-io/mode.js";
-import { default_models as ModelConfigs, default_methods as MethodConfigs } from "@exabyte-io/mode.js";
-import { Subworkflow } from "./subworkflow";
+import {
+    default_methods as MethodConfigs,
+    default_models as ModelConfigs,
+    MethodFactory,
+    ModelFactory,
+} from "@exabyte-io/mode.js";
+import _ from "lodash";
+
 import { UnitFactory } from "../units";
 import { builders } from "../units/builders";
 import { applyConfig } from "../utils";
 import { workflowData as allWorkflowData } from "../workflows/workflows";
-
-import {
-    getSurfaceEnergySubworkflowUnits,
-    dynamicSubworkflowsByApp,
-} from "./dynamic";
+import { dynamicSubworkflowsByApp, getSurfaceEnergySubworkflowUnits } from "./dynamic";
+import { Subworkflow } from "./subworkflow";
 
 /**
  * @summary Thin wrapper around Application.createFromStored for extensibility
@@ -23,11 +25,11 @@ function createApplication({ config, applicationCls }) {
     return applicationCls.create({ name, version, build });
 }
 
-
 // NOTE: DFTModel => DFTModelConfig, configs should have the same name as the model/method class + "Config" at the end
 function _getConfigFromModelOrMethodName(name, kind) {
     const configs = kind === "Model" ? ModelConfigs : MethodConfigs;
-    if (!Boolean(configs[`${name}Config`])) {
+    if (!configs[`${name}Config`]) {
+        // eslint-disable-next-line no-param-reassign
         name = `Unknown${kind}`;
     }
     return configs[`${name}Config`];
@@ -48,11 +50,10 @@ function createModel({ config, modelFactoryCls }) {
 /**
  * @summary Create method from subworkflow data
  * @param config {Object} method configuration
- * @param application {any} application to create method from
  * @param methodFactoryCls {any}
  * @returns {{method, setSearchText}}
  */
-function createMethod({ config, application, methodFactoryCls }) {
+function createMethod({ config, methodFactoryCls }) {
     const { name, setSearchText = null, config: methodConfig = {} } = config;
     const defaultConfig = _getConfigFromModelOrMethodName(name, "Method");
     const method = methodFactoryCls.create({ ...defaultConfig, ...methodConfig });
@@ -71,9 +72,7 @@ function createTopLevel({ subworkflowData, applicationCls, modelFactoryCls, meth
     const { application: appConfig, model: modelConfig, method: methodConfig } = subworkflowData;
     const application = createApplication({ config: appConfig, applicationCls });
     const model = createModel({ config: modelConfig, modelFactoryCls });
-    const { method, setSearchText } = createMethod({
-        config: methodConfig, application, methodFactoryCls
-    });
+    const { method, setSearchText } = createMethod({ config: methodConfig, methodFactoryCls });
     return { application, model, method, setSearchText };
 }
 
@@ -90,11 +89,17 @@ function createTopLevel({ subworkflowData, applicationCls, modelFactoryCls, meth
 function createUnit({ config, application, unitBuilders, unitFactoryCls }) {
     const { type, config: unitConfig } = config;
     if (type === "executionBuilder") {
-        const { name, execName, flavorName } = unitConfig;
-        let builder = new unitBuilders.ExecutionUnitConfigBuilder(name, application, execName, flavorName);
+        const { name, execName, flavorName, flowchartId } = unitConfig;
+        const builder = new unitBuilders.ExecutionUnitConfigBuilder(
+            name,
+            application,
+            execName,
+            flavorName,
+            flowchartId,
+        );
 
         // config should contain "functions" and "attributes"
-        const cfg = applyConfig({ obj: builder, config: config, callBuild: true });
+        const cfg = applyConfig({ obj: builder, config, callBuild: true });
         return unitFactoryCls.create(cfg);
     }
 
@@ -110,20 +115,26 @@ function createUnit({ config, application, unitBuilders, unitFactoryCls }) {
  * @param application {*} application (optional)
  * @returns {*}
  */
-function createDynamicUnits({ dynamicSubworkflow, units, unitBuilders, unitFactoryCls, application = null }) {
+function createDynamicUnits({
+    dynamicSubworkflow,
+    units,
+    unitBuilders,
+    unitFactoryCls,
+    application = null,
+}) {
     const { name, subfolder } = dynamicSubworkflow;
-    switch(name) {
+    const func = subfolder && _.get(dynamicSubworkflowsByApp, `${subfolder}.${name}`, () => {});
+    switch (name) {
         case "surfaceEnergy":
-            const [ scfUnit ] = units;
+            // eslint-disable-next-line no-case-declarations
+            const [scfUnit] = units;
             return getSurfaceEnergySubworkflowUnits({ scfUnit, unitBuilders });
         case "getQpointIrrep":
-            const func = dynamicSubworkflowsByApp[subfolder][name];
             return func({ unitBuilders, unitFactoryCls, application });
         default:
             throw new Error(`dynamicSubworkflow=${name} not recognized`);
     }
 }
-
 
 function createSubworkflow({
     subworkflowData,
@@ -135,19 +146,33 @@ function createSubworkflow({
     unitBuilders = builders,
 }) {
     const { application, model, method, setSearchText } = createTopLevel({
-        subworkflowData, applicationCls, modelFactoryCls, methodFactoryCls,
+        subworkflowData,
+        applicationCls,
+        modelFactoryCls,
+        methodFactoryCls,
     });
 
     let units = [];
     const { name, units: unitConfigs, config = {}, dynamicSubworkflow = null } = subworkflowData;
-    unitConfigs.forEach((config) => {
-        units.push(createUnit({
-            config, application, unitBuilders, unitFactoryCls,
-        }));
-    })
-    if (dynamicSubworkflow) units = createDynamicUnits({
-        dynamicSubworkflow, units, unitBuilders, unitFactoryCls, application
+    unitConfigs.forEach((_config) => {
+        units.push(
+            createUnit({
+                config: _config,
+                application,
+                unitBuilders,
+                unitFactoryCls,
+            }),
+        );
     });
+    if (dynamicSubworkflow) {
+        units = createDynamicUnits({
+            dynamicSubworkflow,
+            units,
+            unitBuilders,
+            unitFactoryCls,
+            application,
+        });
+    }
 
     const { functions = {}, attributes = {}, ...cfg } = config;
     let subworkflow = subworkflowCls.fromArguments(application, model, method, name, units, cfg);
@@ -168,9 +193,9 @@ function createSubworkflowByName({ appName, swfName, ...swArgs }) {
     const { [appName]: allSubworkflowData } = subworkflows;
     const { [swfName]: subworkflowData } = allSubworkflowData;
     return createSubworkflow({
-        subworkflowData, ...swArgs,
+        subworkflowData,
+        ...swArgs,
     });
 }
-
 
 export { createSubworkflow, createSubworkflowByName };
