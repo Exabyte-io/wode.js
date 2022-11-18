@@ -65,9 +65,7 @@ function createSubworkflowUnit({ appName, unitData, ...swArgs }) {
  * @param workflowCls {*} workflow class
  * @returns {Workflow|*} workflow object
  */
-function createWorkflowHead({
-    workflow, unit, type, workflowCls,
-}) {
+function createWorkflowHead({ workflow, unit, type, workflowCls }) {
     if (workflow) return workflow;
     let wf;
     switch (type) {
@@ -92,9 +90,7 @@ function createWorkflowHead({
  * @param unitFactoryCls {*} unit factory class for e.g. map units
  * @returns {*} modified workflow
  */
-function composeWorkflow({
-    workflow, unit, config, type, unitFactoryCls,
-}) {
+function composeWorkflow({ workflow, unit, config, type, unitFactoryCls }) {
     /* eslint-disable no-case-declarations */
     switch (type) {
         case "workflow":
@@ -124,10 +120,7 @@ function composeWorkflow({
  * @returns {*} constructed workflow
  */
 function createFromWorkflowUnits({ wfUnits, workflowCls, unitFactoryCls }) {
-    let workflow,
-        unit,
-        config,
-        type;
+    let workflow, unit, config, type;
     wfUnits.map((wfUnit) => {
         ({ unit, config, type } = wfUnit);
         if (!workflow) {
@@ -159,13 +152,10 @@ function createFromWorkflowUnits({ wfUnits, workflowCls, unitFactoryCls }) {
  * @param swArgs
  * @returns {*[]}
  */
-function createWorkflowUnits({
-    appName, workflowData, workflowCls, ...swArgs
-}) {
+function createWorkflowUnits({ appName, workflowData, workflowCls, ...swArgs }) {
     const wfUnits = [];
     const { units } = workflowData;
-    let unit,
-        config;
+    let unit, config;
     units.map((unitData) => {
         const { type } = unitData;
         switch (type) {
@@ -200,9 +190,7 @@ function createWorkflowUnits({
     });
 }
 
-function createWorkflow({
-    appName, workflowData, workflowCls = Workflow, ...swArgs
-}) {
+function createWorkflow({ appName, workflowData, workflowCls = Workflow, ...swArgs }) {
     const { name } = workflowData;
     console.log(`creating ${appName} workflow ${name}`);
     const wf = createWorkflowUnits({
