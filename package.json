@@ -8,7 +8,6 @@
         "lint:fix": "eslint --fix --cache src tests",
         "transpile": "babel --out-dir dist src; node build_workflows.js",
         "postinstall": "npm run transpile",
-        "prettier": "prettier --check src tests",
         "prepare": "husky install || exit 0"
     },
     "repository": {
@@ -76,7 +75,6 @@
         "node": ">=12.0.0"
     },
     "lint-staged": {
-        "*.js": "eslint --cache --fix",
-        "*.{js,css}": "prettier --write"
+        "*.js": "eslint --cache --fix"
     }
 }

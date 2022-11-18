@@ -1,18 +1,17 @@
 import { UNIT_TYPES } from "../enums";
+import { AssertionUnit } from "./assertion";
+import { AssignmentUnit } from "./assignment";
 import { BaseUnit } from "./base";
+import { ConditionUnit } from "./condition";
+import { ExecutionUnit } from "./execution";
 import { IOUnit } from "./io";
 import { MapUnit } from "./map";
-import { ConditionUnit } from "./condition";
-import { AssertionUnit } from "./assertion";
-import { ExecutionUnit } from "./execution";
-import { AssignmentUnit } from "./assignment";
 import { ProcessingUnit } from "./processing";
 import { SubworkflowUnit } from "./subworkflow";
 
-
 export class UnitFactory {
     static create(config) {
-        switch(config.type) {
+        switch (config.type) {
             case UNIT_TYPES.execution:
                 return new ExecutionUnit(config);
             case UNIT_TYPES.assignment:

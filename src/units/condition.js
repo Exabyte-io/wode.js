@@ -1,7 +1,5 @@
-import { BaseUnit } from "./base";
-
 import { UNIT_TYPES } from "../enums";
-
+import { BaseUnit } from "./base";
 
 export class ConditionUnit extends BaseUnit {
     constructor(config) {
@@ -21,8 +19,7 @@ export class ConditionUnit extends BaseUnit {
             statement: "true",
             maxOccurrences: 100,
 
-        }
-
+        };
     }
 
     get input() {

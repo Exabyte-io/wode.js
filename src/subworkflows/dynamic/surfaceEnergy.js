@@ -2,26 +2,30 @@ import { removeNewLinesAndExtraSpaces } from "@exabyte-io/code.js/dist/utils";
 
 function getIOUnitEndpointOptions(query, projection = "{}") {
     return {
-        "params": {
-            "query": query,
-            "projection": projection,
-        }
-    }
+        params: {
+            query,
+            projection,
+        },
+    };
 }
 
 function getAssignmentUnitInput(unit, name) {
     return [
         {
-            name, scope: unit.flowchartId
-        }
-    ]
+            name, scope: unit.flowchartId,
+        },
+    ];
 }
 
-const getSurfaceEnergySubworkflowUnits = function({ scfUnit, unitBuilders }) {
+function getSurfaceEnergySubworkflowUnits({ scfUnit, unitBuilders }) {
+    const {
+        IOUnitConfigBuilder,
+        AssignmentUnitConfigBuilder,
+        AssertionUnitConfigBuilder,
+    } = unitBuilders;
 
-    const { IOUnitConfigBuilder, AssignmentUnitConfigBuilder, AssertionUnitConfigBuilder } = unitBuilders;
-
-    let input, endpointOptions;
+    let input,
+        endpointOptions;
     endpointOptions = getIOUnitEndpointOptions("{'_id': MATERIAL_ID}");
     const getSlabUnit = new IOUnitConfigBuilder("io-slab", "materials", endpointOptions).build();
 
@@ -62,7 +66,7 @@ const getSurfaceEnergySubworkflowUnits = function({ scfUnit, unitBuilders }) {
     input = getAssignmentUnitInput(scfUnit, "total_energy");
     const setESlabUnit = new AssignmentUnitConfigBuilder("e-slab", "E_SLAB", "total_energy", input).build();
 
-    const results = [{"name": "surface_energy"}];
+    const results = [{ name: "surface_energy" }];
     const SEValue = "1 / (2 * A) * (E_SLAB - E_BULK * (N_SLAB/N_BULK))";
     const surfaceEnergyUnit = new AssignmentUnitConfigBuilder("surface-energy", "SURFACE_ENERGY", SEValue, [], results).build();
 
@@ -82,7 +86,6 @@ const getSurfaceEnergySubworkflowUnits = function({ scfUnit, unitBuilders }) {
         setESlabUnit,
         surfaceEnergyUnit,
     ];
-};
+}
 
 export { getSurfaceEnergySubworkflowUnits };
-

@@ -1,5 +1,4 @@
 import { UNIT_TYPES } from "../../enums";
-
 import { UnitConfigBuilder } from "./UnitConfigBuilder";
 
 export class AssignmentUnitConfigBuilder extends UnitConfigBuilder {

@@ -22,6 +22,7 @@ describe("workflow property", () => {
             appName: "espresso",
             workflowData: allWorkflowData.workflows.espresso.neb,
         });
+        // eslint-disable-next-line no-unused-expressions
         expect(mmWorkflow.isMultiMaterial).to.be.true;
     });
 });

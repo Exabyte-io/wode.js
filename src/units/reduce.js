@@ -1,7 +1,5 @@
-import {UNIT_TYPES} from "../enums";
-
+import { UNIT_TYPES } from "../enums";
 import { BaseUnit } from "./base";
-
 
 export class ReduceUnit extends BaseUnit {
     constructor(unitName, mapUnit, input) {
@@ -14,7 +12,6 @@ export class ReduceUnit extends BaseUnit {
             name: unitName,
             mapFlowchartId: mapUnit,
             input,
-        }
+        };
     }
-
 }

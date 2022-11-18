@@ -9,6 +9,7 @@ describe("units", () => {
         const exampleSubworkflow = exampleWorkflow.subworkflows[0];
         const exampleUnit = exampleSubworkflow.units[0];
         const exampleUnitClone = exampleUnit.clone();
+        // eslint-disable-next-line no-unused-expressions
         expect(exampleUnitClone).to.exist;
         expect(exampleUnit.flowchartId).to.not.equal(exampleUnitClone.flowchartId);
     });

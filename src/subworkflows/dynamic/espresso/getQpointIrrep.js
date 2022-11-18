@@ -7,31 +7,27 @@ import { UNIT_TYPES } from "../../../enums";
  * @param application {*} application instance
  * @returns {[{head: boolean, preProcessors: [], postProcessors: [], name: *, flowchartId: *, type: *, results: [], monitors: []},*]}
  */
-const getQpointIrrep = function ({ unitBuilders, unitFactoryCls, application }) {
-
+function getQpointIrrep({ unitBuilders, unitFactoryCls, application }) {
     const { ExecutionUnitConfigBuilder } = unitBuilders;
 
-    const pythonUnit = new ExecutionUnitConfigBuilder(
-        "python", application, "python", "espresso_xml_get_qpt_irr",
-    ).build();
+    const pythonUnit = new ExecutionUnitConfigBuilder("python", application, "python", "espresso_xml_get_qpt_irr").build();
 
     const assignmentUnit = unitFactoryCls.create({
         type: UNIT_TYPES.assignment,
         input: [
             {
                 scope: pythonUnit.flowchartId,
-                name: "STDOUT"
-            }
+                name: "STDOUT",
+            },
         ],
         operand: "Q_POINTS",
-        value: "json.loads(STDOUT)"
+        value: "json.loads(STDOUT)",
     });
 
     return [
         pythonUnit,
         assignmentUnit,
     ];
-
 }
 
 export { getQpointIrrep };

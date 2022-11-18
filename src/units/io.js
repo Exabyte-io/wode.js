@@ -1,11 +1,9 @@
 import lodash from "lodash";
 
+import { IO_ID_COLUMN, UNIT_TYPES } from "../enums";
 import { BaseUnit } from "./base";
 
-import { UNIT_TYPES, IO_ID_COLUMN } from "../enums";
-
 export class IOUnit extends BaseUnit {
-
     /**
      * IO Unit Builder for Object Storage sources.
      *
@@ -25,15 +23,15 @@ export class IOUnit extends BaseUnit {
             name: UNIT_TYPES.io,
             type: UNIT_TYPES.io,
             subtype: "input",
-        }
+        };
     }
 
     initialize(config) {
         this._materials = [];
-        this._defaultTargets = ['band_gaps:direct', 'band_gaps:indirect'];
-        this._features = lodash.get(config, 'input.0.endpoint_options.data.features', []);
-        this._targets = lodash.get(config, 'input.0.endpoint_options.data.targets', this._defaultTargets);
-        this._ids = lodash.get(config, 'input.0.endpoint_options.data.ids', []);
+        this._defaultTargets = ["band_gaps:direct", "band_gaps:indirect"];
+        this._features = lodash.get(config, "input.0.endpoint_options.data.features", []);
+        this._targets = lodash.get(config, "input.0.endpoint_options.data.targets", this._defaultTargets);
+        this._ids = lodash.get(config, "input.0.endpoint_options.data.ids", []);
         this._jobId = null;
     }
 
@@ -50,16 +48,18 @@ export class IOUnit extends BaseUnit {
     }
 
     get featuresWithoutId() {
-        return this.features.filter(x => x !== IO_ID_COLUMN);
+        return this.features.filter((x) => x !== IO_ID_COLUMN);
     }
 
     get availableFeatures() {
-        const materials = this.materials;
-        return lodash.uniq(lodash.flatten(materials.map(x => lodash.keys(x.propertiesDict()))).concat(this.features));
+        const { materials } = this;
+        return lodash
+            .uniq(lodash.flatten(materials.map((x) => lodash.keys(x.propertiesDict())))
+                .concat(this.features));
     }
 
     get availableFeaturesWithoutId() {
-        return this.availableFeatures.filter(feature => feature !== IO_ID_COLUMN);
+        return this.availableFeatures.filter((feature) => feature !== IO_ID_COLUMN);
     }
 
     get targets() {
@@ -81,8 +81,8 @@ export class IOUnit extends BaseUnit {
     get valuesByTarget() {
         const values = this.dataGridValues;
         const result = {};
-        this.targets.forEach(target => {
-            result[target] = values.map(v => v[target]);
+        this.targets.forEach((target) => {
+            result[target] = values.map((v) => v[target]);
         });
         return result;
     }
@@ -100,24 +100,24 @@ export class IOUnit extends BaseUnit {
                             targets: this._targets,
                             features: this._features,
                             ids: this._ids,
-                            jobId: this._jobId
+                            jobId: this._jobId,
                         },
                         headers: {},
-                        params: {}
-                    }
-                }
-            ]
+                        params: {},
+                    },
+                },
+            ],
 
-        }
+        };
     }
 
     get isDataFrame() {
-        return this.prop("subtype") === "dataFrame"
+        return this.prop("subtype") === "dataFrame";
     }
 
     setMaterials(materials) {
         this._materials = materials;
-        this._ids = materials.map(m => m.exabyteId);
+        this._ids = materials.map((m) => m.exabyteId);
     }
 
     addFeature(feature) {
@@ -127,9 +127,9 @@ export class IOUnit extends BaseUnit {
 
     removeFeature(feature) {
         if (this.featuresWithoutId.length === 1) {
-            throw new Error('At least one feature is required');
+            throw new Error("At least one feature is required");
         }
-        this._features = this._features.filter(x => feature !== x && x !== IO_ID_COLUMN);
+        this._features = this._features.filter((x) => feature !== x && x !== IO_ID_COLUMN);
     }
 
     addTarget(target) {
@@ -138,9 +138,9 @@ export class IOUnit extends BaseUnit {
 
     removeTarget(target) {
         if (this._targets.length === 1) {
-            throw new Error('At least one target is required');
+            throw new Error("At least one target is required");
         }
-        this._targets = this._targets.filter(x => target !== x);
+        this._targets = this._targets.filter((x) => target !== x);
     }
 
     hasFeature(feature) {
@@ -153,7 +153,6 @@ export class IOUnit extends BaseUnit {
 
     toJSON() {
         const config = this.isDataFrame ? this.dataFrameConfig : {};
-        return this.clean(Object.assign({}, super.toJSON(), config));
+        return this.clean({ ...super.toJSON(), ...config });
     }
-
 }
