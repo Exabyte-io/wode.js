@@ -12,6 +12,8 @@
 #   - http://dx.doi.org/10.1103/physrevb.44.5572
 #   - http://dx.doi.org/10.1088/0953-8984/19/21/213203
 #
+# See also our tutorial:
+# https://docs.mat3ra.com/tutorials/dft/electronic/valence-band-offset/
 
 name: Valence Band Offset (2D)
 units:
