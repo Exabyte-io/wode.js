@@ -206,22 +206,14 @@ export class Subworkflow extends BaseSubworkflow {
      * @param head {Boolean}
      * @param index {Number}
      */
-    addUnit(unit, head = false, index = -1) {
+    addUnit(unit, index = -1) {
         const { units } = this;
         if (units.length === 0) {
             unit.head = true;
             this.setUnits([unit]);
         } else {
-            if (head) {
-                const first = lodash.first(units);
-                unit.next = first.flowchartId;
-                units.unshift(unit);
-            } else {
-                const last = lodash.last(units);
-                last.next = unit.flowchartId;
-                if (index >= 0) units.splice(index, 0, unit);
-                else units.push(unit);
-            }
+            if (index >= 0) units.splice(index, 0, unit);
+            else units.push(unit);
             this.setUnits(setNextLinks(setUnitsHead(units)));
         }
     }
