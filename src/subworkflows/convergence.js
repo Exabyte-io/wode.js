@@ -111,8 +111,8 @@ export const ConvergenceMixin = (superclass) =>
                 next: storePrevResult.flowchartId,
             });
 
-            this.addUnit(prevResultInit, true);
-            this.addUnit(paramInit, true);
+            this.addUnit(prevResultInit, 0);
+            this.addUnit(paramInit, 0);
             this.addUnit(storeResult);
             this.addUnit(conditionUnit);
             this.addUnit(storePrevResult);
