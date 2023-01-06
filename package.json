@@ -6,7 +6,8 @@
         "test": "nyc --reporter=text mocha --recursive --bail --require @babel/register/lib --require tests/setup.js tests",
         "lint": "eslint src tests && prettier --write src tests",
         "lint:fix": "eslint --fix --cache src tests && prettier --write src tests",
-        "transpile": "babel --out-dir dist src; node build_workflows.js",
+        "build:workflows": "node build_workflows.js",
+        "transpile": "babel --out-dir dist src; npm run build:workflows",
         "postinstall": "npm run transpile",
         "prettier": "prettier --check src tests",
         "prepare": "husky install || exit 0"
