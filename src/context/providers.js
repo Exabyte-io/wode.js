@@ -1,4 +1,4 @@
-import { context } from "@exabyte-io/mode.js";
+import context from "./context";
 
 const {
     BoundaryConditionsFormDataProvider,

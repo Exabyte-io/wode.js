@@ -72,6 +72,7 @@
     "peerDependencies": {
         "@exabyte-io/ade.js": "*",
         "@exabyte-io/ide.js": "*",
+        "@exabyte-io/made.js": "*",
         "@exabyte-io/mode.js": "*",
         "@exabyte-io/code.js": "*"
     },
