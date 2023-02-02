@@ -3,9 +3,9 @@ import {
     default_methods as MethodConfigs,
     default_models as ModelConfigs,
     MethodFactory,
-    ModelFactory,
+    Model,
 } from "@exabyte-io/mode.js";
-import _ from "lodash";
+import lodash from "lodash";
 
 import { UnitFactory } from "../units";
 import { builders } from "../units/builders";
@@ -41,10 +41,11 @@ function _getConfigFromModelOrMethodName(name, kind) {
  * @param modelFactoryCls {any} model factory to use
  * @returns {DFTModel|Model}
  */
-function createModel({ config, modelFactoryCls }) {
-    const { name, config: modelConfig = {} } = config;
-    const defaultConfig = _getConfigFromModelOrMethodName(name, "Model");
-    return modelFactoryCls.create({ ...defaultConfig, ...modelConfig });
+function createModel({ config }) {
+    const { config: modelConfig = {} } = config;
+    const defaultConfig = { units: Model.defaultConfig.units };
+    const modelConfig_ = lodash.isEmpty(modelConfig) ? defaultConfig : modelConfig;
+    return new Model(modelConfig_);
 }
 
 /**
@@ -68,10 +69,10 @@ function createMethod({ config, methodFactoryCls }) {
  * @param methodFactoryCls {any} method factory class
  * @returns {{application: *, method: *, model: (DFTModel|Model), setSearchText: String|null}}
  */
-function createTopLevel({ subworkflowData, applicationCls, modelFactoryCls, methodFactoryCls }) {
+function createTopLevel({ subworkflowData, applicationCls, methodFactoryCls }) {
     const { application: appConfig, model: modelConfig, method: methodConfig } = subworkflowData;
     const application = createApplication({ config: appConfig, applicationCls });
-    const model = createModel({ config: modelConfig, modelFactoryCls });
+    const model = createModel({ config: modelConfig });
     const { method, setSearchText } = createMethod({ config: methodConfig, methodFactoryCls });
     return {
         application,
@@ -128,7 +129,8 @@ function createDynamicUnits({
     application = null,
 }) {
     const { name, subfolder } = dynamicSubworkflow;
-    const func = subfolder && _.get(dynamicSubworkflowsByApp, `${subfolder}.${name}`, () => {});
+    const func =
+        subfolder && lodash.get(dynamicSubworkflowsByApp, `${subfolder}.${name}`, () => {});
     switch (name) {
         case "surfaceEnergy":
             // eslint-disable-next-line no-case-declarations
@@ -144,7 +146,7 @@ function createDynamicUnits({
 function createSubworkflow({
     subworkflowData,
     applicationCls = Application,
-    modelFactoryCls = ModelFactory,
+    // modelFactoryCls = ModelFactory,
     methodFactoryCls = MethodFactory,
     subworkflowCls = Subworkflow,
     unitFactoryCls = UnitFactory,
@@ -153,7 +155,7 @@ function createSubworkflow({
     const { application, model, method, setSearchText } = createTopLevel({
         subworkflowData,
         applicationCls,
-        modelFactoryCls,
+        // modelFactoryCls,
         methodFactoryCls,
     });
 
