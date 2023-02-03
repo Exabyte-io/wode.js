@@ -12,8 +12,11 @@ method:
     name: Method
 model:
     config:
-        subtype: re
-        type: ml
+      units:
+        - tier1: st
+          tier2: det
+          tier3: ml
+          type: re
     name: Model
 name: 'ML: Linear Least Squares Train Model'
 units:
