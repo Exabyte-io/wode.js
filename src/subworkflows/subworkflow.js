@@ -29,14 +29,14 @@ export class Subworkflow extends BaseSubworkflow {
     constructor(config) {
         super(config);
         this._Application = Application;
-        // this._ModelFactory = ModelFactory;
+        this._Model = Model;
         this._UnitFactory = UnitFactory;
         this.initialize();
     }
 
     initialize() {
         this._application = new this._Application(this.prop("application"));
-        this._model = new Model(this.prop("model"));
+        this._model = new this._Model(this.prop("model"));
         this._units = setNextLinks(setUnitsHead(this.prop("units", [])), this.id).map((cfg) =>
             this._UnitFactory.create(
                 Object.assign(cfg, { application: this.application.toJSON() }),
