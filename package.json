@@ -51,7 +51,7 @@
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2022.7.28-1",
         "@exabyte-io/made.js": "2022.6.15-0",
-        "@exabyte-io/mode.js": "https://github.com/Exabyte-io/mode.js.git#50c28ee9e4f6449e3b60eccaa8fe5457a60d0a12",
+        "@exabyte-io/mode.js": "https://github.com/Exabyte-io/mode.js.git#949585ead53bcd0049afeedef95a20a7c5df44a1",
         "chai": "^4.3.4",
         "eslint": "7.32.0",
         "eslint-config-airbnb": "19.0.2",
@@ -73,7 +73,7 @@
         "@exabyte-io/ade.js": "*",
         "@exabyte-io/ide.js": "*",
         "@exabyte-io/made.js": "*",
-        "@exabyte-io/mode.js": "https://github.com/Exabyte-io/mode.js.git#50c28ee9e4f6449e3b60eccaa8fe5457a60d0a12",
+        "@exabyte-io/mode.js": "https://github.com/Exabyte-io/mode.js.git#949585ead53bcd0049afeedef95a20a7c5df44a1",
         "@exabyte-io/code.js": "https://github.com/Exabyte-io/code.js.git#a474f89cc8904299563f508e9c936f583c3b0ad4"
     },
     "engines": {
