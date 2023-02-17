@@ -148,9 +148,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     }
 
     static _calculateDimension(nPoints, norms, index) {
-        const indices = [0, 1, 2];
-        indices.splice(index, 1); // get indices of other two dimensions
-        const [j, k] = indices;
+        const [j, k] = [0, 1, 2].filter((i) => i !== index); // get indices of other two dimensions
         const N = Math.cbrt((nPoints * norms[index] ** 2) / (norms[j] * norms[k]));
         return Math.max(1, Math.ceil(N));
     }
