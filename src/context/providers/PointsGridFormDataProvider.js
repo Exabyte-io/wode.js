@@ -1,6 +1,6 @@
 import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
 import { math } from "@exabyte-io/code.js/dist/math";
-import { Made, ReciprocalLattice } from "@exabyte-io/made.js";
+import { Made } from "@exabyte-io/made.js";
 import lodash from "lodash";
 import { mix } from "mixwith";
 // TODO : pass appSettings to use defaultKPPRA
@@ -142,7 +142,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     }
 
     _getReciprocalLatticeNorms() {
-        const reciprocalLattice = new ReciprocalLattice(this.material.lattice);
+        const reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
         const bVectors = reciprocalLattice.reciprocalVectors;
         return bVectors.map((vec) => math.norm(vec));
     }
