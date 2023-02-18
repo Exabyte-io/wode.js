@@ -22,21 +22,15 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         this.preferKPPRA = lodash.get(this.data, "preferKPPRA", false);
     }
 
-    getDefaultDimension() {
-        return this._getGridFromKPPRA(this._defaultKPPRA).dimensions[0];
-    }
-
     // eslint-disable-next-line class-methods-use-this
     getDefaultShift() {
         return 0;
     }
 
-    // eslint-disable-next-line class-methods-use-this
     get _defaultDimensions() {
-        return Array(3).fill(this.getDefaultDimension());
+        return this._getGridFromKPPRA(this._defaultKPPRA).dimensions;
     }
 
-    // eslint-disable-next-line class-methods-use-this
     get _defaultShifts() {
         return Array(3).fill(this.getDefaultShift());
     }
@@ -57,12 +51,14 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         };
 
         const vector_ = (defaultValue) => {
+            const isArray = Array.isArray(defaultValue);
             return {
                 ...vector,
                 items: {
                     type: this.isUsingJinjaVariables ? "string" : "number",
-                    default: defaultValue,
+                    ...(isArray ? {} : { default: defaultValue }),
                 },
+                ...(isArray ? { default: defaultValue } : {}),
             };
         };
 
@@ -73,7 +69,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             }.`,
             type: "object",
             properties: {
-                dimensions: vector_(this.getDefaultDimension()),
+                dimensions: vector_(this._defaultDimensions),
                 shifts: vector_(this.getDefaultShift()),
                 KPPRA: {
                     type: "integer",
