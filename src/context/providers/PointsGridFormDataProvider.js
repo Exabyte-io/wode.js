@@ -36,7 +36,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     }
 
     get _defaultKPPRA() {
-        return Math.floor(10 / this._divisor);
+        return Math.floor(5 / this._divisor);
     }
 
     get jsonSchema() {
