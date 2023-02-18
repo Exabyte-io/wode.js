@@ -117,6 +117,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             preferKPPRA: {
                 ...this.fieldStyles("p-t-20"), // add padding top to level with other elements
                 "ui:emptyValue": true,
+                "ui:disabled": this.isUsingJinjaVariables,
             },
         };
     }
