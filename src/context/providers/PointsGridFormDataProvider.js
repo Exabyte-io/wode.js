@@ -60,7 +60,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             return {
                 ...vector,
                 items: {
-                    type: "number",
+                    type: this.isUsingJinjaVariables ? "string" : "number",
                     default: defaultValue,
                 },
             };
@@ -172,7 +172,17 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         return grid.dimensions.reduce((a, b) => a * b) * nAtoms;
     }
 
+    static _canTransform(data) {
+        return (
+            (data.preferKPPRA && data.KPPRA) ||
+            (!data.preferKPPRA && data.dimensions.every((d) => typeof d === "number"))
+        );
+    }
+
     transformData(data) {
+        if (!this.constructor._canTransform(data)) {
+            return data;
+        }
         // 1. check if KPPRA is preferred
         if (data.preferKPPRA) {
             // 2. KPPRA is preferred => recalculate grid; NOTE: `data.KPPRA` is undefined at first
