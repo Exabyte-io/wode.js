@@ -14,7 +14,7 @@ export class ConvergenceParameter {
      */
     get initialValue() {
         if (!lodash.isString(this._inititalValue)) {
-            return `${this._inititalValue}`;
+            return JSON.stringify(this._inititalValue);
         }
         return this._inititalValue;
     }
