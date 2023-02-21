@@ -1,4 +1,5 @@
 import { UNIT_TYPES } from "../enums";
+import { createConvergenceParameter } from "./convergence/factory";
 
 export const ConvergenceMixin = (superclass) =>
     class extends superclass {
@@ -29,16 +30,15 @@ export const ConvergenceMixin = (superclass) =>
                 throw new Error("There is no result to converge");
             }
 
+            // initialize parameter
+            const param = createConvergenceParameter({
+                name: parameter,
+                initialValue: parameterInitial,
+            });
+
             // Replace kgrid to be ready for convergence
             // TODO: kgrid should be abstracted and selected by user
-            unitForConvergence.updateContext({
-                kgrid: {
-                    dimensions: [`{{${parameter}}}`, `{{${parameter}}}`, `{{${parameter}}}`],
-                    shifts: [0, 0, 0],
-                },
-                isKgridEdited: true,
-                isUsingJinjaVariables: true,
-            });
+            unitForConvergence.updateContext(param.unitContext);
 
             const prevResult = "prev_result";
 
@@ -53,8 +53,8 @@ export const ConvergenceMixin = (superclass) =>
             // Assignment with initial value of convergence parameter
             const paramInit = this._UnitFactory.create({
                 type: UNIT_TYPES.assignment,
-                operand: parameter,
-                value: parameterInitial,
+                operand: param.name,
+                value: param.initialValue,
             });
 
             // Assignment for storing iteration result: extracts 'result' from convergence unit scope
@@ -74,8 +74,8 @@ export const ConvergenceMixin = (superclass) =>
             const nextStep = this._UnitFactory.create({
                 type: UNIT_TYPES.assignment,
                 input: [],
-                operand: parameter,
-                value: `${parameter} + 1`,
+                operand: param.name,
+                value: param.increment,
                 next: unitForConvergence.flowchartId,
             });
 
@@ -84,8 +84,8 @@ export const ConvergenceMixin = (superclass) =>
                 type: UNIT_TYPES.assignment,
                 name: "exit",
                 input: [],
-                operand: parameter,
-                value: `${parameter} + 0`,
+                operand: param.name,
+                value: param.finalValue,
             });
 
             // Final step of convergence
