@@ -2,13 +2,13 @@ import { NonUniformKGridConvergence } from "./non_uniform_kgrid";
 import { ConvergenceParameter } from "./parameter";
 import { UniformKGridConvergence } from "./uniform_kgrid";
 
-export function createConvergenceParameter({ name, initialValue }) {
+export function createConvergenceParameter({ name, initialValue, increment }) {
     switch (name) {
         case "N_k":
-            return new UniformKGridConvergence({ name, initialValue });
+            return new UniformKGridConvergence({ name, initialValue, increment });
         case "N_k_xyz":
-            return new NonUniformKGridConvergence({ name, initialValue });
+            return new NonUniformKGridConvergence({ name, initialValue, increment });
         default:
-            return new ConvergenceParameter({ name, initialValue });
+            return new ConvergenceParameter({ name, initialValue, increment });
     }
 }
