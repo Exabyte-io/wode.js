@@ -6,6 +6,7 @@ export const ConvergenceMixin = (superclass) =>
         addConvergence({
             parameter,
             parameterInitial,
+            parameterIncrement,
             result,
             resultInitial,
             condition,
@@ -34,6 +35,7 @@ export const ConvergenceMixin = (superclass) =>
             const param = createConvergenceParameter({
                 name: parameter,
                 initialValue: parameterInitial,
+                increment: parameterIncrement,
             });
 
             // Replace kgrid to be ready for convergence
@@ -41,6 +43,7 @@ export const ConvergenceMixin = (superclass) =>
             unitForConvergence.updateContext(param.unitContext);
 
             const prevResult = "prev_result";
+            const iteration = "iteration";
 
             // Assignment with result's initial value
             const prevResultInit = this._UnitFactory.create({
@@ -55,6 +58,13 @@ export const ConvergenceMixin = (superclass) =>
                 type: UNIT_TYPES.assignment,
                 operand: param.name,
                 value: param.initialValue,
+            });
+
+            // Assignment with initial value of iteration counter
+            const iterInit = this._UnitFactory.create({
+                type: UNIT_TYPES.assignment,
+                operand: iteration,
+                value: 1,
             });
 
             // Assignment for storing iteration result: extracts 'result' from convergence unit scope
@@ -101,6 +111,14 @@ export const ConvergenceMixin = (superclass) =>
                 value: result,
             });
 
+            // Assign next iteration value
+            const nextIter = this._UnitFactory.create({
+                type: UNIT_TYPES.assignment,
+                input: [],
+                operand: iteration,
+                value: `${iteration} + 1`,
+            });
+
             // Convergence condition unit
             const conditionUnit = this._UnitFactory.create({
                 type: UNIT_TYPES.condition,
@@ -111,11 +129,13 @@ export const ConvergenceMixin = (superclass) =>
                 next: storePrevResult.flowchartId,
             });
 
-            this.addUnit(prevResultInit, 0);
             this.addUnit(paramInit, 0);
+            this.addUnit(prevResultInit);
+            this.addUnit(iterInit);
             this.addUnit(storeResult);
             this.addUnit(conditionUnit);
             this.addUnit(storePrevResult);
+            this.addUnit(nextIter);
             this.addUnit(nextStep);
             this.addUnit(exit);
 

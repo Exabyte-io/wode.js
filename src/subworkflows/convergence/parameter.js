@@ -2,9 +2,10 @@
 import lodash from "lodash";
 
 export class ConvergenceParameter {
-    constructor({ name, initialValue }) {
+    constructor({ name, initialValue, increment }) {
         this.name = name;
         this._inititalValue = initialValue;
+        this._increment = increment;
     }
 
     /**
@@ -32,14 +33,6 @@ export class ConvergenceParameter {
      * @return {Object}
      */
     get unitContext() {
-        return {};
-    }
-
-    /**
-     * Defines content for updating the subworkflowContext
-     * @return {Object}
-     */
-    get subworkflowContext() {
         return {};
     }
 

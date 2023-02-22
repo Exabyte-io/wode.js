@@ -2,7 +2,7 @@ import { ConvergenceParameter } from "./parameter";
 
 export class UniformKGridConvergence extends ConvergenceParameter {
     get increment() {
-        return `${this.name} + 1`;
+        return `${this.name} + ${this._increment}`;
     }
 
     get unitContext() {
