@@ -4,7 +4,7 @@ import lodash from "lodash";
 export class ConvergenceParameter {
     constructor({ name, initialValue, increment }) {
         this.name = name;
-        this._inititalValue = initialValue;
+        this._initialValue = initialValue;
         this._increment = increment;
     }
 
@@ -14,10 +14,10 @@ export class ConvergenceParameter {
      * @return {string}
      */
     get initialValue() {
-        if (!lodash.isString(this._inititalValue)) {
-            return JSON.stringify(this._inititalValue);
+        if (!lodash.isString(this._initialValue)) {
+            return JSON.stringify(this._initialValue);
         }
-        return this._inititalValue;
+        return this._initialValue;
     }
 
     /**
