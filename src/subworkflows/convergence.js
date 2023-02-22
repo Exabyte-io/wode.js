@@ -83,7 +83,7 @@ export const ConvergenceMixin = (superclass) =>
             // Assignment for convergence param increase
             const nextStep = this._UnitFactory.create({
                 type: UNIT_TYPES.assignment,
-                input: [],
+                input: param.useVariablesFromUnitContext(unitForConvergence.flowchartId),
                 operand: param.name,
                 value: param.increment,
                 next: unitForConvergence.flowchartId,

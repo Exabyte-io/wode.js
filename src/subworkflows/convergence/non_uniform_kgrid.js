@@ -2,7 +2,7 @@ import { ConvergenceParameter } from "./parameter";
 
 export class NonUniformKGridConvergence extends ConvergenceParameter {
     get increment() {
-        return `[ ${this.name}[i] + K_INCREMENT[i] for i in range(len(${this.name}))]`;
+        return `[floor(iteration * ${this._increment} * kgrid['reciprocalVectorRatios'][i]) for i in range(3)]`;
     }
 
     get unitContext() {
@@ -17,9 +17,12 @@ export class NonUniformKGridConvergence extends ConvergenceParameter {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    get subworkflowContext() {
-        return {
-            K_INCREMENT: [1, 1, 1],
-        };
+    useVariablesFromUnitContext({ flowchartId }) {
+        return [
+            {
+                scope: flowchartId,
+                name: "kgrid",
+            },
+        ];
     }
 }

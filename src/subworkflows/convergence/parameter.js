@@ -44,4 +44,15 @@ export class ConvergenceParameter {
     get finalValue() {
         return `${this.name}`;
     }
+
+    /**
+     * Create list of  variables to fetch from a unit.
+     * Note: this is used for the `input` field for an assignment unit.
+     * @param {string} flowchartId - flowchartId of unit containing context variables
+     * @return {Object|{scope, name}}
+     */
+    // eslint-disable-next-line class-methods-use-this, no-unused-vars
+    useVariablesFromUnitContext({ flowchartId }) {
+        return [];
+    }
 }
