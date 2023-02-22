@@ -121,7 +121,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                 "ui:disabled": this.isUsingJinjaVariables,
             },
             reciprocalVectorRatios: {
-                title: "reciprocal vector ratios",
+                "ui:title": "reciprocal vector ratios",
                 "ui:orderable": false,
                 "ui:removable": false,
                 "ui:readonly": true,
