@@ -130,8 +130,8 @@ export const ConvergenceMixin = (superclass) =>
             });
 
             this.addUnit(paramInit, 0);
-            this.addUnit(prevResultInit);
-            this.addUnit(iterInit);
+            this.addUnit(prevResultInit, 1);
+            this.addUnit(iterInit, 2);
             this.addUnit(storeResult);
             this.addUnit(conditionUnit);
             this.addUnit(storePrevResult);
