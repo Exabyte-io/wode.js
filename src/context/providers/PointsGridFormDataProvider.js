@@ -1,5 +1,4 @@
 import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
-import { math } from "@exabyte-io/code.js/dist/math";
 import { Made } from "@exabyte-io/made.js";
 import lodash from "lodash";
 import { mix } from "mixwith";
@@ -138,28 +137,11 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         return this.material ? this._defaultDataWithMaterial : this._defaultData;
     }
 
-    _getReciprocalLatticeNorms() {
-        const reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
-        const bVectors = reciprocalLattice.reciprocalVectors;
-        return bVectors.map((vec) => math.norm(vec));
-    }
-
-    static _calculateDimension(nPoints, norms, index) {
-        const [j, k] = [0, 1, 2].filter((i) => i !== index); // get indices of other two dimensions
-        const N = Math.cbrt((nPoints * norms[index] ** 2) / (norms[j] * norms[k]));
-        return Math.max(1, Math.ceil(N));
-    }
-
-    _calculateDimensions(nKpoints) {
-        const norms = this._getReciprocalLatticeNorms();
-        const indices = [0, 1, 2];
-        return indices.map((i) => this.constructor._calculateDimension(nKpoints, norms, i));
-    }
-
     _getGridFromKPPRA(KPPRA) {
+        const reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
         const nAtoms = this.material ? this.material.Basis.nAtoms : 1;
         return {
-            dimensions: this._calculateDimensions(KPPRA / nAtoms),
+            dimensions: reciprocalLattice.getDimensionsFromPoints(KPPRA / nAtoms),
             shifts: this._defaultShifts,
         };
     }
