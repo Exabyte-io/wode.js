@@ -38,6 +38,11 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         return Math.floor(5 / this._divisor);
     }
 
+    get reciprocalVectorRatios() {
+        const lattice = new Made.ReciprocalLattice(this.material.lattice);
+        return lattice.reciprocalVectorRatios;
+    }
+
     get jsonSchema() {
         const kOrQ = this.name[0];
         const vector = {
@@ -79,6 +84,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                     type: "boolean",
                     default: this.preferKPPRA,
                 },
+                reciprocalVectorRatios: vector_(this.reciprocalVectorRatios),
             },
             required: ["dimensions", "shifts"],
         };
@@ -114,6 +120,9 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                 "ui:emptyValue": true,
                 "ui:disabled": this.isUsingJinjaVariables,
             },
+            reciprocalVectorRatios: {
+                "ui:readonly": true,
+            },
         };
     }
 
@@ -123,6 +132,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             shifts: this._defaultShifts,
             KPPRA: this._defaultKPPRA,
             preferKPPRA: false,
+            reciprocalVectorRatios: this.reciprocalVectorRatios,
         };
     }
 
