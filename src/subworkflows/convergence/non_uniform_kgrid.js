@@ -17,7 +17,7 @@ export class NonUniformKGridConvergence extends ConvergenceParameter {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    useVariablesFromUnitContext({ flowchartId }) {
+    useVariablesFromUnitContext(flowchartId) {
         return [
             {
                 scope: flowchartId,

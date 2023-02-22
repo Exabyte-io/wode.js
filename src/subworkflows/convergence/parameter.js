@@ -52,7 +52,7 @@ export class ConvergenceParameter {
      * @return {Object|{scope, name}}
      */
     // eslint-disable-next-line class-methods-use-this, no-unused-vars
-    useVariablesFromUnitContext({ flowchartId }) {
+    useVariablesFromUnitContext(flowchartId) {
         return [];
     }
 }
