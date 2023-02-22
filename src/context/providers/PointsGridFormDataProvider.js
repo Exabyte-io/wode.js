@@ -75,6 +75,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             properties: {
                 dimensions: vector_(this._defaultDimensions),
                 shifts: vector_(this.getDefaultShift()),
+                reciprocalVectorRatios: vector_(this.reciprocalVectorRatios),
                 KPPRA: {
                     type: "integer",
                     minimum: 1,
@@ -84,7 +85,6 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                     type: "boolean",
                     default: this.preferKPPRA,
                 },
-                reciprocalVectorRatios: vector_(this.reciprocalVectorRatios),
             },
             required: ["dimensions", "shifts"],
         };
@@ -121,6 +121,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                 "ui:disabled": this.isUsingJinjaVariables,
             },
             reciprocalVectorRatios: {
+                title: "reciprocal vector ratios",
                 "ui:orderable": false,
                 "ui:removable": false,
                 "ui:readonly": true,
