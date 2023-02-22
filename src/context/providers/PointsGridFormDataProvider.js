@@ -40,7 +40,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
 
     get reciprocalVectorRatios() {
         const lattice = new Made.ReciprocalLattice(this.material.lattice);
-        return lattice.reciprocalVectorRatios;
+        return lattice.reciprocalVectorRatios.map((r) => r.toPrecision(4));
     }
 
     get jsonSchema() {
@@ -121,6 +121,8 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                 "ui:disabled": this.isUsingJinjaVariables,
             },
             reciprocalVectorRatios: {
+                "ui:orderable": false,
+                "ui:removable": false,
                 "ui:readonly": true,
             },
         };
