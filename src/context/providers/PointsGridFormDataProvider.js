@@ -54,12 +54,12 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             maxItems: 3,
         };
 
-        const vector_ = (defaultValue) => {
+        const vector_ = (defaultValue, isStringType = false) => {
             const isArray = Array.isArray(defaultValue);
             return {
                 ...vector,
                 items: {
-                    type: this.isUsingJinjaVariables ? "string" : "number",
+                    type: isStringType ? "string" : "number",
                     ...(isArray ? {} : { default: defaultValue }),
                 },
                 ...(isArray ? { default: defaultValue } : {}),
@@ -73,7 +73,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             }.`,
             type: "object",
             properties: {
-                dimensions: vector_(this._defaultDimensions),
+                dimensions: vector_(this._defaultDimensions, this.isUsingJinjaVariables),
                 shifts: vector_(this.getDefaultShift()),
                 reciprocalVectorRatios: vector_(this.reciprocalVectorRatios),
                 KPPRA: {
