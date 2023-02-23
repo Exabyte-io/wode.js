@@ -248,7 +248,7 @@ export class Subworkflow extends BaseSubworkflow {
 
     // eslint-disable-next-line class-methods-use-this
     get scopeVariables() {
-        return ["N_k", "N_k_xyz"];
+        return ["N_k", "N_k_nonuniform"];
     }
 
     // eslint-disable-next-line class-methods-use-this
