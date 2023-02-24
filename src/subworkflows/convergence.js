@@ -47,6 +47,7 @@ export const ConvergenceMixin = (superclass) =>
 
             // Assignment with result's initial value
             const prevResultInit = this._UnitFactory.create({
+                name: "init result",
                 type: UNIT_TYPES.assignment,
                 head: true,
                 operand: prevResult,
@@ -55,6 +56,7 @@ export const ConvergenceMixin = (superclass) =>
 
             // Assignment with initial value of convergence parameter
             const paramInit = this._UnitFactory.create({
+                name: "init parameter",
                 type: UNIT_TYPES.assignment,
                 operand: param.name,
                 value: param.initialValue,
@@ -62,6 +64,7 @@ export const ConvergenceMixin = (superclass) =>
 
             // Assignment with initial value of iteration counter
             const iterInit = this._UnitFactory.create({
+                name: "init counter",
                 type: UNIT_TYPES.assignment,
                 operand: iteration,
                 value: 1,
@@ -69,6 +72,7 @@ export const ConvergenceMixin = (superclass) =>
 
             // Assignment for storing iteration result: extracts 'result' from convergence unit scope
             const storePrevResult = this._UnitFactory.create({
+                name: "store result",
                 type: UNIT_TYPES.assignment,
                 input: [
                     {
@@ -82,6 +86,7 @@ export const ConvergenceMixin = (superclass) =>
 
             // Assignment for convergence param increase
             const nextStep = this._UnitFactory.create({
+                name: "update parameter",
                 type: UNIT_TYPES.assignment,
                 input: param.useVariablesFromUnitContext(unitForConvergence.flowchartId),
                 operand: param.name,
@@ -100,6 +105,7 @@ export const ConvergenceMixin = (superclass) =>
 
             // Final step of convergence
             const storeResult = this._UnitFactory.create({
+                name: "update result",
                 type: UNIT_TYPES.assignment,
                 input: [
                     {
@@ -113,6 +119,7 @@ export const ConvergenceMixin = (superclass) =>
 
             // Assign next iteration value
             const nextIter = this._UnitFactory.create({
+                name: "update counter",
                 type: UNIT_TYPES.assignment,
                 input: [],
                 operand: iteration,
@@ -121,6 +128,7 @@ export const ConvergenceMixin = (superclass) =>
 
             // Convergence condition unit
             const conditionUnit = this._UnitFactory.create({
+                name: "check convergence",
                 type: UNIT_TYPES.condition,
                 statement: `${condition} ${operator} ${tolerance}`,
                 then: exit.flowchartId,
