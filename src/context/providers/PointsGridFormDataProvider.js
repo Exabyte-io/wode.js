@@ -111,7 +111,9 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
 
         return {
             $schema: "http://json-schema.org/draft-04/schema#",
-            description: `3D grid with shifts. ${this._descriptionText}`,
+            description: `3D grid with shifts. Default min value for ${
+                this._metricDescription
+            } is ${this._getDefaultGridMetricValue(this.gridMetricType)}.`,
             type: "object",
             properties: {
                 dimensions: vector_(this._defaultDimensions, this.isUsingJinjaVariables),
@@ -175,26 +177,26 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         };
     }
 
-    _arraySubStyle(emptyValue = 0) {
-        return {
-            "ui:options": {
-                addable: false,
-                orderable: false,
-                removable: false,
-            },
-            items: {
-                "ui:disabled": this.preferGridMetric,
-                // TODO: extract the actual current values from context
-                "ui:placeholder": "1",
-                "ui:emptyValue": emptyValue,
-            },
-        };
-    }
-
     get uiSchema() {
+        const _arraySubStyle = (emptyValue = 0) => {
+            return {
+                "ui:options": {
+                    addable: false,
+                    orderable: false,
+                    removable: false,
+                },
+                items: {
+                    "ui:disabled": this.preferGridMetric,
+                    // TODO: extract the actual current values from context
+                    "ui:placeholder": "1",
+                    "ui:emptyValue": emptyValue,
+                },
+            };
+        };
+
         return {
-            dimensions: this._arraySubStyle(1),
-            shifts: this._arraySubStyle(0),
+            dimensions: _arraySubStyle(1),
+            shifts: _arraySubStyle(0),
             gridMetricType: {
                 "ui:title": "Grid Metric",
             },
