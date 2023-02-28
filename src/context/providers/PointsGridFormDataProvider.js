@@ -12,6 +12,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     constructor(config) {
         super(config);
         this._divisor = config.divisor || 1; // KPPRA will be divided by this number
+        this.reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
 
         this.dimensions = lodash.get(this.data, "dimensions") || this._defaultDimensions;
         this.shifts = lodash.get(this.data, "shifts") || this._defaultShifts;
@@ -21,7 +22,6 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         this.gridMetricValue =
             lodash.get(this.data, "gridMetricValue") || this._getDefaultGridMetricValue("KPPRA");
         this.preferGridMetric = lodash.get(this.data, "preferGridMetric", false);
-        this.reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
 
         this._metricDescription = {
             KPPRA: `${this.name[0].toUpperCase()}PPRA (${this.name[0]}pt per reciprocal atom)`, // KPPRA or QPPRA
