@@ -273,7 +273,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             case "KPPRA":
                 return this._getKPPRAFromGrid({ dimensions });
             case "spacing":
-                return this._getSpacingFromDimensions(dimensions);
+                return lodash.round(this._getSpacingFromDimensions(dimensions), 3);
             default:
                 return 1;
         }
