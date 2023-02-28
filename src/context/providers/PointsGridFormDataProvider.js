@@ -21,6 +21,12 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         this.gridMetricValue =
             lodash.get(this.data, "gridMetricValue") || this._getDefaultGridMetricValue("KPPRA");
         this.preferGridMetric = lodash.get(this.data, "preferGridMetric", false);
+        this.reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
+
+        this._metricDescription = {
+            KPPRA: `${this.name[0].toUpperCase()}PPRA (${this.name[0]}pt per reciprocal atom)`, // KPPRA or QPPRA
+            spacing: "grid spacing",
+        };
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -51,23 +57,34 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         }
     }
 
-    get _descriptionText() {
-        let metric;
-        if (this.gridMetricType === "KPPRA") {
-            const kOrQ = this.name[0];
-            metric = `${kOrQ.toUpperCase()}PPRA (${kOrQ}pt per reciprocal atom)`;
-        } else if (this.gridMetricType === "spacing") {
-            metric = "grid spacing";
-        }
-        return `Default min value for ${metric} is ${this._getDefaultGridMetricValue(
-            this.gridMetricType,
-        )}.`;
+    get _defaultData() {
+        return {
+            dimensions: this._defaultDimensions,
+            shifts: this._defaultShifts,
+            gridMetricType: "KPPRA",
+            gridMetricValue: this._getDefaultGridMetricValue("KPPRA"),
+            preferGridMetric: false,
+            reciprocalVectorRatios: this.reciprocalVectorRatios,
+        };
+    }
+
+    get _defaultDataWithMaterial() {
+        const { gridMetricType, gridMetricValue } = this;
+        // if `data` is present and material is updated, prioritize `data` when `preferGridMetric` is not set
+        return this.preferGridMetric
+            ? {
+                  dimensions: this.calculateDimensions({ gridMetricType, gridMetricValue }),
+                  shifts: this._defaultShifts,
+              }
+            : this.data || this._defaultData;
+    }
+
+    get defaultData() {
+        return this.material ? this._defaultDataWithMaterial : this._defaultData;
     }
 
     get reciprocalVectorRatios() {
-        if (!this.material) return [1, 1, 1];
-        const lattice = new Made.ReciprocalLattice(this.material.lattice);
-        return lattice.reciprocalVectorRatios.map((r) => lodash.round(r, 3));
+        return this.reciprocalLattice.reciprocalVectorRatios.map((r) => lodash.round(r, 3));
     }
 
     get jsonSchema() {
@@ -200,54 +217,14 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         };
     }
 
-    get _defaultData() {
-        return {
-            dimensions: this._defaultDimensions,
-            shifts: this._defaultShifts,
-            gridMetricType: "KPPRA",
-            gridMetricValue: this._getDefaultGridMetricValue("KPPRA"),
-            preferGridMetric: false,
-            reciprocalVectorRatios: this.reciprocalVectorRatios,
-        };
-    }
-
-    get _defaultDataWithMaterial() {
-        const { gridMetricType, gridMetricValue } = this;
-        // if `data` is present and material is updated, prioritize `data` when `preferGridMetric` is not set
-        return this.preferGridMetric
-            ? {
-                  dimensions: this.calculateDimensions({ gridMetricType, gridMetricValue }),
-                  shifts: this._defaultShifts,
-              }
-            : this.data || this._defaultData;
-    }
-
-    get defaultData() {
-        return this.material ? this._defaultDataWithMaterial : this._defaultData;
-    }
-
-    _getGridFromKPPRA(KPPRA) {
-        const reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
+    _getDimensionsFromKPPRA(KPPRA) {
         const nAtoms = this.material ? this.material.Basis.nAtoms : 1;
-        return {
-            dimensions: reciprocalLattice.getDimensionsFromPoints(KPPRA / nAtoms),
-            shifts: this._defaultShifts,
-        };
+        return this.reciprocalLattice.getDimensionsFromPoints(KPPRA / nAtoms);
     }
 
-    _getKPPRAFromGrid(grid = this.defaultData) {
+    _getKPPRAFromDimensions(dimensions) {
         const nAtoms = this.material ? this.material.Basis.nAtoms : 1;
-        return grid.dimensions.reduce((a, b) => a * b) * nAtoms;
-    }
-
-    _getDimensionsFromSpacing(spacing) {
-        const reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
-        return reciprocalLattice.getDimensionsFromSpacing(spacing);
-    }
-
-    _getSpacingFromDimensions(dimensions) {
-        const reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
-        return reciprocalLattice.getSpacingFromDimensions(dimensions);
+        return dimensions.reduce((a, b) => a * b) * nAtoms;
     }
 
     static _canTransform(data) {
@@ -260,9 +237,9 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     calculateDimensions({ gridMetricType, gridMetricValue }) {
         switch (gridMetricType) {
             case "KPPRA":
-                return this._getGridFromKPPRA(gridMetricValue).dimensions;
+                return this._getDimensionsFromKPPRA(gridMetricValue);
             case "spacing":
-                return this._getDimensionsFromSpacing(gridMetricValue);
+                return this.reciprocalLattice.getDimensionsFromSpacing(gridMetricValue);
             default:
                 return [1, 1, 1];
         }
@@ -271,9 +248,9 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     calculateGridMetric({ gridMetricType, dimensions }) {
         switch (gridMetricType) {
             case "KPPRA":
-                return this._getKPPRAFromGrid({ dimensions });
+                return this._getKPPRAFromDimensions(dimensions);
             case "spacing":
-                return lodash.round(this._getSpacingFromDimensions(dimensions), 3);
+                return lodash.round(this.reciprocalLattice.getSpacingFromDimensions(dimensions), 3);
             default:
                 return 1;
         }
