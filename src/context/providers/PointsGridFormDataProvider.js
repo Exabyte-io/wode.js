@@ -243,7 +243,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             case "KPPRA":
                 return this._getDimensionsFromKPPRA(gridMetricValue);
             case "spacing":
-                return this.reciprocalLattice.getDimensionsFromSpacing(gridMetricValue);
+                return this.reciprocalLattice.getDimensionsFromSpacing(gridMetricValue, "angstrom");
             default:
                 return [1, 1, 1];
         }
@@ -254,7 +254,10 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             case "KPPRA":
                 return this._getKPPRAFromDimensions(dimensions);
             case "spacing":
-                return lodash.round(this.reciprocalLattice.getSpacingFromDimensions(dimensions), 3);
+                return lodash.round(
+                    this.reciprocalLattice.getSpacingFromDimensions(dimensions, "angstrom"),
+                    3,
+                );
             default:
                 return 1;
         }
