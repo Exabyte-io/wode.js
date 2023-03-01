@@ -199,6 +199,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             dimensions: _arraySubStyle(1),
             shifts: _arraySubStyle(0),
             gridMetricType: {
+                ...this.fieldStyles("rjsf-select"),
                 "ui:title": "Grid Metric",
             },
             gridMetricValue: {
