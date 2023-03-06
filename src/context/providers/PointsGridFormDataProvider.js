@@ -1,4 +1,5 @@
 import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
+import { math } from "@exabyte-io/code.js/dist/math";
 import { Made } from "@exabyte-io/made.js";
 import lodash from "lodash";
 import { mix } from "mixwith";
@@ -21,27 +22,21 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         this.preferKPPRA = lodash.get(this.data, "preferKPPRA", false);
     }
 
-    getDefaultDimension() {
-        return this._getGridFromKPPRA(this._defaultKPPRA).dimensions[0];
-    }
-
     // eslint-disable-next-line class-methods-use-this
     getDefaultShift() {
         return 0;
     }
 
-    // eslint-disable-next-line class-methods-use-this
     get _defaultDimensions() {
-        return Array(3).fill(this.getDefaultDimension());
+        return this._getGridFromKPPRA(this._defaultKPPRA).dimensions;
     }
 
-    // eslint-disable-next-line class-methods-use-this
     get _defaultShifts() {
         return Array(3).fill(this.getDefaultShift());
     }
 
     get _defaultKPPRA() {
-        return Math.floor(10 / this._divisor);
+        return Math.floor(5 / this._divisor);
     }
 
     get jsonSchema() {
@@ -56,12 +51,14 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         };
 
         const vector_ = (defaultValue) => {
+            const isArray = Array.isArray(defaultValue);
             return {
                 ...vector,
                 items: {
                     type: this.isUsingJinjaVariables ? "string" : "number",
-                    default: defaultValue,
+                    ...(isArray ? {} : { default: defaultValue }),
                 },
+                ...(isArray ? { default: defaultValue } : {}),
             };
         };
 
@@ -72,7 +69,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             }.`,
             type: "object",
             properties: {
-                dimensions: vector_(this.getDefaultDimension()),
+                dimensions: vector_(this._defaultDimensions),
                 shifts: vector_(this.getDefaultShift()),
                 KPPRA: {
                     type: "integer",
@@ -116,6 +113,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             preferKPPRA: {
                 ...this.fieldStyles("p-t-20"), // add padding top to level with other elements
                 "ui:emptyValue": true,
+                "ui:disabled": this.isUsingJinjaVariables,
             },
         };
     }
@@ -140,11 +138,28 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         return this.material ? this._defaultDataWithMaterial : this._defaultData;
     }
 
+    _getReciprocalLatticeNorms() {
+        const reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
+        const bVectors = reciprocalLattice.reciprocalVectors;
+        return bVectors.map((vec) => math.norm(vec));
+    }
+
+    static _calculateDimension(nPoints, norms, index) {
+        const [j, k] = [0, 1, 2].filter((i) => i !== index); // get indices of other two dimensions
+        const N = Math.cbrt((nPoints * norms[index] ** 2) / (norms[j] * norms[k]));
+        return Math.max(1, Math.ceil(N));
+    }
+
+    _calculateDimensions(nKpoints) {
+        const norms = this._getReciprocalLatticeNorms();
+        const indices = [0, 1, 2];
+        return indices.map((i) => this.constructor._calculateDimension(nKpoints, norms, i));
+    }
+
     _getGridFromKPPRA(KPPRA) {
         const nAtoms = this.material ? this.material.Basis.nAtoms : 1;
-        const dimension = Math.ceil((KPPRA / nAtoms) ** (1 / 3));
         return {
-            dimensions: Array(3).fill(dimension),
+            dimensions: this._calculateDimensions(KPPRA / nAtoms),
             shifts: this._defaultShifts,
         };
     }
