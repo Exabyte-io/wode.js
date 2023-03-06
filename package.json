@@ -70,6 +70,7 @@
         "prettier": "^2.7.1"
     },
     "peerDependencies": {
+        "@exabyte-io/made.js": "*",
         "@exabyte-io/ade.js": "*",
         "@exabyte-io/ide.js": "*",
         "@exabyte-io/mode.js": "*",

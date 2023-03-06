@@ -81,7 +81,7 @@ export class PointsPathFormDataProvider extends mix(JSONSchemaFormDataProvider).
         };
     }
 
-    get fields() {
+    get templates() {
         const hasRequiredFn = typeof this.material.getBrillouinZoneImageComponent === "function";
         if (!hasRequiredFn) {
             console.log(
@@ -92,7 +92,7 @@ export class PointsPathFormDataProvider extends mix(JSONSchemaFormDataProvider).
         }
         return {
             // eslint-disable-next-line no-unused-vars
-            TitleField: ({ title, required }) =>
+            TitleFieldTemplate: ({ title, required }) =>
                 this.material.getBrillouinZoneImageComponent(title),
         };
     }
