@@ -1,3 +1,4 @@
+import { units as UNITS } from "@exabyte-io/code.js/dist/constants";
 import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
 import { Made } from "@exabyte-io/made.js";
 import lodash from "lodash";
@@ -238,24 +239,24 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         );
     }
 
-    calculateDimensions({ gridMetricType, gridMetricValue }) {
+    calculateDimensions({ gridMetricType, gridMetricValue, units = UNITS.angstrom }) {
         switch (gridMetricType) {
             case "KPPRA":
                 return this._getDimensionsFromKPPRA(gridMetricValue);
             case "spacing":
-                return this.reciprocalLattice.getDimensionsFromSpacing(gridMetricValue, "angstrom");
+                return this.reciprocalLattice.getDimensionsFromSpacing(gridMetricValue, units);
             default:
                 return [1, 1, 1];
         }
     }
 
-    calculateGridMetric({ gridMetricType, dimensions }) {
+    calculateGridMetric({ gridMetricType, dimensions, units = UNITS.angstrom }) {
         switch (gridMetricType) {
             case "KPPRA":
                 return this._getKPPRAFromDimensions(dimensions);
             case "spacing":
                 return lodash.round(
-                    this.reciprocalLattice.getSpacingFromDimensions(dimensions, "angstrom"),
+                    this.reciprocalLattice.getSpacingFromDimensions(dimensions, units),
                     3,
                 );
             default:
