@@ -224,7 +224,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
 
     _getDimensionsFromKPPRA(KPPRA) {
         const nAtoms = this.material ? this.material.Basis.nAtoms : 1;
-        return this.reciprocalLattice.getDimensionsFromPoints(KPPRA / nAtoms);
+        return this.reciprocalLattice.getDimensionsFromPointsCount(KPPRA / nAtoms);
     }
 
     _getKPPRAFromDimensions(dimensions) {
