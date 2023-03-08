@@ -1,4 +1,5 @@
 import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
+import { math as codeJSMath } from "@exabyte-io/code.js/dist/math";
 import { Made } from "@exabyte-io/made.js";
 import lodash from "lodash";
 import { mix } from "mixwith";
@@ -40,7 +41,9 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
 
     get reciprocalVectorRatios() {
         const lattice = new Made.ReciprocalLattice(this.material.lattice);
-        return lattice.reciprocalVectorRatios.map((r) => lodash.round(r, 3));
+        return lattice.reciprocalVectorRatios.map((r) =>
+            Number(codeJSMath.numberToPrecision(r, 4)),
+        );
     }
 
     get jsonSchema() {
