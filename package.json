@@ -50,7 +50,7 @@
         "@exabyte-io/code.js": "2022.11.11-0",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2022.7.28-1",
-        "@exabyte-io/made.js": "git+https://github.com/Exabyte-io/made.js.git#cb503ff185086721b3986c5f8e3fb0c0cde70487",
+        "@exabyte-io/made.js": "2023.3.8-0",
         "@exabyte-io/mode.js": "2022.10.11-0",
         "chai": "^4.3.4",
         "eslint": "7.32.0",
