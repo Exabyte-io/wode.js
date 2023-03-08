@@ -42,7 +42,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     get reciprocalVectorRatios() {
         const lattice = new Made.ReciprocalLattice(this.material.lattice);
         return lattice.reciprocalVectorRatios.map((r) =>
-            Number(codeJSMath.numberToPrecision(r, 4)),
+            Number(codeJSMath.numberToPrecision(r, 3)),
         );
     }
 
@@ -105,6 +105,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                 // TODO: extract the actual current values from context
                 "ui:placeholder": "1",
                 "ui:emptyValue": emptyValue,
+                "ui:label": false,
             },
         };
     }
@@ -128,6 +129,9 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                 "ui:orderable": false,
                 "ui:removable": false,
                 "ui:readonly": true,
+                items: {
+                    "ui:label": false,
+                },
             },
         };
     }
