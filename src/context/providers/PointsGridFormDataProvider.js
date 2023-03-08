@@ -1,5 +1,6 @@
 import { units as UNITS } from "@exabyte-io/code.js/dist/constants";
 import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
+import { math as codeJSMath } from "@exabyte-io/code.js/dist/math";
 import { Made } from "@exabyte-io/made.js";
 import lodash from "lodash";
 import { mix } from "mixwith";
@@ -86,7 +87,9 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     }
 
     get reciprocalVectorRatios() {
-        return this.reciprocalLattice.reciprocalVectorRatios.map((r) => lodash.round(r, 3));
+        return this.reciprocalLattice.reciprocalVectorRatios.map((r) =>
+            Number(codeJSMath.numberToPrecision(r, 3)),
+        );
     }
 
     get jsonSchema() {
@@ -192,6 +195,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                     // TODO: extract the actual current values from context
                     "ui:placeholder": "1",
                     "ui:emptyValue": emptyValue,
+                    "ui:label": false,
                 },
             };
         };
@@ -218,6 +222,9 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                 "ui:orderable": false,
                 "ui:removable": false,
                 "ui:readonly": true,
+                items: {
+                    "ui:label": false,
+                },
             },
         };
     }
