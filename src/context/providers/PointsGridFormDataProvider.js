@@ -1,3 +1,4 @@
+import { units as UNITS } from "@exabyte-io/code.js/dist/constants";
 import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
 import { math as codeJSMath } from "@exabyte-io/code.js/dist/math";
 import { Made } from "@exabyte-io/made.js";
@@ -13,13 +14,22 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     constructor(config) {
         super(config);
         this._divisor = config.divisor || 1; // KPPRA will be divided by this number
+        this.reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
 
         this.dimensions = lodash.get(this.data, "dimensions") || this._defaultDimensions;
         this.shifts = lodash.get(this.data, "shifts") || this._defaultShifts;
 
         // init class fields from data (as constructed from context in parent)
-        this.KPPRA = lodash.get(this.data, "KPPRA") || this._defaultKPPRA;
-        this.preferKPPRA = lodash.get(this.data, "preferKPPRA", false);
+        this.gridMetricType = lodash.get(this.data, "gridMetricType") || "KPPRA";
+        this.gridMetricValue =
+            lodash.get(this.data, "gridMetricValue") || this._getDefaultGridMetricValue("KPPRA");
+        this.preferGridMetric = lodash.get(this.data, "preferGridMetric", false);
+
+        this._metricDescription = {
+            KPPRA: `${this.name[0].toUpperCase()}PPRA (${this.name[0]}pt per reciprocal atom)`, // KPPRA or QPPRA
+            spacing: "grid spacing",
+        };
+        this.defaultClassNames = "col-xs-12 col-sm-6 col-md-3 col-lg-2";
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -28,26 +38,61 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     }
 
     get _defaultDimensions() {
-        return this._getGridFromKPPRA(this._defaultKPPRA).dimensions;
+        return this.calculateDimensions({
+            gridMetricType: "KPPRA",
+            gridMetricValue: this._getDefaultGridMetricValue("KPPRA"),
+        });
     }
 
     get _defaultShifts() {
         return Array(3).fill(this.getDefaultShift());
     }
 
-    get _defaultKPPRA() {
-        return Math.floor(5 / this._divisor);
+    _getDefaultGridMetricValue(metric) {
+        switch (metric) {
+            case "KPPRA":
+                return Math.floor(5 / this._divisor);
+            case "spacing":
+                return 0.3;
+            default:
+                console.error("Metric type not recognized!");
+                return 1;
+        }
+    }
+
+    get _defaultData() {
+        return {
+            dimensions: this._defaultDimensions,
+            shifts: this._defaultShifts,
+            gridMetricType: "KPPRA",
+            gridMetricValue: this._getDefaultGridMetricValue("KPPRA"),
+            preferGridMetric: false,
+            reciprocalVectorRatios: this.reciprocalVectorRatios,
+        };
+    }
+
+    get _defaultDataWithMaterial() {
+        const { gridMetricType, gridMetricValue } = this;
+        // if `data` is present and material is updated, prioritize `data` when `preferGridMetric` is not set
+        return this.preferGridMetric
+            ? {
+                  dimensions: this.calculateDimensions({ gridMetricType, gridMetricValue }),
+                  shifts: this._defaultShifts,
+              }
+            : this.data || this._defaultData;
+    }
+
+    get defaultData() {
+        return this.material ? this._defaultDataWithMaterial : this._defaultData;
     }
 
     get reciprocalVectorRatios() {
-        const lattice = new Made.ReciprocalLattice(this.material.lattice);
-        return lattice.reciprocalVectorRatios.map((r) =>
+        return this.reciprocalLattice.reciprocalVectorRatios.map((r) =>
             Number(codeJSMath.numberToPrecision(r, 3)),
         );
     }
 
     get jsonSchema() {
-        const kOrQ = this.name[0];
         const vector = {
             type: "array",
             items: {
@@ -71,55 +116,103 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
 
         return {
             $schema: "http://json-schema.org/draft-04/schema#",
-            description: `3D grid with shifts. Default min value for ${kOrQ.toUpperCase()}PPRA (${kOrQ}pt per reciprocal atom) is ${
-                this._defaultKPPRA
-            }.`,
+            description: `3D grid with shifts. Default min value for ${
+                this._metricDescription[this.gridMetricType]
+            } is ${this._getDefaultGridMetricValue(this.gridMetricType)}.`,
             type: "object",
             properties: {
                 dimensions: vector_(this._defaultDimensions, this.isUsingJinjaVariables),
                 shifts: vector_(this.getDefaultShift()),
                 reciprocalVectorRatios: vector_(this.reciprocalVectorRatios),
-                KPPRA: {
-                    type: "integer",
-                    minimum: 1,
-                    default: this.KPPRA,
+                gridMetricType: {
+                    type: "string",
+                    enum: ["KPPRA", "spacing"],
+                    default: "KPPRA",
                 },
-                preferKPPRA: {
+                gridMetricValue: {
+                    type: "number",
+                },
+                preferGridMetric: {
                     type: "boolean",
-                    default: this.preferKPPRA,
+                },
+            },
+            dependencies: {
+                gridMetricType: {
+                    oneOf: [
+                        {
+                            properties: {
+                                gridMetricType: {
+                                    enum: ["KPPRA"],
+                                },
+                                gridMetricValue: {
+                                    type: "integer",
+                                    minimum: 1,
+                                    title: "Value",
+                                    default: this.gridMetricValue,
+                                },
+                                preferGridMetric: {
+                                    type: "boolean",
+                                    title: "prefer KPPRA",
+                                    default: this.preferGridMetric,
+                                },
+                            },
+                        },
+                        {
+                            properties: {
+                                gridMetricType: {
+                                    enum: ["spacing"],
+                                },
+                                gridMetricValue: {
+                                    type: "number",
+                                    minimum: 0,
+                                    title: "Value [1/Å]",
+                                    default: this.gridMetricValue,
+                                },
+                                preferGridMetric: {
+                                    type: "boolean",
+                                    title: "prefer spacing",
+                                    default: this.preferGridMetric,
+                                },
+                            },
+                        },
+                    ],
                 },
             },
             required: ["dimensions", "shifts"],
         };
     }
 
-    _arraySubStyle(emptyValue = 0) {
-        return {
-            "ui:options": {
-                addable: false,
-                orderable: false,
-                removable: false,
-            },
-            items: {
-                "ui:disabled": this.preferKPPRA,
-                // TODO: extract the actual current values from context
-                "ui:placeholder": "1",
-                "ui:emptyValue": emptyValue,
-                "ui:label": false,
-            },
-        };
-    }
-
     get uiSchema() {
+        const _arraySubStyle = (emptyValue = 0) => {
+            return {
+                "ui:options": {
+                    addable: false,
+                    orderable: false,
+                    removable: false,
+                },
+                items: {
+                    "ui:disabled": this.preferGridMetric,
+                    // TODO: extract the actual current values from context
+                    "ui:placeholder": "1",
+                    "ui:emptyValue": emptyValue,
+                    "ui:label": false,
+                },
+            };
+        };
+
         return {
-            dimensions: this._arraySubStyle(1),
-            shifts: this._arraySubStyle(0),
-            KPPRA: {
-                "ui:disabled": !this.preferKPPRA,
-                "ui:emptyValue": this.KPPRA,
-                "ui:placeholder": this.KPPRA.toString(), // make string to prevent prop type error
+            dimensions: _arraySubStyle(1),
+            shifts: _arraySubStyle(0),
+            gridMetricType: {
+                ...this.fieldStyles("rjsf-select"),
+                "ui:title": "Grid Metric",
             },
-            preferKPPRA: {
+            gridMetricValue: {
+                "ui:disabled": !this.preferGridMetric,
+                "ui:emptyValue": this.gridMetricValue,
+                "ui:placeholder": this.gridMetricValue.toString(), // make string to prevent prop type error
+            },
+            preferGridMetric: {
                 ...this.fieldStyles("p-t-20"), // add padding top to level with other elements
                 "ui:emptyValue": true,
                 "ui:disabled": this.isUsingJinjaVariables,
@@ -136,59 +229,57 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         };
     }
 
-    get _defaultData() {
-        return {
-            dimensions: this._defaultDimensions,
-            shifts: this._defaultShifts,
-            KPPRA: this._defaultKPPRA,
-            preferKPPRA: false,
-            reciprocalVectorRatios: this.reciprocalVectorRatios,
-        };
-    }
-
-    get _defaultDataWithMaterial() {
-        // if `data` is present and material is updated, prioritize `data` when `preferKPPRA` is not set
-        return this.preferKPPRA
-            ? this._getGridFromKPPRA(this.KPPRA)
-            : this.data || this._defaultData;
-    }
-
-    get defaultData() {
-        return this.material ? this._defaultDataWithMaterial : this._defaultData;
-    }
-
-    _getGridFromKPPRA(KPPRA) {
-        const reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
+    _getDimensionsFromKPPRA(KPPRA) {
         const nAtoms = this.material ? this.material.Basis.nAtoms : 1;
-        return {
-            dimensions: reciprocalLattice.getDimensionsFromPointsCount(KPPRA / nAtoms),
-            shifts: this._defaultShifts,
-        };
+        return this.reciprocalLattice.getDimensionsFromPointsCount(KPPRA / nAtoms);
     }
 
-    _getKPPRAFromGrid(grid = this.defaultData) {
+    _getKPPRAFromDimensions(dimensions) {
         const nAtoms = this.material ? this.material.Basis.nAtoms : 1;
-        return grid.dimensions.reduce((a, b) => a * b) * nAtoms;
+        return dimensions.reduce((a, b) => a * b) * nAtoms;
     }
 
     static _canTransform(data) {
         return (
-            (data.preferKPPRA && data.KPPRA) ||
-            (!data.preferKPPRA && data.dimensions.every((d) => typeof d === "number"))
+            (data.preferGridMetric && data.gridMetricType && data.gridMetricValue) ||
+            (!data.preferGridMetric && data.dimensions.every((d) => typeof d === "number"))
         );
+    }
+
+    calculateDimensions({ gridMetricType, gridMetricValue, units = UNITS.angstrom }) {
+        switch (gridMetricType) {
+            case "KPPRA":
+                return this._getDimensionsFromKPPRA(gridMetricValue);
+            case "spacing":
+                return this.reciprocalLattice.getDimensionsFromSpacing(gridMetricValue, units);
+            default:
+                return [1, 1, 1];
+        }
+    }
+
+    calculateGridMetric({ gridMetricType, dimensions, units = UNITS.angstrom }) {
+        switch (gridMetricType) {
+            case "KPPRA":
+                return this._getKPPRAFromDimensions(dimensions);
+            case "spacing":
+                return lodash.round(
+                    this.reciprocalLattice.getSpacingFromDimensions(dimensions, units),
+                    3,
+                );
+            default:
+                return 1;
+        }
     }
 
     transformData(data) {
         if (!this.constructor._canTransform(data)) {
             return data;
         }
-        // 1. check if KPPRA is preferred
-        if (data.preferKPPRA) {
-            // 2. KPPRA is preferred => recalculate grid; NOTE: `data.KPPRA` is undefined at first
-            data.dimensions = this._getGridFromKPPRA(data.KPPRA).dimensions;
+        // dimensions are calculated from grid metric or vice versa
+        if (data.preferGridMetric) {
+            data.dimensions = this.calculateDimensions(data);
         } else {
-            // 3. KPPRA is not preferred => grid was => recalculate KPPRA
-            data.KPPRA = this._getKPPRAFromGrid(data);
+            data.gridMetricValue = this.calculateGridMetric(data);
         }
         return data;
     }
