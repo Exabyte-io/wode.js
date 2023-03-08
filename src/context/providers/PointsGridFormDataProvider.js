@@ -157,7 +157,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         const reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
         const nAtoms = this.material ? this.material.Basis.nAtoms : 1;
         return {
-            dimensions: reciprocalLattice.getDimensionsFromPoints(KPPRA / nAtoms),
+            dimensions: reciprocalLattice.getDimensionsFromPointsCount(KPPRA / nAtoms),
             shifts: this._defaultShifts,
         };
     }
