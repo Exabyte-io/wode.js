@@ -1,10 +1,12 @@
 import { UNIT_TYPES } from "../enums";
+import { createConvergenceParameter } from "./convergence/factory";
 
 export const ConvergenceMixin = (superclass) =>
     class extends superclass {
         addConvergence({
             parameter,
             parameterInitial,
+            parameterIncrement,
             result,
             resultInitial,
             condition,
@@ -29,21 +31,23 @@ export const ConvergenceMixin = (superclass) =>
                 throw new Error("There is no result to converge");
             }
 
-            // Replace kgrid to be ready for convergence
-            // TODO: kgrid should be abstracted and selected by user
-            unitForConvergence.updateContext({
-                kgrid: {
-                    dimensions: [`{{${parameter}}}`, `{{${parameter}}}`, `{{${parameter}}}`],
-                    shifts: [0, 0, 0],
-                },
-                isKgridEdited: true,
-                isUsingJinjaVariables: true,
+            // initialize parameter
+            const param = createConvergenceParameter({
+                name: parameter,
+                initialValue: parameterInitial,
+                increment: parameterIncrement,
             });
 
+            // Replace kgrid to be ready for convergence
+            // TODO: kgrid should be abstracted and selected by user
+            unitForConvergence.updateContext(param.unitContext);
+
             const prevResult = "prev_result";
+            const iteration = "iteration";
 
             // Assignment with result's initial value
             const prevResultInit = this._UnitFactory.create({
+                name: "init result",
                 type: UNIT_TYPES.assignment,
                 head: true,
                 operand: prevResult,
@@ -52,13 +56,23 @@ export const ConvergenceMixin = (superclass) =>
 
             // Assignment with initial value of convergence parameter
             const paramInit = this._UnitFactory.create({
+                name: "init parameter",
                 type: UNIT_TYPES.assignment,
-                operand: parameter,
-                value: parameterInitial,
+                operand: param.name,
+                value: param.initialValue,
+            });
+
+            // Assignment with initial value of iteration counter
+            const iterInit = this._UnitFactory.create({
+                name: "init counter",
+                type: UNIT_TYPES.assignment,
+                operand: iteration,
+                value: 1,
             });
 
             // Assignment for storing iteration result: extracts 'result' from convergence unit scope
             const storePrevResult = this._UnitFactory.create({
+                name: "store result",
                 type: UNIT_TYPES.assignment,
                 input: [
                     {
@@ -72,10 +86,11 @@ export const ConvergenceMixin = (superclass) =>
 
             // Assignment for convergence param increase
             const nextStep = this._UnitFactory.create({
+                name: "update parameter",
                 type: UNIT_TYPES.assignment,
-                input: [],
-                operand: parameter,
-                value: `${parameter} + 1`,
+                input: param.useVariablesFromUnitContext(unitForConvergence.flowchartId),
+                operand: param.name,
+                value: param.increment,
                 next: unitForConvergence.flowchartId,
             });
 
@@ -84,12 +99,13 @@ export const ConvergenceMixin = (superclass) =>
                 type: UNIT_TYPES.assignment,
                 name: "exit",
                 input: [],
-                operand: parameter,
-                value: `${parameter} + 0`,
+                operand: param.name,
+                value: param.finalValue,
             });
 
             // Final step of convergence
             const storeResult = this._UnitFactory.create({
+                name: "update result",
                 type: UNIT_TYPES.assignment,
                 input: [
                     {
@@ -101,8 +117,18 @@ export const ConvergenceMixin = (superclass) =>
                 value: result,
             });
 
+            // Assign next iteration value
+            const nextIter = this._UnitFactory.create({
+                name: "update counter",
+                type: UNIT_TYPES.assignment,
+                input: [],
+                operand: iteration,
+                value: `${iteration} + 1`,
+            });
+
             // Convergence condition unit
             const conditionUnit = this._UnitFactory.create({
+                name: "check convergence",
                 type: UNIT_TYPES.condition,
                 statement: `${condition} ${operator} ${tolerance}`,
                 then: exit.flowchartId,
@@ -111,11 +137,13 @@ export const ConvergenceMixin = (superclass) =>
                 next: storePrevResult.flowchartId,
             });
 
-            this.addUnit(prevResultInit, 0);
             this.addUnit(paramInit, 0);
+            this.addUnit(prevResultInit, 1);
+            this.addUnit(iterInit, 2);
             this.addUnit(storeResult);
             this.addUnit(conditionUnit);
             this.addUnit(storePrevResult);
+            this.addUnit(nextIter);
             this.addUnit(nextStep);
             this.addUnit(exit);
 
