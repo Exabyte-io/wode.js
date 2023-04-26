@@ -1,6 +1,6 @@
 application:
     name: python
-    version: 2.7.5
+    version: 3.8.6
 dynamicSubworkflow:
     name: getQpointIrrep
     subfolder: espresso
