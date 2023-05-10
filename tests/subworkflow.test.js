@@ -1,3 +1,4 @@
+import { Application } from "@exabyte-io/ade.js";
 import { expect } from "chai";
 
 import { createSubworkflowByName } from "../src/subworkflows";
@@ -84,5 +85,33 @@ describe("subworkflows", () => {
         expect(subworkflow.units[0]._json.type).to.be.equal("execution");
         expect(subworkflow.units[1]._json.type).to.be.equal("condition");
         expect(subworkflow.units[2]._json.type).to.be.equal("assignment");
+    });
+    it("can update application", () => {
+        const subworkflow = createSubworkflowByName({
+            appName: "espresso",
+            swfName: "total_energy",
+        });
+
+        const assignementUnit = new AssignmentUnit(assignmentUnitData);
+        subworkflow.addUnit(assignementUnit, -1);
+
+        expect(subworkflow.units.length).to.be.equal(2);
+        expect(subworkflow.units[0]._json.type).to.be.equal("execution");
+        expect(subworkflow.units[1]._json.type).to.be.equal("assignment");
+        expect(subworkflow.units[0].application.version).to.be.equal("5.4.0");
+        expect(subworkflow.units[1].application?.version).to.be.equal(undefined);
+
+        const newApplication = Application.createFromNameVersionBuild({
+            name: "espresso",
+            version: "6.7.0",
+        });
+
+        expect(newApplication.version).to.be.equal("6.7.0");
+
+        subworkflow.setApplication(newApplication);
+
+        expect(subworkflow.application.version).to.be.equal("6.7.0");
+        expect(subworkflow.units[0].application?.version).to.be.equal("6.7.0");
+        expect(subworkflow.units[1].application?.version).to.be.equal(undefined);
     });
 });

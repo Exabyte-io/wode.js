@@ -82,6 +82,10 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         this.render(this.context, true);
     }
 
+    setInput(input) {
+        this.setProp("input", input);
+    }
+
     get defaultResults() {
         return this.flavor.results;
     }
