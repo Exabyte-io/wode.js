@@ -58,10 +58,12 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         return this.input.map((i) => new this.constructor.Template(i));
     }
 
-    setApplication(application) {
+    setApplication(application, propagateUpdates = true) {
         this._application = application;
         this.setProp("application", application.toJSON());
-        this.setExecutable(this.application.defaultExecutable);
+        if (propagateUpdates) {
+            this.setExecutable(this.application.defaultExecutable);
+        }
     }
 
     setExecutable(executable) {
