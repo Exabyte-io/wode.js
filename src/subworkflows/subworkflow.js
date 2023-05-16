@@ -110,17 +110,22 @@ export class Subworkflow extends BaseSubworkflow {
         this._application = application;
 
         if (previousApplicationName !== application.name) {
+            // TODO: figure out how to set a default unit per new application instead of removing all
             this.setUnits([]);
         } else {
-            this.setProp("application", application.toJSON()); // set model to the default one for the application selected
-
-            this.units.filter(unit => typeof unit.setApplication === "function")
-                .forEach(unit => unit.setApplication(application, true))
-            // set model to the default one for the application selected
-            this.setModel(this._ModelFactory.createFromApplication({
-                application: this.prop("application")
-            }));
+            // propagate new application version to all units
+            this.units
+                .filter((unit) => typeof unit.setApplication === "function")
+                .forEach((unit) => unit.setApplication(application, true));
         }
+
+        this.setProp("application", application.toJSON());
+        // set model to the default one for the application selected
+        this.setModel(
+            this._ModelFactory.createFromApplication({
+                application: this.prop("application"),
+            }),
+        );
     }
 
     get model() {
