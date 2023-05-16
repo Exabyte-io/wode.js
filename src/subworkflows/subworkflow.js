@@ -106,12 +106,25 @@ export class Subworkflow extends BaseSubworkflow {
     setApplication(application) {
         // TODO: adjust the logic above to take into account whether units need re-rendering after version change etc.
         // reset units if application name changes
-        if (this.application.name !== application.name) this.setUnits([]);
+        const previousApplicationName = this.application.name;
         this._application = application;
+
+        if (previousApplicationName !== application.name) {
+            // TODO: figure out how to set a default unit per new application instead of removing all
+            this.setUnits([]);
+        } else {
+            // propagate new application version to all units
+            this.units
+                .filter((unit) => typeof unit.setApplication === "function")
+                .forEach((unit) => unit.setApplication(application, true));
+        }
+
         this.setProp("application", application.toJSON());
         // set model to the default one for the application selected
         this.setModel(
-            this._ModelFactory.createFromApplication({ application: this.prop("application") }),
+            this._ModelFactory.createFromApplication({
+                application: this.prop("application"),
+            }),
         );
     }
 
