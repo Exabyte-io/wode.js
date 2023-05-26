@@ -1,4 +1,4 @@
-name: Band Structure
+name: Band Structure - HSE
 units:
 - name: pw_scf
   type: subworkflow
