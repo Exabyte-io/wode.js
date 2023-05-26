@@ -1,0 +1,21 @@
+name: HSE Band Gap
+application:
+    name: espresso
+    version: 6.3
+model:
+    name: DFTModel
+method:
+    name: PseudopotentialMethod
+units:
+-   config:
+        execName: pw.x
+        flavorName: pw_scf_hse
+        name: pw_scf_hse
+    functions:
+        head: true
+    type: executionBuilder
+-   config:
+        execName: projwfc.x
+        flavorName: projwfc
+        name: projwfc
+    type: executionBuilder
