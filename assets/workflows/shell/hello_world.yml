@@ -1,4 +1,4 @@
-name: Shell Hello World
+name: Shell Script
 units:
 - name: hello_world
   type: subworkflow

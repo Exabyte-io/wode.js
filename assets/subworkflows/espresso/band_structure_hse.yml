@@ -1,0 +1,21 @@
+# Note: this subworkflow is assumed to be part of the "Band Structure - HSE" workflow
+# and is this NOT self-sufficient!
+name: Band Structure - HSE
+application:
+    name: espresso
+    version: 5.4.0
+method:
+    name: PseudopotentialMethod
+model:
+    name: DFTModel
+units:
+-   config:
+        execName: pw.x
+        flavorName: pw_scf_bands_hse
+        name: pw_scf_bands_hse
+    type: executionBuilder
+-   config:
+        execName: bands.x
+        flavorName: bands
+        name: bands
+    type: executionBuilder

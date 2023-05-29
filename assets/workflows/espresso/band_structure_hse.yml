@@ -1,0 +1,14 @@
+name: Band Structure - HSE
+units:
+- name: pw_scf
+  type: subworkflow
+  config:
+    attributes:
+      name: Preliminary SCF Calculation
+- name: espresso_extract_kpoints
+  type: subworkflow
+- name: band_structure_hse
+  type: subworkflow
+  config:
+    attributes:
+      name: Main HSE Run

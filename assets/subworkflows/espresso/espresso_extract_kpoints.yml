@@ -1,0 +1,16 @@
+# Note: this subworkflow is assumed to be run after a pw_scf unit
+# and is this NOT self-sufficient!
+name: Extract KPOINTS
+application:
+    name: python
+    version: 3.8.6
+method:
+    name: UnknownMethod
+model:
+    name: UnknownModel
+units:
+-   config:
+        name: Extract kpoints
+        execName: python
+        flavorName: espresso_extract_kpoints
+    type: executionBuilder

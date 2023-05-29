@@ -1,0 +1,86 @@
+name: K-point Convergence
+application:
+    name: espresso
+    version: "6.3"
+method:
+    name: PseudopotentialMethod
+model:
+    name: DFTModel
+units:
+-   config:
+        name: Init tolerance
+        flowchartId: init-tolerance
+        operand: TOL
+        value: 1.0e-5
+    type: assignment
+-   config:
+        name: Init increment
+        flowchartId: init-increment
+        operand: INC
+        value: 1
+    type: assignment
+-   config:
+        name: Init result
+        flowchartId: init-result
+        operand: PREV_RESULT
+        value: 0
+    type: assignment
+-   config:
+        name: Init parameter
+        flowchartId: init-parameter
+        operand: PARAMETER
+        value: 1
+    type: assignment
+-   config:
+        name: pw_scf_kpt_conv
+        flowchartId: pwscf-kpoint-convergence
+        execName: pw.x
+        flavorName: pw_scf_kpt_conv
+    type: executionBuilder
+-   config:
+        name: store result
+        flowchartId: store-result
+        operand: RESULT
+        value: total_energy
+        input:
+            -   name: total_energy
+                scope: pwscf-kpoint-convergence
+    type: assignment
+-   config:
+        name: check convergence
+        flowchartId: check-convergence
+        statement: "abs((PREV_RESULT-RESULT)/RESULT) < TOL"
+        maxOccurrences: 50
+        then: convergence-is-reached
+        else: update-result
+    type: condition
+-   config:
+        name: update result
+        flowchartId: update-result
+        operand: PREV_RESULT
+        value: RESULT
+        input:
+            -   name: RESULT
+                scope: global
+    type: assignment
+-   config:
+        name: increment parameter
+        flowchartId: increment-parameter
+        operand: PREV_RESULT
+        value: PARAMETER+INC
+        input:
+            -   name: INC
+                scope: global
+            -   name: PARAMETER
+                scope: global
+        next: pwscf-kpoint-convergence
+    type: assignment
+-   config:
+        name: exit
+        flowchartId: convergence-is-reached
+        operand: PARAMETER
+        value: PARAMETER
+        input:
+            -   name: PARAMETER
+                scope: global
+    type: assignment
