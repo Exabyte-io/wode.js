@@ -56,6 +56,10 @@ export class Workflow extends BaseWorkflow {
         return defaultWorkflowConfig;
     }
 
+    static get _useDeepClone() {
+        return true;
+    }
+
     static generateWorkflowId() {
         return getUUID();
     }

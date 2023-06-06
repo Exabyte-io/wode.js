@@ -62,6 +62,10 @@ export class Subworkflow extends BaseSubworkflow {
         };
     }
 
+    static get _useDeepClone() {
+        return true;
+    }
+
     /*
      * @returns {SubworkflowUnit}
      */
