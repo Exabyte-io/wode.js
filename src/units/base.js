@@ -19,9 +19,7 @@ export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSet
         return getUUID();
     }
 
-    static get _useDeepClone() {
-        return true;
-    }
+    static _useDeepClone = true;
 
     get flowchartId() {
         return this.prop("flowchartId");
