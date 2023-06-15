@@ -229,36 +229,24 @@ export class Subworkflow extends BaseSubworkflow {
             return;
         }
         if (!targetUnit) {
-            // handle prepending to the first node
-            console.log(`adding unit to head`);
             const oldHead = units.find((u) => u.head === true);
-            console.log(`new unit: ${unit.flowchartId}`);
+
             oldHead.head = false;
             unit.next = oldHead.flowchartId;
-            console.log(`new unit points to ${unit.next}`);
+            if (unit.type === UNIT_TYPES.condition) {
+                unit.then = oldHead.flowchartId;
+            }
             unit.head = true;
-            console.log(`new unit's head prop is: ${unit.head}`);
+
             units.push(unit);
-            console.log(`old unit points to ${oldHead.next}`);
-            console.log(`old unit's head prop is: ${oldHead.head}`);
-            console.log("new units list:");
-            console.log(units);
             this.setUnits(units);
         } else {
-            console.log(`adding unit following the unit ${targetUnit}`);
-            const target = units.find((u) => u.flowchartId === targetUnit); // get the target Unit
-            console.log("original unit:", target.flowchartId);
-            console.log("original unit points to:", target.next);
-            unit.next = target.next; // link the new unit to point to the target's old next unit
-            target.next = unit.flowchartId; // link the target to point to the new unit
-            console.log("added unit: ", unit.flowchartId);
-            console.log("added unit points to: ", unit.next);
-            console.log("old unit:", target);
-            console.log("old unit points to:", target.next);
+            const target = units.find((u) => u.flowchartId === targetUnit);
+
+            unit.next = target.next;
+            target.next = unit.flowchartId;
 
             units.push(unit); // add the unit to the list of units
-            console.log("new units list:");
-            console.log(units);
             this.setUnits(units);
         }
     }
