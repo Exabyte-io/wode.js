@@ -220,10 +220,8 @@ export class Subworkflow extends BaseSubworkflow {
      * @param index {Number}
      */
     addUnit(unit, targetUnit) {
-        console.log("adding unit");
         const { units } = this;
         if (units.length === 0) {
-            console.log("adding unit to empty subworkflow");
             unit.head = true;
             this.setUnits([unit]);
             return;
@@ -234,6 +232,9 @@ export class Subworkflow extends BaseSubworkflow {
             oldHead.head = false;
             unit.next = oldHead.flowchartId;
             if (unit.type === UNIT_TYPES.condition) {
+                console.log(
+                    `setting the conditional node's 'then' attribute to ${oldHead.flowchartId}`,
+                );
                 unit.then = oldHead.flowchartId;
             }
             unit.head = true;
@@ -244,6 +245,10 @@ export class Subworkflow extends BaseSubworkflow {
             const target = units.find((u) => u.flowchartId === targetUnit);
 
             unit.next = target.next;
+            if (unit.type === UNIT_TYPES.condition) {
+                console.log(`setting the conditional node's 'then' attribute to ${target.next}`);
+                unit.then = target.next;
+            }
             target.next = unit.flowchartId;
 
             units.push(unit); // add the unit to the list of units
