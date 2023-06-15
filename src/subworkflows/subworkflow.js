@@ -225,9 +225,12 @@ export class Subworkflow extends BaseSubworkflow {
         if (!targetUnit) {
             // handle prepending to the first node
             const oldHead = units.find((u) => u.head === true);
+            console.log(`new unit: ${unit.flowchartId}`);
             oldHead.head = false;
             unit.next = oldHead.flowchartId;
+            console.log(`new unit points to ${unit.next}`);
             unit.head = true;
+            console.log(`new unit's head prop is: ${unit.head}`);
             units.push(unit);
             this.setUnits(units);
             return;
@@ -247,9 +250,10 @@ export class Subworkflow extends BaseSubworkflow {
             console.log("added unit points to: ", unit.next);
             console.log("old unit:", target);
             console.log("old unit points to:", target.next);
-            console.log(units.find((u) => u.flowchartId === target.next));
 
             units.push(unit); // add the unit to the list of units
+            console.log("new units list:");
+            console.log(units);
             this.setUnits(units);
         }
     }
