@@ -230,6 +230,7 @@ export class Subworkflow extends BaseSubworkflow {
             unit.head = true;
             units.push(unit);
             this.setUnits(units);
+            return;
         }
         if (units.length === 0) {
             console.log("adding unit to empty subworkflow");
