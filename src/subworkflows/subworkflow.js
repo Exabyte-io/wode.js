@@ -222,6 +222,15 @@ export class Subworkflow extends BaseSubworkflow {
     addUnit(unit, targetUnit) {
         console.log("adding unit");
         const { units } = this;
+        if (!targetUnit) {
+            // handle prepending to the first node
+            const oldHead = units.find((u) => u.head === true);
+            oldHead.head = false;
+            unit.next = oldHead.flowchartId;
+            unit.head = true;
+            units.push(unit);
+            this.setUnits(units);
+        }
         if (units.length === 0) {
             console.log("adding unit to empty subworkflow");
             unit.head = true;
