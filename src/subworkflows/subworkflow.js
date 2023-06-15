@@ -232,6 +232,8 @@ export class Subworkflow extends BaseSubworkflow {
             unit.head = true;
             console.log(`new unit's head prop is: ${unit.head}`);
             units.push(unit);
+            console.log("new units list:");
+            console.log(units);
             this.setUnits(units);
             return;
         }
