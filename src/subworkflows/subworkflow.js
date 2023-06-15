@@ -219,15 +219,28 @@ export class Subworkflow extends BaseSubworkflow {
      * @param head {Boolean}
      * @param index {Number}
      */
-    addUnit(unit, index = -1) {
+    addUnit(unit, targetUnit) {
+        console.log("adding unit");
         const { units } = this;
         if (units.length === 0) {
+            console.log("adding unit to empty subworkflow");
             unit.head = true;
             this.setUnits([unit]);
         } else {
-            if (index >= 0) units.splice(index, 0, unit);
-            else units.push(unit);
-            this.setUnits(setNextLinks(setUnitsHead(units)));
+            console.log(`adding unit following the unit ${targetUnit}`);
+            const target = units.find((u) => u.flowchartId === targetUnit); // get the target Unit
+            console.log("original unit:", target.flowchartId);
+            console.log("original unit points to:", target.next);
+            unit.next = target.next; // link the new unit to point to the target's old next unit
+            target.next = unit.flowchartId; // link the target to point to the new unit
+            console.log("added unit: ", unit.flowchartId);
+            console.log("added unit points to: ", unit.next);
+            console.log("old unit:", target);
+            console.log("old unit points to:", target.next);
+            console.log(units.find((u) => u.flowchartId === target.next));
+
+            units.push(unit); // add the unit to the list of units
+            this.setUnits(units);
         }
     }
 
