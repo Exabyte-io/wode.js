@@ -1,11 +1,17 @@
-import { NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity } from "@exabyte-io/code.js/dist/entity";
+import {
+    NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity,
+    TaggableMixin,
+} from "@exabyte-io/code.js/dist/entity";
 import { getUUID } from "@exabyte-io/code.js/dist/utils";
 import lodash from "lodash";
+import { mix } from "mixwith";
 
 import { UNIT_STATUSES } from "../enums";
 
 // eslint-disable-next-line max-len
-export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity {
+export class BaseUnit extends mix(
+    NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity,
+).with(TaggableMixin) {
     constructor(config) {
         super({
             ...config,
@@ -18,14 +24,6 @@ export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSet
 
     static generateFlowChartId() {
         return getUUID();
-    }
-
-    get tags() {
-        return this.prop("tags");
-    }
-
-    set tags(list) {
-        this.setProp("tags", list);
     }
 
     get flowchartId() {
