@@ -1,4 +1,4 @@
-import { UNIT_TYPES } from "../enums";
+import { UNIT_TAGS, UNIT_TYPES } from "../enums";
 import { createConvergenceParameter } from "./convergence/factory";
 
 export const ConvergenceMixin = (superclass) =>
@@ -60,7 +60,7 @@ export const ConvergenceMixin = (superclass) =>
                 type: UNIT_TYPES.assignment,
                 operand: param.name,
                 value: param.initialValue,
-                tags: ["hasConvergenceParam"],
+                tags: [UNIT_TAGS.hasConvergenceParam],
             });
 
             // Assignment with initial value of iteration counter
@@ -116,7 +116,7 @@ export const ConvergenceMixin = (superclass) =>
                 ],
                 operand: result,
                 value: result,
-                tags: ["hasConvergenceResult"],
+                tags: [UNIT_TAGS.hasConvergenceResult],
             });
 
             // Assign next iteration value
