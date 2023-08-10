@@ -12,11 +12,20 @@ export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSet
             status: config.status || UNIT_STATUSES.idle,
             statusTrack: config.statusTrack || [],
             flowchartId: config.flowchartId || BaseUnit.generateFlowChartId(),
+            tags: config.tags || [],
         });
     }
 
     static generateFlowChartId() {
         return getUUID();
+    }
+
+    get tags() {
+        return this.prop("tags");
+    }
+
+    set tags(list) {
+        this.setProp("tags", list);
     }
 
     get flowchartId() {

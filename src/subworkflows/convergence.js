@@ -60,6 +60,7 @@ export const ConvergenceMixin = (superclass) =>
                 type: UNIT_TYPES.assignment,
                 operand: param.name,
                 value: param.initialValue,
+                tags: ["hasConvergenceParam"],
             });
 
             // Assignment with initial value of iteration counter
@@ -115,6 +116,7 @@ export const ConvergenceMixin = (superclass) =>
                 ],
                 operand: result,
                 value: result,
+                tags: ["hasConvergenceResult"],
             });
 
             // Assign next iteration value
