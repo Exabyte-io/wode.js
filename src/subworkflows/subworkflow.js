@@ -316,7 +316,7 @@ export class Subworkflow extends BaseSubworkflow {
         return `units.${index}`;
     }
 
-    _findUnitWithTag(tag) {
+    findUnitWithTag(tag) {
         return this.units.find((unit) => unit.tags.includes(tag));
     }
 

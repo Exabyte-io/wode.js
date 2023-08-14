@@ -4,11 +4,11 @@ import { createConvergenceParameter } from "./convergence/factory";
 export const ConvergenceMixin = (superclass) =>
     class extends superclass {
         get convergenceParam() {
-            return this._findUnitWithTag("hasConvergenceParam")?.operand || undefined;
+            return this.findUnitWithTag("hasConvergenceParam")?.operand || undefined;
         }
 
         get convergenceResult() {
-            return this._findUnitWithTag("hasConvergenceResult")?.operand || undefined;
+            return this.findUnitWithTag("hasConvergenceResult")?.operand || undefined;
         }
 
         // TODO: investigate how scope changes between subworkflows to allow for multiple convergences per job, in different subworkflows
