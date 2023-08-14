@@ -321,31 +321,6 @@ export class Subworkflow extends BaseSubworkflow {
     }
 
     get hasConvergence() {
-        return !!this.convergenceParam && !!this.convergenceResult;
-    }
-
-    get convergenceParam() {
-        return this._findUnitWithTag("hasConvergenceParam")?.operand || undefined;
-    }
-
-    get convergenceResult() {
-        return this._findUnitWithTag("hasConvergenceResult")?.operand || undefined;
-    }
-
-    // TODO: investigate how scope changes between subworkflows to allow for multiple convergences per job, in different subworkflows
-    convergenceSeries(scopeTrack) {
-        if (!this.hasConvergence || !scopeTrack?.length) return [];
-        let lastResult;
-        const series = scopeTrack
-            .map((scopeItem) => ({
-                x: scopeItem.scope.global[this.convergenceParam],
-                y: scopeItem.scope.global[this.convergenceResult],
-            }))
-            .filter(({ y }) => {
-                const isNewResult = y !== undefined && y !== lastResult;
-                lastResult = y;
-                return isNewResult;
-            });
-        return series;
+        return !!this.convergenceParam && !!this.convergenceResult && !!this.convergenceSeries;
     }
 }
