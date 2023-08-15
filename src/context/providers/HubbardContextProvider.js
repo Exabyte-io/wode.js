@@ -9,7 +9,7 @@ import { mix } from "mixwith";
 
 const defaultHubbardConfig = {
     atomicSpecies: "",
-    atomicOrbital: "",
+    atomicOrbital: "2p",
     hubbardUValue: 0.01,
 };
 
@@ -37,9 +37,8 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
         };
     }
 
-    // eslint-disable-next-line class-methods-use-this
     get defaultData() {
-        return [defaultHubbardConfig];
+        return [{ ...defaultHubbardConfig, atomicSpecies: this.uniqueElements }];
     }
 
     get uiSchemaStyled() {
@@ -69,7 +68,7 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
                         type: "string",
                         title: "Atomic species",
                         enum: this.uniqueElements,
-                        default: defaultHubbardConfig.atomicSpecies,
+                        default: this.uniqueElements[0],
                     },
                     atomicOrbital: {
                         type: "string",
