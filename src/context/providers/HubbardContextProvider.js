@@ -39,7 +39,20 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
 
     // eslint-disable-next-line class-methods-use-this
     get defaultData() {
-        return defaultHubbardConfig;
+        return [defaultHubbardConfig];
+    }
+
+    get uiSchemaStyled() {
+        return {
+            title: {
+                classNames: "col-xs-12",
+            },
+            items: {
+                atomicSpecies: this.defaultFieldStyles,
+                atomicOrbital: this.defaultFieldStyles,
+                hubbardUValue: this.defaultFieldStyles,
+            },
+        };
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -47,7 +60,7 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
         return {
             $schema: "http://json-schema.org/draft-04/schema#",
             title: "",
-            description: "Hubbard parameters for DFT+U (Quantum Espresso) calculation.",
+            description: "Hubbard parameters for DFT+U calculation.",
             type: "array",
             items: {
                 type: "object",
@@ -60,8 +73,8 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
                     },
                     atomicOrbital: {
                         type: "string",
-                        title: "Atomic orbital (Hubbard manifold)",
-                        enum: ["2p", "3s", "3p"],
+                        title: "Atomic orbital",
+                        enum: ["2p", "3s", "3p", "3d", "4s", "4p", "4d"],
                         default: defaultHubbardConfig.atomicOrbital,
                     },
                     hubbardUValue: {
@@ -71,6 +84,7 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
                     },
                 },
             },
+            minItems: 1,
         };
     }
 }
