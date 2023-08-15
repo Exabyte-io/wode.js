@@ -1,5 +1,10 @@
 import { Application } from "@exabyte-io/ade.js";
-import { ApplicationContextMixin, ContextProvider } from "@exabyte-io/code.js/dist/context";
+import {
+    ApplicationContextMixin,
+    JSONSchemaFormDataProvider,
+    MaterialContextMixin,
+} from "@exabyte-io/code.js/dist/context";
+import { Made } from "@exabyte-io/made.js";
 import { mix } from "mixwith";
 
 const defaultHubbardConfig = {
@@ -8,8 +13,18 @@ const defaultHubbardConfig = {
     hubbardUValue: 0.01,
 };
 
-export class HubbardContextProvider extends mix(ContextProvider).with(ApplicationContextMixin) {
+export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with(
+    ApplicationContextMixin,
+    MaterialContextMixin,
+) {
     static Application = Application;
+
+    static Material = Made.Material;
+
+    constructor(config) {
+        super(config);
+        this.uniqueElements = this.material.Basis.uniqueElements;
+    }
 
     // eslint-disable-next-line class-methods-use-this
     get uiSchema() {
@@ -35,10 +50,12 @@ export class HubbardContextProvider extends mix(ContextProvider).with(Applicatio
             properties: {
                 atomicSpecies: {
                     type: "string",
+                    enum: this.uniqueElements,
                     default: defaultHubbardConfig.atomicSpecies,
                 },
                 atomicOrbital: {
                     type: "string",
+                    enum: ["2p", "3s", "3p"],
                     default: defaultHubbardConfig.atomicOrbital,
                 },
                 hubbardUValue: {
