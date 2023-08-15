@@ -29,9 +29,11 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
     // eslint-disable-next-line class-methods-use-this
     get uiSchema() {
         return {
-            atomicSpecies: {},
-            atomicOrbital: {},
-            hubbardUValue: {},
+            "ui:options": {
+                addable: true,
+                orderable: false,
+                removable: true,
+            },
         };
     }
 
@@ -46,21 +48,27 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
             $schema: "http://json-schema.org/draft-04/schema#",
             title: "",
             description: "Hubbard parameters for DFT+U (Quantum Espresso) calculation.",
-            type: "object",
-            properties: {
-                atomicSpecies: {
-                    type: "string",
-                    enum: this.uniqueElements,
-                    default: defaultHubbardConfig.atomicSpecies,
-                },
-                atomicOrbital: {
-                    type: "string",
-                    enum: ["2p", "3s", "3p"],
-                    default: defaultHubbardConfig.atomicOrbital,
-                },
-                hubbardUValue: {
-                    type: "number",
-                    default: defaultHubbardConfig.hubbardUValue,
+            type: "array",
+            items: {
+                type: "object",
+                properties: {
+                    atomicSpecies: {
+                        type: "string",
+                        title: "Atomic species",
+                        enum: this.uniqueElements,
+                        default: defaultHubbardConfig.atomicSpecies,
+                    },
+                    atomicOrbital: {
+                        type: "string",
+                        title: "Atomic orbital (Hubbard manifold)",
+                        enum: ["2p", "3s", "3p"],
+                        default: defaultHubbardConfig.atomicOrbital,
+                    },
+                    hubbardUValue: {
+                        type: "number",
+                        title: "Hubbard U value",
+                        default: defaultHubbardConfig.hubbardUValue,
+                    },
                 },
             },
         };
