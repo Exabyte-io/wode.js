@@ -26,23 +26,17 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
         this.uniqueElements = this.material.Basis.uniqueElements;
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    get uiSchema() {
-        return {
-            "ui:options": {
-                addable: true,
-                orderable: false,
-                removable: true,
-            },
-        };
-    }
-
     get defaultData() {
         return [{ ...defaultHubbardConfig, atomicSpecies: this.uniqueElements }];
     }
 
     get uiSchemaStyled() {
         return {
+            "ui:options": {
+                addable: true,
+                orderable: false,
+                removable: true,
+            },
             title: {
                 classNames: "col-xs-12",
             },
