@@ -1,9 +1,4 @@
-import { Application } from "@exabyte-io/ade.js";
-import {
-    ApplicationContextMixin,
-    JSONSchemaFormDataProvider,
-    MaterialContextMixin,
-} from "@exabyte-io/code.js/dist/context";
+import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
 import { Made } from "@exabyte-io/made.js";
 import { mix } from "mixwith";
 
@@ -14,16 +9,13 @@ const defaultHubbardConfig = {
 };
 
 export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with(
-    ApplicationContextMixin,
     MaterialContextMixin,
 ) {
-    static Application = Application;
-
     static Material = Made.Material;
 
     constructor(config) {
         super(config);
-        this.uniqueElements = this.material.Basis.uniqueElements;
+        this.uniqueElements = this.material?.Basis?.uniqueElements || [];
     }
 
     get defaultData() {
@@ -62,7 +54,7 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
                         type: "string",
                         title: "Atomic species",
                         enum: this.uniqueElements,
-                        default: this.uniqueElements[0],
+                        default: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
                     },
                     atomicOrbital: {
                         type: "string",
