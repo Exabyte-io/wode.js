@@ -40,7 +40,6 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
         };
     }
 
-    // eslint-disable-next-line class-methods-use-this
     get jsonSchema() {
         return {
             $schema: "http://json-schema.org/draft-04/schema#",
