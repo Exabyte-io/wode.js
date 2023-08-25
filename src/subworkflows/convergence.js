@@ -1,8 +1,33 @@
-import { UNIT_TYPES } from "../enums";
+import { UNIT_TAGS, UNIT_TYPES } from "../enums";
 import { createConvergenceParameter } from "./convergence/factory";
 
 export const ConvergenceMixin = (superclass) =>
     class extends superclass {
+        get convergenceParam() {
+            return this.findUnitWithTag("hasConvergenceParam")?.operand || undefined;
+        }
+
+        get convergenceResult() {
+            return this.findUnitWithTag("hasConvergenceResult")?.operand || undefined;
+        }
+
+        // TODO: investigate how scope changes between subworkflows to allow for multiple convergences per job, in different subworkflows
+        convergenceSeries(scopeTrack) {
+            if (!this.hasConvergence || !scopeTrack?.length) return [];
+            let lastResult;
+            const series = scopeTrack
+                .map((scopeItem) => ({
+                    x: scopeItem.scope?.global[this.convergenceParam],
+                    y: scopeItem.scope?.global[this.convergenceResult],
+                }))
+                .filter(({ y }) => {
+                    const isNewResult = y !== undefined && y !== lastResult;
+                    lastResult = y;
+                    return isNewResult;
+                });
+            return series;
+        }
+
         addConvergence({
             parameter,
             parameterInitial,
@@ -60,6 +85,7 @@ export const ConvergenceMixin = (superclass) =>
                 type: UNIT_TYPES.assignment,
                 operand: param.name,
                 value: param.initialValue,
+                tags: [UNIT_TAGS.hasConvergenceParam],
             });
 
             // Assignment with initial value of iteration counter
@@ -115,6 +141,7 @@ export const ConvergenceMixin = (superclass) =>
                 ],
                 operand: result,
                 value: result,
+                tags: [UNIT_TAGS.hasConvergenceResult],
             });
 
             // Assign next iteration value

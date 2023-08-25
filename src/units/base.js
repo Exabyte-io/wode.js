@@ -1,17 +1,24 @@
-import { NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity } from "@exabyte-io/code.js/dist/entity";
+import {
+    NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity,
+    TaggableMixin,
+} from "@exabyte-io/code.js/dist/entity";
 import { getUUID } from "@exabyte-io/code.js/dist/utils";
 import lodash from "lodash";
+import { mix } from "mixwith";
 
 import { UNIT_STATUSES } from "../enums";
 
 // eslint-disable-next-line max-len
-export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity {
+export class BaseUnit extends mix(
+    NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity,
+).with(TaggableMixin) {
     constructor(config) {
         super({
             ...config,
             status: config.status || UNIT_STATUSES.idle,
             statusTrack: config.statusTrack || [],
             flowchartId: config.flowchartId || BaseUnit.generateFlowChartId(),
+            tags: config.tags || [],
         });
     }
 

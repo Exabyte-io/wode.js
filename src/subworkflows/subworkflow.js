@@ -315,4 +315,12 @@ export class Subworkflow extends BaseSubworkflow {
         const index = this.units.findIndex((u) => u.flowchartId === id);
         return `units.${index}`;
     }
+
+    findUnitWithTag(tag) {
+        return this.units.find((unit) => unit.tags.includes(tag));
+    }
+
+    get hasConvergence() {
+        return !!this.convergenceParam && !!this.convergenceResult && !!this.convergenceSeries;
+    }
 }
