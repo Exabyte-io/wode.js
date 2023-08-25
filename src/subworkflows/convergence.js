@@ -17,8 +17,8 @@ export const ConvergenceMixin = (superclass) =>
             let lastResult;
             const series = scopeTrack
                 .map((scopeItem) => ({
-                    x: scopeItem.scope.global[this.convergenceParam],
-                    y: scopeItem.scope.global[this.convergenceResult],
+                    x: scopeItem.scope?.global[this.convergenceParam],
+                    y: scopeItem.scope?.global[this.convergenceResult],
                 }))
                 .filter(({ y }) => {
                     const isNewResult = y !== undefined && y !== lastResult;
