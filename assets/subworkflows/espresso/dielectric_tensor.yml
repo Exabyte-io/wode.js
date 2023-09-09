@@ -1,0 +1,26 @@
+application:
+    name: espresso
+    version: 6.3
+method:
+    name: PseudopotentialMethod
+model:
+    name: DFTModel
+name: Compute Dielectric Function
+units:
+-   config:
+        execName: pw.x
+        flavorName: pw_scf
+        name: pw_scf
+    functions:
+        head: true
+    type: executionBuilder
+-   config:
+        execName: pw.x
+        flavorName: pw_nscf
+        name: pw_nscf
+    type: executionBuilder
+-   config:
+        execName: epsilon.x
+        flavorName: dielectric_tensor
+        name: Compute dielectric function
+    type: executionBuilder
