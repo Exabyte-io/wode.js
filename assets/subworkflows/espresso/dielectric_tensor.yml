@@ -15,7 +15,7 @@ units:
         head: true
     type: executionBuilder
 -   config:
-        name: Set Material Index
+        name: Set No-Symmetry Flag
         operand: NO_SYMMETRY_NO_INVERSION
         value: True
     type: assignment
