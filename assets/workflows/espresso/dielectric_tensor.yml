@@ -1,4 +1,4 @@
-name: Electronic Dielectric Function
+name: Dielectric Function
 units:
 - name: dielectric_tensor
   type: subworkflow
