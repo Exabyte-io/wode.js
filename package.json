@@ -46,7 +46,7 @@
         "underscore.string": "^3.3.4"
     },
     "devDependencies": {
-        "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js.git#927fe258f325847ff905c19049cbb06b861ba4a9",
+        "@exabyte-io/ade.js": "2022.9.9-0",
         "@exabyte-io/code.js": "2022.11.11-0",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2022.7.28-1",
