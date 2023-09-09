@@ -15,6 +15,11 @@ units:
         head: true
     type: executionBuilder
 -   config:
+        name: Set Material Index
+        operand: NO_SYMMETRY_NO_INVERSION
+        value: True
+    type: assignment
+-   config:
         execName: pw.x
         flavorName: pw_nscf
         name: pw_nscf
