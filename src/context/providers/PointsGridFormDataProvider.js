@@ -11,6 +11,8 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
 ) {
     static Material = Made.Material;
 
+    static _defaultKPPRA = 5;
+
     constructor(config) {
         super(config);
         this._divisor = config.divisor || 1; // KPPRA will be divided by this number
@@ -51,7 +53,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     _getDefaultGridMetricValue(metric) {
         switch (metric) {
             case "KPPRA":
-                return Math.floor(5 / this._divisor);
+                return Math.floor(PointsGridFormDataProvider._defaultKPPRA / this._divisor);
             case "spacing":
                 return 0.3;
             default:
