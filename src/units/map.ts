@@ -1,5 +1,6 @@
 import { UNIT_TYPES } from "../enums";
 import { BaseUnit } from "./base";
+import { MapUnitConfig } from "./types";
 
 export const defaultMapConfig = {
     name: UNIT_TYPES.map,
@@ -14,8 +15,8 @@ export const defaultMapConfig = {
     },
 };
 
-export class MapUnit extends BaseUnit {
-    constructor(config) {
+export class MapUnit extends BaseUnit<MapUnitConfig> {
+    constructor(config: MapUnitConfig) {
         super({ ...defaultMapConfig, ...config });
     }
 
@@ -27,7 +28,7 @@ export class MapUnit extends BaseUnit {
         return this.prop("workflowId");
     }
 
-    setWorkflowId(id) {
+    setWorkflowId(id: string) {
         this.setProp("workflowId", id);
     }
 }

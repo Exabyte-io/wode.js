@@ -1,8 +1,18 @@
-import { UNIT_TYPES } from "../../enums";
+import { IOUnitConfig, IOUnitSubTypes, UNIT_TYPES } from "../types";
 import { UnitConfigBuilder } from "./UnitConfigBuilder";
 
-export class IOUnitConfigBuilder extends UnitConfigBuilder {
-    constructor(name, endpointName, endpointOptions) {
+export class IOUnitConfigBuilder extends UnitConfigBuilder<IOUnitConfig> {
+    private _endpointName: string;
+    private _endpointOptions: string;
+    private _variableName: string;
+    private _subtype: IOUnitSubTypes;
+    private _source: string;
+
+    constructor(
+        name: IOUnitConfig["name"],
+        endpointName: string,
+        endpointOptions: string,
+    ) {
         super({ name, type: UNIT_TYPES.io });
         this._endpointName = endpointName;
         this._endpointOptions = endpointOptions;
@@ -11,32 +21,32 @@ export class IOUnitConfigBuilder extends UnitConfigBuilder {
         this._source = "api";
     }
 
-    endpointName(str) {
+    endpointName(str: string): this {
         this._endpointName = str;
         return this;
     }
 
-    endpointOptions(options) {
+    endpointOptions(options: string): this {
         this._endpointOptions = options;
         return this;
     }
 
-    variableName(str) {
+    variableName(str: string): this {
         this._variableName = str;
         return this;
     }
 
-    subtype(str) {
+    subtype(str: IOUnitSubTypes): this {
         this._subtype = str;
         return this;
     }
 
-    source(str) {
+    source(str: string): this {
         this._source = str;
         return this;
     }
 
-    build() {
+    build(): IOUnitConfig {
         return {
             ...super.build(),
             subtype: this._subtype,

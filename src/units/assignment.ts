@@ -1,8 +1,8 @@
-import { UNIT_TYPES } from "../enums";
 import { BaseUnit } from "./base";
+import { AssignmentUnitConfig, UNIT_TYPES } from "./types";
 
-export class AssignmentUnit extends BaseUnit {
-    constructor(config) {
+export class AssignmentUnit extends BaseUnit<AssignmentUnitConfig> {
+    constructor(config: AssignmentUnitConfig) {
         super({ ...AssignmentUnit.getAssignmentConfig(), ...config });
     }
 
@@ -28,7 +28,7 @@ export class AssignmentUnit extends BaseUnit {
         return this.prop("input");
     }
 
-    getHashObject() {
+    getHashObject(): Partial<AssignmentUnitConfig> {
         return { input: this.input, operand: this.operand, value: this.value };
     }
 }

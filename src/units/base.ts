@@ -6,13 +6,19 @@ import { getUUID } from "@exabyte-io/code.js/dist/utils";
 import lodash from "lodash";
 import { mix } from "mixwith";
 
-import { UNIT_STATUSES } from "../enums";
+import { UNIT_STATUSES, UnitConfig } from "./types";
 
 // eslint-disable-next-line max-len
-export class BaseUnit extends mix(
+export class BaseUnit<T extends UnitConfig> extends mix(
     NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity,
 ).with(TaggableMixin) {
-    constructor(config) {
+    // TODO investigate why this is needed here instead of inherited from the mixin
+    public prop: <K extends keyof T>(key: K, defaultValue?: T[K]) => T[K];
+    public setProp: <K extends keyof T>(key: K, value: T[K]) => void;
+    private repetition: number;
+    private hashObjectFromRuntimeItems: Partial<UnitConfig>;
+
+    constructor(config: UnitConfig) {
         super({
             ...config,
             status: config.status || UNIT_STATUSES.idle,
@@ -22,7 +28,7 @@ export class BaseUnit extends mix(
         });
     }
 
-    static generateFlowChartId() {
+    static generateFlowChartId(): string {
         return getUUID();
     }
 
@@ -54,11 +60,11 @@ export class BaseUnit extends mix(
         this.setProp("status", s);
     }
 
-    get lastStatusUpdate() {
+    get lastStatusUpdate(): UnitConfig["statusTrack"][0] {
         const statusTrack = this.prop("statusTrack", []).filter(
             (s) => (s.repetition || 0) === this.repetition,
         );
-        const sortedStatusTrack = lodash.sortBy(statusTrack || [], (x) => x.trackedAt);
+        const sortedStatusTrack = lodash.sortBy(statusTrack || [], (x) => x.trackedAt); // TODO: check if this is the right way to sort with TS
         return sortedStatusTrack[sortedStatusTrack.length - 1];
     }
 
@@ -70,7 +76,7 @@ export class BaseUnit extends mix(
         return this.prop("isDraft", false);
     }
 
-    getHashObject() {
+    getHashObject(): Partial<UnitConfig> {
         return { ...this.hashObjectFromRuntimeItems, type: this.type };
     }
 
@@ -91,4 +97,5 @@ export class BaseUnit extends mix(
         };
         return super.clone(flowchartIDOverrideConfigAsExtraContext);
     }
+
 }

@@ -1,8 +1,8 @@
-import { UNIT_TYPES } from "../enums";
 import { BaseUnit } from "./base";
+import { ConditionUnitConfig, UNIT_TYPES } from "./types";
 
-export class ConditionUnit extends BaseUnit {
-    constructor(config) {
+export class ConditionUnit extends BaseUnit<ConditionUnitConfig> {
+    constructor(config: ConditionUnitConfig) {
         super({ ...ConditionUnit.getConditionConfig(), ...config });
     }
 
@@ -21,15 +21,11 @@ export class ConditionUnit extends BaseUnit {
         };
     }
 
-    get input() {
-        return this.prop("input");
-    }
-
     get then() {
         return this.prop("then");
     }
 
-    get else() {
+    get else(){
         return this.prop("else");
     }
 
@@ -41,7 +37,7 @@ export class ConditionUnit extends BaseUnit {
         return this.prop("maxOccurrences");
     }
 
-    getHashObject() {
+    getHashObject(): Partial<ConditionUnitConfig> {
         return { statement: this.statement, maxOccurrences: this.maxOccurrences };
     }
 }
