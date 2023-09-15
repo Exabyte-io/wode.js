@@ -11,6 +11,9 @@ model:
           name: hse06
 method:
     name: PseudopotentialMethod
+    config:
+      type: pseudopotential
+      subtype: us
 units:
 -   config:
         execName: pw.x
