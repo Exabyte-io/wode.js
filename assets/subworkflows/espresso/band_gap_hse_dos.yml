@@ -9,6 +9,7 @@ model:
         subtype: hybrid
         functional:
           name: hse06
+          slug: hse06
 method:
     name: PseudopotentialMethod
     config:
