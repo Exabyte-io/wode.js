@@ -4,6 +4,10 @@ application:
     version: "6.3"
 model:
     name: DFTModel
+    config:
+        type: dft
+        subtype: hybrid
+        functional: hse06
 method:
     name: PseudopotentialMethod
 units:
