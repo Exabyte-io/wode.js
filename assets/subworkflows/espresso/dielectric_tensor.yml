@@ -1,35 +1,35 @@
 application:
-    name: espresso
-    version: '6.3'
+  name: espresso
+  version: '6.3'
 method:
-    config:
-        data: {}
-        subtype: nc
-        type: pseudopotential
-    name: PseudopotentialMethod
+  config:
+    data: {}
+    subtype: nc
+    type: pseudopotential
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: Compute Dielectric Function
 units:
--   config:
-        execName: pw.x
-        flavorName: pw_scf
-        name: pw_scf
+  - config:
+      execName: pw.x
+      flavorName: pw_scf
+      name: pw_scf
     functions:
-        head: true
+      head: true
     type: executionBuilder
--   config:
-        name: Set No-Symmetry Flag
-        operand: NO_SYMMETRY_NO_INVERSION
-        value: True
+  - config:
+      name: Set No-Symmetry Flag
+      operand: NO_SYMMETRY_NO_INVERSION
+      value: True # yamllint disable-line rule:truthy
     type: assignment
--   config:
-        execName: pw.x
-        flavorName: pw_nscf
-        name: pw_nscf
+  - config:
+      execName: pw.x
+      flavorName: pw_nscf
+      name: pw_nscf
     type: executionBuilder
--   config:
-        execName: epsilon.x
-        flavorName: dielectric_tensor
-        name: Compute dielectric function
+  - config:
+      execName: epsilon.x
+      flavorName: dielectric_tensor
+      name: Compute dielectric function
     type: executionBuilder

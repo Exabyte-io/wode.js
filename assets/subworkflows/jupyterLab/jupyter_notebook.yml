@@ -1,17 +1,17 @@
 application:
-    name: jupyterLab
-    version: 3.0.3
+  name: jupyterLab
+  version: 3.0.3
 method:
-    name: UnknownMethod
+  name: UnknownMethod
 model:
-    name: UnknownModel
+  name: UnknownModel
 name: Jupyter Notebook
 units:
--   attributes:
-        preProcessors:
-        -   name: record_python_environment
+  - attributes:
+      preProcessors:
+        - name: record_python_environment
     config:
-        execName: jupyter
-        flavorName: notebook
-        name: notebook
+      execName: jupyter
+      flavorName: notebook
+      name: notebook
     type: executionBuilder

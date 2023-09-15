@@ -1,30 +1,30 @@
 name: HSE Band Gap
 application:
-    name: espresso
-    version: "6.3"
+  name: espresso
+  version: '6.3'
 model:
-    name: DFTModel
-    config:
-        type: dft
-        subtype: hybrid
-        functional:
-          name: hse06
-          slug: hse06
+  name: DFTModel
+  config:
+    type: dft
+    subtype: hybrid
+    functional:
+      name: hse06
+      slug: hse06
 method:
-    name: PseudopotentialMethod
-    config:
-      type: pseudopotential
-      subtype: us
+  name: PseudopotentialMethod
+  config:
+    type: pseudopotential
+    subtype: us
 units:
--   config:
-        execName: pw.x
-        flavorName: pw_scf_hse
-        name: pw_scf_hse
+  - config:
+      execName: pw.x
+      flavorName: pw_scf_hse
+      name: pw_scf_hse
     functions:
-        head: true
+      head: true
     type: executionBuilder
--   config:
-        execName: projwfc.x
-        flavorName: projwfc
-        name: projwfc
+  - config:
+      execName: projwfc.x
+      flavorName: projwfc
+      name: projwfc
     type: executionBuilder

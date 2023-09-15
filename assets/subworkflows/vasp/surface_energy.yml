@@ -1,18 +1,18 @@
 application:
-    name: vasp
-    version: 5.3.5
+  name: vasp
+  version: 5.3.5
 dynamicSubworkflow:
-    name: surfaceEnergy
+  name: surfaceEnergy
 method:
-    name: PseudopotentialMethod
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: Surface Energy
 units:
--   config:
-        execName: vasp
-        flavorName: vasp
-        name: vasp
+  - config:
+      execName: vasp
+      flavorName: vasp
+      name: vasp
     functions:
-        head: true
+      head: true
     type: executionBuilder

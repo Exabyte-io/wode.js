@@ -1,22 +1,22 @@
 application:
-    name: espresso
-    version: '6.3'
+  name: espresso
+  version: '6.3'
 method:
-    name: PseudopotentialMethod
-    setSearchText: .*dojo-oncv.*
+  name: PseudopotentialMethod
+  setSearchText: .*dojo-oncv.*
 model:
-    name: DFTModel
+  name: DFTModel
 name: Plasmon-Pole GW Band Structure + Band Gap
 units:
--   config:
-        execName: pw.x
-        flavorName: pw_scf
-        name: pw_scf
+  - config:
+      execName: pw.x
+      flavorName: pw_scf
+      name: pw_scf
     functions:
-        head: true
+      head: true
     type: executionBuilder
--   config:
-        execName: gw.x
-        flavorName: gw_bands_plasmon_pole
-        name: gw_bands_plasmon_pole
+  - config:
+      execName: gw.x
+      flavorName: gw_bands_plasmon_pole
+      name: gw_bands_plasmon_pole
     type: executionBuilder

@@ -1,18 +1,18 @@
 application:
-    name: vasp
-    version: 5.3.5
+  name: vasp
+  version: 5.3.5
 method:
-    name: PseudopotentialMethod
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: Density of States
 units:
--   config:
-        execName: vasp
-        flavorName: vasp
-        name: vasp
+  - config:
+      execName: vasp
+      flavorName: vasp
+      name: vasp
     functions:
-        addResults:
+      addResults:
         - density_of_states
-        head: true
+      head: true
     type: executionBuilder

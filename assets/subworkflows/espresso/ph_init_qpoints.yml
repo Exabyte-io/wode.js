@@ -1,14 +1,14 @@
 application:
-    name: espresso
-    version: 5.4.0
+  name: espresso
+  version: 5.4.0
 method:
-    name: PseudopotentialMethod
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: ph-init-qpoints
 units:
--   config:
-        execName: ph.x
-        flavorName: ph_init_qpoints
-        name: ph_init_qpoints
+  - config:
+      execName: ph.x
+      flavorName: ph_init_qpoints
+      name: ph_init_qpoints
     type: executionBuilder

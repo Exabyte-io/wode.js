@@ -1,16 +1,16 @@
 application:
-    name: vasp
-    version: 5.3.5
+  name: vasp
+  version: 5.3.5
 method:
-    name: PseudopotentialMethod
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: Zero Point Energy
 units:
--   config:
-        execName: vasp
-        flavorName: vasp_zpe
-        name: vasp_zpe
+  - config:
+      execName: vasp
+      flavorName: vasp_zpe
+      name: vasp_zpe
     functions:
-        head: true
+      head: true
     type: executionBuilder

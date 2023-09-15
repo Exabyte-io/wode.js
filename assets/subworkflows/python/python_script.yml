@@ -1,14 +1,14 @@
 application:
-    name: python
-    version: 3.8.6
+  name: python
+  version: 3.8.6
 method:
-    name: UnknownMethod
+  name: UnknownMethod
 model:
-    name: UnknownModel
+  name: UnknownModel
 name: Python Script
 units:
--   config:
-        execName: python
-        flavorName: hello_world
-        name: python
+  - config:
+      execName: python
+      flavorName: hello_world
+      name: python
     type: executionBuilder

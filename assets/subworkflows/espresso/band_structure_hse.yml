@@ -2,29 +2,29 @@
 # and is this NOT self-sufficient!
 name: Band Structure - HSE
 application:
-    name: espresso
-    version: 5.4.0
+  name: espresso
+  version: 5.4.0
 model:
-    name: DFTModel
-    config:
-        type: dft
-        subtype: hybrid
-        functional:
-          name: hse06
-          slug: hse06
+  name: DFTModel
+  config:
+    type: dft
+    subtype: hybrid
+    functional:
+      name: hse06
+      slug: hse06
 method:
-    name: PseudopotentialMethod
-    config:
-      type: pseudopotential
-      subtype: us
+  name: PseudopotentialMethod
+  config:
+    type: pseudopotential
+    subtype: us
 units:
--   config:
-        execName: pw.x
-        flavorName: pw_scf_bands_hse
-        name: pw_scf_bands_hse
+  - config:
+      execName: pw.x
+      flavorName: pw_scf_bands_hse
+      name: pw_scf_bands_hse
     type: executionBuilder
--   config:
-        execName: bands.x
-        flavorName: bands
-        name: bands
+  - config:
+      execName: bands.x
+      flavorName: bands
+      name: bands
     type: executionBuilder

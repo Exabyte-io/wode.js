@@ -1,16 +1,16 @@
 application:
-    name: espresso
-    version: 5.4.0
+  name: espresso
+  version: 5.4.0
 method:
-    name: PseudopotentialMethod
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: Fixed-cell Relaxation
 units:
--   config:
-        execName: pw.x
-        flavorName: pw_relax
-        name: pw_relax
+  - config:
+      execName: pw.x
+      flavorName: pw_relax
+      name: pw_relax
     functions:
-        head: true
+      head: true
     type: executionBuilder

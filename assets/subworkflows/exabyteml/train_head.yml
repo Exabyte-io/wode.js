@@ -1,61 +1,61 @@
 application:
-    name: python
-    version: 3.8.6
+  name: python
+  version: 3.8.6
 method:
-    name: UnknownMethod
+  name: UnknownMethod
 model:
-    name: UnknownModel
+  name: UnknownModel
 name: Set Up the Job
 units:
--   config:
-        flowchartId: head-set-predict-status
-        name: Set Workflow Mode
-        operand: IS_WORKFLOW_RUNNING_TO_PREDICT
-        tags:
+  - config:
+      flowchartId: head-set-predict-status
+      name: Set Workflow Mode
+      operand: IS_WORKFLOW_RUNNING_TO_PREDICT
+      tags:
         - pyml:workflow-type-setter
-        value: 'False'
+      value: 'False'
     type: assignment
--   config:
-        enableRender: true
-        flowchartId: head-fetch-training-data
-        input:
-        -   basename: '{{DATASET_BASENAME}}'
-            objectData:
-                CONTAINER: ''
-                NAME: '{{DATASET_FILEPATH}}'
-                PROVIDER: ''
-                REGION: ''
-        name: Fetch Dataset
-        source: object_storage
+  - config:
+      enableRender: true
+      flowchartId: head-fetch-training-data
+      input:
+        - basename: '{{DATASET_BASENAME}}'
+          objectData:
+            CONTAINER: ''
+            NAME: '{{DATASET_FILEPATH}}'
+            PROVIDER: ''
+            REGION: ''
+      name: Fetch Dataset
+      source: object_storage
     type: io
--   config:
-        else: end-of-ml-train-head
-        flowchartId: head-branch-on-predict-status
-        input:
-        -   name: IS_WORKFLOW_RUNNING_TO_PREDICT
-            scope: global
-        name: Train or Predict?
-        statement: IS_WORKFLOW_RUNNING_TO_PREDICT
-        then: head-fetch-trained-model
+  - config:
+      else: end-of-ml-train-head
+      flowchartId: head-branch-on-predict-status
+      input:
+        - name: IS_WORKFLOW_RUNNING_TO_PREDICT
+          scope: global
+      name: Train or Predict?
+      statement: IS_WORKFLOW_RUNNING_TO_PREDICT
+      then: head-fetch-trained-model
     type: condition
--   config:
-        enableRender: true
-        flowchartId: head-fetch-trained-model
-        input:
-        -   basename: ''
-            objectData:
-                CONTAINER: ''
-                NAME: ''
-                PROVIDER: ''
-                REGION: ''
-        name: Fetch Trained Model as file
-        source: object_storage
-        tags:
+  - config:
+      enableRender: true
+      flowchartId: head-fetch-trained-model
+      input:
+        - basename: ''
+          objectData:
+            CONTAINER: ''
+            NAME: ''
+            PROVIDER: ''
+            REGION: ''
+      name: Fetch Trained Model as file
+      source: object_storage
+      tags:
         - set-io-unit-filenames
     type: io
--   config:
-        flowchartId: end-of-ml-train-head
-        name: End Setup
-        operand: IS_SETUP_COMPLETE
-        value: 'True'
+  - config:
+      flowchartId: end-of-ml-train-head
+      name: End Setup
+      operand: IS_SETUP_COMPLETE
+      value: 'True'
     type: assignment

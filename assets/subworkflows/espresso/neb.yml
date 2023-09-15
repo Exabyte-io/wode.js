@@ -1,16 +1,16 @@
 application:
-    name: espresso
-    version: 5.4.0
+  name: espresso
+  version: 5.4.0
 config:
-    isMultiMaterial: true
+  isMultiMaterial: true
 method:
-    name: PseudopotentialMethod
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: Nudged Elastic Band (NEB)
 units:
--   config:
-        execName: neb.x
-        flavorName: neb
-        name: neb
+  - config:
+      execName: neb.x
+      flavorName: neb
+      name: neb
     type: executionBuilder

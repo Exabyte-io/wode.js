@@ -1,16 +1,16 @@
 application:
-    name: shell
-    version: 4.2.46
+  name: shell
+  version: 4.2.46
 config:
-    isMultiMaterial: true
+  isMultiMaterial: true
 method:
-    name: Method
+  name: Method
 model:
-    name: Model
+  name: Model
 name: Prepare Directories
 units:
--   config:
-        execName: sh
-        flavorName: bash_vasp_prepare_neb_images
-        name: prepare-neb-images
+  - config:
+      execName: sh
+      flavorName: bash_vasp_prepare_neb_images
+      name: prepare-neb-images
     type: executionBuilder

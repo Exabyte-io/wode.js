@@ -1,34 +1,34 @@
 application:
-    name: espresso
-    version: 5.4.0
+  name: espresso
+  version: 5.4.0
 method:
-    name: PseudopotentialMethod
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: Phonon Density of States + Dispersions
 units:
--   config:
-        execName: pw.x
-        flavorName: pw_scf
-        name: pw_scf
+  - config:
+      execName: pw.x
+      flavorName: pw_scf
+      name: pw_scf
     type: executionBuilder
--   config:
-        execName: ph.x
-        flavorName: ph_grid
-        name: ph_grid
+  - config:
+      execName: ph.x
+      flavorName: ph_grid
+      name: ph_grid
     type: executionBuilder
--   config:
-        execName: q2r.x
-        flavorName: q2r
-        name: q2r
+  - config:
+      execName: q2r.x
+      flavorName: q2r
+      name: q2r
     type: executionBuilder
--   config:
-        execName: matdyn.x
-        flavorName: matdyn_grid
-        name: matdyn_grid
+  - config:
+      execName: matdyn.x
+      flavorName: matdyn_grid
+      name: matdyn_grid
     type: executionBuilder
--   config:
-        execName: matdyn.x
-        flavorName: matdyn_path
-        name: matdyn_path
+  - config:
+      execName: matdyn.x
+      flavorName: matdyn_path
+      name: matdyn_path
     type: executionBuilder
