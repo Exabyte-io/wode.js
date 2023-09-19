@@ -4,10 +4,19 @@ name: Band Structure - HSE
 application:
     name: espresso
     version: 5.4.0
-method:
-    name: PseudopotentialMethod
 model:
     name: DFTModel
+    config:
+        type: dft
+        subtype: hybrid
+        functional:
+          name: hse06
+          slug: hse06
+method:
+    name: PseudopotentialMethod
+    config:
+      type: pseudopotential
+      subtype: us
 units:
 -   config:
         execName: pw.x
