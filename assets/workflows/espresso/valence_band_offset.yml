@@ -17,156 +17,155 @@
 
 name: Valence Band Offset (2D)
 units:
+  # interface-related subworkflows
+  - name: average_electrostatic_potential_via_band_structure
+    type: subworkflow
+    config:
+      attributes:
+        name: BS + Avg ESP (Interface)
+    unitConfigs:
+      - index: 0
+        type: assignment
+        config:
+          attributes:
+            name: Set Material Index (Interface)
+            value: '0'
+  - name: average_electrostatic_potential_find_minima
+    type: subworkflow
+    config:
+      attributes:
+        name: Find ESP Values (Interface)
+    unitConfigs:
+      - index: 1
+        type: assignment
+        config:
+          attributes:
+            operand: AVG_ESP_INTERFACE
 
-# interface-related subworkflows
-- name: average_electrostatic_potential_via_band_structure
-  type: subworkflow
-  config:
-    attributes:
-      name: BS + Avg ESP (Interface)
-  unitConfigs:
-    - index: 0
-      type: assignment
-      config:
-        attributes:
-          name: Set Material Index (Interface)
-          value: '0'
-- name: average_electrostatic_potential_find_minima
-  type: subworkflow
-  config:
-    attributes:
-      name: Find ESP Values (Interface)
-  unitConfigs:
-    - index: 1
-      type: assignment
-      config:
-        attributes:
-          operand: AVG_ESP_INTERFACE
+  # interface-left-related subworkflows
+  - name: average_electrostatic_potential_via_band_structure
+    type: subworkflow
+    config:
+      attributes:
+        name: BS + Avg ESP (interface left)
+    unitConfigs:
+      - index: 0
+        type: assignment
+        config:
+          attributes:
+            name: Set Material Index (Interface left)
+            value: '1'
+      - index: 2
+        type: executionBuilder
+        config:
+          attributes:
+            flowchartId: pw-bands-calculate-band-gap-left
+      - index: 3
+        type: assignment
+        config:
+          attributes:
+            input:
+              - name: band_gaps
+                scope: pw-bands-calculate-band-gap-left
+      - index: 4
+        type: assignment
+        config:
+          attributes:
+            operand: VBM_LEFT
+      - index: 7
+        type: executionBuilder
+        config:
+          attributes:
+            flowchartId: average-electrostatic-potential-left
+      - index: 8
+        type: assignment
+        config:
+          attributes:
+            input:
+              - name: average_potential_profile
+                scope: average-electrostatic-potential-left
+  - name: average_electrostatic_potential_find_minima
+    type: subworkflow
+    config:
+      attributes:
+        name: Find ESP Value (Interface left)
+    unitConfigs:
+      - index: 0
+        type: executionBuilder
+        config:
+          attributes:
+            flowchartId: python-find-extrema-left
+      - index: 1
+        type: assignment
+        config:
+          attributes:
+            operand: AVG_ESP_LEFT
+            input:
+              - name: STDOUT
+                scope: python-find-extrema-left
 
-# interface-left-related subworkflows
-- name: average_electrostatic_potential_via_band_structure
-  type: subworkflow
-  config:
-    attributes:
-      name: BS + Avg ESP (interface left)
-  unitConfigs:
-    - index: 0
-      type: assignment
-      config:
-        attributes:
-          name: Set Material Index (Interface left)
-          value: '1'
-    - index: 2
-      type: executionBuilder
-      config:
-        attributes:
-          flowchartId: pw-bands-calculate-band-gap-left
-    - index: 3
-      type: assignment
-      config:
-        attributes:
-          input:
-            - name: band_gaps
-              scope: pw-bands-calculate-band-gap-left
-    - index: 4
-      type: assignment
-      config:
-        attributes:
-          operand: VBM_LEFT
-    - index: 7
-      type: executionBuilder
-      config:
-        attributes:
-          flowchartId: average-electrostatic-potential-left
-    - index: 8
-      type: assignment
-      config:
-        attributes:
-          input:
-            - name: average_potential_profile
-              scope: average-electrostatic-potential-left
-- name: average_electrostatic_potential_find_minima
-  type: subworkflow
-  config:
-    attributes:
-      name: Find ESP Value (Interface left)
-  unitConfigs:
-    - index: 0
-      type: executionBuilder
-      config:
-        attributes:
-          flowchartId: python-find-extrema-left
-    - index: 1
-      type: assignment
-      config:
-        attributes:
-          operand: AVG_ESP_LEFT
-          input:
-            - name: STDOUT
-              scope: python-find-extrema-left
+  # interface-right-related subworkflows
+  - name: average_electrostatic_potential_via_band_structure
+    type: subworkflow
+    config:
+      attributes:
+        name: BS + Avg ESP (interface right)
+    unitConfigs:
+      - index: 0
+        type: assignment
+        config:
+          attributes:
+            name: Set Material Index (Interface right)
+            value: '2'
+      - index: 2
+        type: executionBuilder
+        config:
+          attributes:
+            flowchartId: pw-bands-calculate-band-gap-right
+      - index: 3
+        type: assignment
+        config:
+          attributes:
+            input:
+              - name: band_gaps
+                scope: pw-bands-calculate-band-gap-right
+      - index: 4
+        type: assignment
+        config:
+          attributes:
+            operand: VBM_RIGHT
+      - index: 7
+        type: executionBuilder
+        config:
+          attributes:
+            flowchartId: average-electrostatic-potential-right
+      - index: 8
+        type: assignment
+        config:
+          attributes:
+            input:
+              - name: average_potential_profile
+                scope: average-electrostatic-potential-right
+  - name: average_electrostatic_potential_find_minima
+    type: subworkflow
+    config:
+      attributes:
+        name: Find ESP Value (Interface right)
+    unitConfigs:
+      - index: 0
+        type: executionBuilder
+        config:
+          attributes:
+            flowchartId: python-find-extrema-right
+      - index: 1
+        type: assignment
+        config:
+          attributes:
+            operand: AVG_ESP_RIGHT
+            input:
+              - name: STDOUT
+                scope: python-find-extrema-right
 
-# interface-right-related subworkflows
-- name: average_electrostatic_potential_via_band_structure
-  type: subworkflow
-  config:
-    attributes:
-      name: BS + Avg ESP (interface right)
-  unitConfigs:
-    - index: 0
-      type: assignment
-      config:
-        attributes:
-          name: Set Material Index (Interface right)
-          value: '2'
-    - index: 2
-      type: executionBuilder
-      config:
-        attributes:
-          flowchartId: pw-bands-calculate-band-gap-right
-    - index: 3
-      type: assignment
-      config:
-        attributes:
-          input:
-            - name: band_gaps
-              scope: pw-bands-calculate-band-gap-right
-    - index: 4
-      type: assignment
-      config:
-        attributes:
-          operand: VBM_RIGHT
-    - index: 7
-      type: executionBuilder
-      config:
-        attributes:
-          flowchartId: average-electrostatic-potential-right
-    - index: 8
-      type: assignment
-      config:
-        attributes:
-          input:
-            - name: average_potential_profile
-              scope: average-electrostatic-potential-right
-- name: average_electrostatic_potential_find_minima
-  type: subworkflow
-  config:
-    attributes:
-      name: Find ESP Value (Interface right)
-  unitConfigs:
-    - index: 0
-      type: executionBuilder
-      config:
-        attributes:
-          flowchartId: python-find-extrema-right
-    - index: 1
-      type: assignment
-      config:
-        attributes:
-          operand: AVG_ESP_RIGHT
-          input:
-            - name: STDOUT
-              scope: python-find-extrema-right
-
-# final subworkflow to calculate valence band offset
-- name: valence_band_offset_calc_from_previous_esp_vbm
-  type: subworkflow
+  # final subworkflow to calculate valence band offset
+  - name: valence_band_offset_calc_from_previous_esp_vbm
+    type: subworkflow

@@ -1,29 +1,29 @@
 application:
-    name: espresso
-    version: 5.4.0
+  name: espresso
+  version: 5.4.0
 method:
-    name: PseudopotentialMethod
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: reduce
 units:
--   config:
-        execName: ph.x
-        flavorName: ph_grid_restart
-        name: ph_grid_restart
+  - config:
+      execName: ph.x
+      flavorName: ph_grid_restart
+      name: ph_grid_restart
     type: executionBuilder
--   config:
-        execName: q2r.x
-        flavorName: q2r
-        name: q2r
+  - config:
+      execName: q2r.x
+      flavorName: q2r
+      name: q2r
     type: executionBuilder
--   config:
-        execName: matdyn.x
-        flavorName: matdyn_grid
-        name: matdyn_grid
+  - config:
+      execName: matdyn.x
+      flavorName: matdyn_grid
+      name: matdyn_grid
     type: executionBuilder
--   config:
-        execName: matdyn.x
-        flavorName: matdyn_path
-        name: matdyn_path
+  - config:
+      execName: matdyn.x
+      flavorName: matdyn_path
+      name: matdyn_path
     type: executionBuilder

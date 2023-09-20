@@ -1,12 +1,12 @@
 application:
-    name: python
-    version: 3.8.6
+  name: python
+  version: 3.8.6
 dynamicSubworkflow:
-    name: getQpointIrrep
-    subfolder: espresso
+  name: getQpointIrrep
+  subfolder: espresso
 method:
-    name: UnknownMethod
+  name: UnknownMethod
 model:
-    name: UnknownModel
+  name: UnknownModel
 name: espresso-xml-get-qpt-irr
 units: []

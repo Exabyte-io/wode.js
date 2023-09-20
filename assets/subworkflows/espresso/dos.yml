@@ -1,24 +1,24 @@
 application:
-    name: espresso
-    version: 5.4.0
+  name: espresso
+  version: 5.4.0
 method:
-    name: PseudopotentialMethod
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: Density of States
 units:
--   config:
-        execName: pw.x
-        flavorName: pw_scf
-        name: pw_scf
+  - config:
+      execName: pw.x
+      flavorName: pw_scf
+      name: pw_scf
     type: executionBuilder
--   config:
-        execName: pw.x
-        flavorName: pw_nscf
-        name: pw_nscf
+  - config:
+      execName: pw.x
+      flavorName: pw_nscf
+      name: pw_nscf
     type: executionBuilder
--   config:
-        execName: projwfc.x
-        flavorName: projwfc
-        name: projwfc
+  - config:
+      execName: projwfc.x
+      flavorName: projwfc
+      name: projwfc
     type: executionBuilder

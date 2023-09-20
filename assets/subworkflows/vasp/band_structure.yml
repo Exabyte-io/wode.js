@@ -1,21 +1,21 @@
 application:
-    name: vasp
-    version: 5.3.5
+  name: vasp
+  version: 5.3.5
 method:
-    name: PseudopotentialMethod
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: Band Structure
 units:
--   config:
-        execName: vasp
-        flavorName: vasp
-        name: vasp
+  - config:
+      execName: vasp
+      flavorName: vasp
+      name: vasp
     functions:
-        head: true
+      head: true
     type: executionBuilder
--   config:
-        execName: vasp
-        flavorName: vasp_bands
-        name: vasp_bands
+  - config:
+      execName: vasp
+      flavorName: vasp_bands
+      name: vasp_bands
     type: executionBuilder

@@ -1,89 +1,89 @@
 name: K-point Convergence
 application:
-    name: vasp
-    version: 5.3.5
+  name: vasp
+  version: 5.3.5
 model:
-    name: DFTModel
+  name: DFTModel
 method:
-    config:
-        type: pseudopotential
-        subtype: paw
-    name: PseudopotentialMethod
+  config:
+    type: pseudopotential
+    subtype: paw
+  name: PseudopotentialMethod
 units:
--   config:
-        name: Init tolerance
-        flowchartId: init-tolerance
-        operand: TOL
-        value: 1.0e-5
+  - config:
+      name: Init tolerance
+      flowchartId: init-tolerance
+      operand: TOL
+      value: 1.0e-5
     type: assignment
--   config:
-        name: Init increment
-        flowchartId: init-increment
-        operand: INC
-        value: 1
+  - config:
+      name: Init increment
+      flowchartId: init-increment
+      operand: INC
+      value: 1
     type: assignment
--   config:
-        name: Init result
-        flowchartId: init-result
-        operand: PREV_RESULT
-        value: 0
+  - config:
+      name: Init result
+      flowchartId: init-result
+      operand: PREV_RESULT
+      value: 0
     type: assignment
--   config:
-        name: Init parameter
-        flowchartId: init-parameter
-        operand: PARAMETER
-        value: 1
+  - config:
+      name: Init parameter
+      flowchartId: init-parameter
+      operand: PARAMETER
+      value: 1
     type: assignment
--   config:
-        name: vasp_kpt_conv
-        flowchartId: vasp-kpoint-convergence
-        execName: vasp
-        flavorName: vasp_kpt_conv
+  - config:
+      name: vasp_kpt_conv
+      flowchartId: vasp-kpoint-convergence
+      execName: vasp
+      flavorName: vasp_kpt_conv
     type: executionBuilder
--   config:
-        name: store result
-        flowchartId: store-result
-        operand: RESULT
-        value: total_energy
-        input:
-            -   name: total_energy
-                scope: vasp-kpoint-convergence
+  - config:
+      name: store result
+      flowchartId: store-result
+      operand: RESULT
+      value: total_energy
+      input:
+        - name: total_energy
+          scope: vasp-kpoint-convergence
     type: assignment
--   config:
-        name: check convergence
-        flowchartId: check-convergence
-        statement: "abs((PREV_RESULT-RESULT)/RESULT) < TOL"
-        maxOccurrences: 50
-        then: convergence-is-reached
-        else: update-result
+  - config:
+      name: check convergence
+      flowchartId: check-convergence
+      statement: 'abs((PREV_RESULT-RESULT)/RESULT) < TOL'
+      maxOccurrences: 50
+      then: convergence-is-reached
+      else: update-result
     type: condition
--   config:
-        name: update result
-        flowchartId: update-result
-        operand: PREV_RESULT
-        value: RESULT
-        input:
-            -   name: RESULT
-                scope: global
+  - config:
+      name: update result
+      flowchartId: update-result
+      operand: PREV_RESULT
+      value: RESULT
+      input:
+        - name: RESULT
+          scope: global
     type: assignment
--   config:
-        name: increment parameter
-        flowchartId: increment-parameter
-        operand: PREV_RESULT
-        value: PARAMETER+INC
-        input:
-            -   name: INC
-                scope: global
-            -   name: PARAMETER
-                scope: global
-        next: vasp-kpoint-convergence
+  - config:
+      name: increment parameter
+      flowchartId: increment-parameter
+      operand: PREV_RESULT
+      value: PARAMETER+INC
+      input:
+        - name: INC
+          scope: global
+        - name: PARAMETER
+          scope: global
+      next: vasp-kpoint-convergence
     type: assignment
--   config:
-        name: exit
-        flowchartId: convergence-is-reached
-        operand: PARAMETER
-        value: PARAMETER
-        input:
-            -   name: PARAMETER
-                scope: global
+  - config:
+      name: exit
+      flowchartId: convergence-is-reached
+      operand: PARAMETER
+      value: PARAMETER
+      input:
+        - name: PARAMETER
+          scope: global
     type: assignment

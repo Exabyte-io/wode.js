@@ -1,6 +1,6 @@
 name: Continuous testing and publication to NPM from 'main'
 
-on: 
+on: # yamllint disable-line rule:truthy
   workflow_dispatch:
   push:
 
@@ -10,6 +10,25 @@ concurrency:
 
 
 jobs:
+
+  run-linter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v2
+
+      - name: Checkout actions repository
+        uses: actions/checkout@v2
+        with:
+          repository: Exabyte-io/actions
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          path: actions
+
+      - name: Run Yaml linter
+        uses: ./actions/yaml/lint
+        with:
+          python-version: 3.8
 
   run-js-tests:
     runs-on: ubuntu-latest

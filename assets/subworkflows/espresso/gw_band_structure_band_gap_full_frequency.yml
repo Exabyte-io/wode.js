@@ -1,22 +1,22 @@
 application:
-    name: espresso
-    version: '6.3'
+  name: espresso
+  version: '6.3'
 method:
-    name: PseudopotentialMethod
-    setSearchText: .*dojo-oncv.*
+  name: PseudopotentialMethod
+  setSearchText: .*dojo-oncv.*
 model:
-    name: DFTModel
+  name: DFTModel
 name: Full Frequency GW Band Structure + Band Gap
 units:
--   config:
-        execName: pw.x
-        flavorName: pw_scf
-        name: pw_scf
+  - config:
+      execName: pw.x
+      flavorName: pw_scf
+      name: pw_scf
     functions:
-        head: true
+      head: true
     type: executionBuilder
--   config:
-        execName: gw.x
-        flavorName: gw_bands_full_frequency
-        name: gw_bands_full_frequency
+  - config:
+      execName: gw.x
+      flavorName: gw_bands_full_frequency
+      name: gw_bands_full_frequency
     type: executionBuilder

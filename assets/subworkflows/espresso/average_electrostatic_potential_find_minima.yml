@@ -3,25 +3,25 @@
 # Furthermore, this subworkflow expects the following variable(s) to exist in the global context:
 # array_from_context
 application:
-    name: python
-    version: 3.8.6
+  name: python
+  version: 3.8.6
 method:
-    name: UnknownMethod
+  name: UnknownMethod
 model:
-    name: UnknownModel
+  name: UnknownModel
 name: Find ESP Value
 units:
--   config:
-        name: Find Extrema
-        execName: python
-        flavorName: generic:processing:find_extrema:scipy
-        flowchartId: python-find-extrema
+  - config:
+      name: Find Extrema
+      execName: python
+      flavorName: generic:processing:find_extrema:scipy
+      flowchartId: python-find-extrema
     type: executionBuilder
--   config:
-        name: Set Average ESP Value
-        operand: AVG_ESP
-        value: 'json.loads(STDOUT)["minima"]'
-        input:
-          - name: STDOUT
-            scope: python-find-extrema
+  - config:
+      name: Set Average ESP Value
+      operand: AVG_ESP
+      value: 'json.loads(STDOUT)["minima"]'
+      input:
+        - name: STDOUT
+          scope: python-find-extrema
     type: assignment

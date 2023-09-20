@@ -1,16 +1,16 @@
 application:
-    name: nwchem
-    version: 7.0.2
+  name: nwchem
+  version: 7.0.2
 method:
-    name: LocalOrbitalMethod
+  name: LocalOrbitalMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: Total Energy
 units:
--   config:
-        execName: nwchem
-        flavorName: nwchem_total_energy
-        name: nwchem_total_energy
+  - config:
+      execName: nwchem
+      flavorName: nwchem_total_energy
+      name: nwchem_total_energy
     functions:
-        head: true
+      head: true
     type: executionBuilder

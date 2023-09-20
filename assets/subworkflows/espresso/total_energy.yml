@@ -1,16 +1,16 @@
 application:
-    name: espresso
-    version: 5.4.0
+  name: espresso
+  version: 5.4.0
 method:
-    name: PseudopotentialMethod
+  name: PseudopotentialMethod
 model:
-    name: DFTModel
+  name: DFTModel
 name: Total Energy
 units:
--   config:
-        execName: pw.x
-        flavorName: pw_scf
-        name: pw_scf
+  - config:
+      execName: pw.x
+      flavorName: pw_scf
+      name: pw_scf
     functions:
-        head: true
+      head: true
     type: executionBuilder
