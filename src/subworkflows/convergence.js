@@ -71,8 +71,9 @@ export const ConvergenceMixin = (superclass) =>
             const gridProvider = providers.find((p) => p.name === "kgrid" || p.name === "qgrid");
             let mergedContext = param.unitContext;
             if (gridProvider) {
-                gridProvider.setIsEdited(true);
                 mergedContext = merge(gridProvider.yieldData(), param.unitContext);
+                gridProvider.setData(mergedContext);
+                gridProvider.setIsEdited(true);
             }
             unitForConvergence.updateContext(mergedContext);
 
