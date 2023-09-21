@@ -1,3 +1,5 @@
+import merge from "lodash/merge";
+
 import { UNIT_TAGS, UNIT_TYPES } from "../enums";
 import { createConvergenceParameter } from "./convergence/factory";
 
@@ -65,7 +67,15 @@ export const ConvergenceMixin = (superclass) =>
 
             // Replace kgrid to be ready for convergence
             // TODO: kgrid should be abstracted and selected by user
-            unitForConvergence.updateContext(param.unitContext);
+            const providers = unitForConvergence.importantSettingsProviders;
+            const gridProvider = providers.find((p) => p.name === "kgrid" || p.name === "qgrid");
+            let mergedContext = param.unitContext;
+            if (gridProvider) {
+                mergedContext = merge(gridProvider.yieldData(), param.unitContext);
+                gridProvider.setData(mergedContext);
+                gridProvider.setIsEdited(true);
+            }
+            unitForConvergence.updateContext(mergedContext);
 
             const prevResult = "prev_result";
             const iteration = "iteration";

@@ -2,7 +2,7 @@ import { ConvergenceParameter } from "./parameter";
 
 export class NonUniformKGridConvergence extends ConvergenceParameter {
     get increment() {
-        return `[${this.initialValue}[i] + floor(iteration * ${this._increment} * float(context['kgrid']['reciprocalVectorRatios'][i])) for i in range(3)]`;
+        return `[${this.initialValue}[i] + math.floor(iteration * ${this._increment} * float(context['kgrid']['reciprocalVectorRatios'][i])) for i in range(3)]`;
     }
 
     get unitContext() {
