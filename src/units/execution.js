@@ -127,9 +127,9 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
 
     get input() {
         return (
-            this.prop("input") ||
-            this.flavor.getInputAsRenderedTemplates(this.getCombinedContext()) ||
-            []
+            (this.prop("input").length > 0
+                ? this.prop("input")
+                : this.flavor.getInputAsRenderedTemplates(this.getCombinedContext())) || []
         );
     }
 
@@ -169,7 +169,6 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         const renderingContext = { ...this.context, ...context };
         this.updateContext(renderingContext); // update in-memory context to properly render templates from input below
         (fromTemplates ? this.templates : this.templatesFromInput).forEach((t) => {
-            console.log(t.getRenderedJSON(renderingContext));
             newInput.push(t.getRenderedJSON(renderingContext));
             console.log(t.getDataFromProvidersForRenderingContext(renderingContext));
             console.log(t.getDataFromProvidersForPersistentContext(renderingContext));
