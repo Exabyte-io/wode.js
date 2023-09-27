@@ -171,6 +171,8 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         (fromTemplates ? this.templates : this.templatesFromInput).forEach((t) => {
             console.log(t.getRenderedJSON(renderingContext));
             newInput.push(t.getRenderedJSON(renderingContext));
+            console.log(t.getDataFromProvidersForRenderingContext(renderingContext));
+            console.log(t.getDataFromProvidersForPersistentContext(renderingContext));
             Object.assign(
                 newRenderingContext,
                 t.getDataFromProvidersForRenderingContext(renderingContext),
