@@ -13,13 +13,12 @@ export const ConvergenceMixin = (superclass) =>
             return this.findUnitWithTag("hasConvergenceResult")?.operand || undefined;
         }
 
-        // TODO: investigate how scope changes between subworkflows to allow for multiple convergences per job, in different subworkflows
         convergenceSeries(scopeTrack) {
             if (!this.hasConvergence || !scopeTrack?.length) return [];
             let lastResult;
             const series = scopeTrack
-                .map((scopeItem) => ({
-                    x: scopeItem.scope?.global[this.convergenceParam],
+                .map((scopeItem, i) => ({
+                    x: i,
                     y: scopeItem.scope?.global[this.convergenceResult],
                 }))
                 .filter(({ y }) => {
@@ -27,7 +26,13 @@ export const ConvergenceMixin = (superclass) =>
                     lastResult = y;
                     return isNewResult;
                 });
-            return series;
+            return series.map((item, i) => {
+                return {
+                    x: i + 1,
+                    param: item.param,
+                    y: item.y,
+                };
+            });
         }
 
         addConvergence({
