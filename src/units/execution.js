@@ -169,7 +169,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         const renderingContext = { ...this.context, ...context };
         this.updateContext(renderingContext); // update in-memory context to properly render templates from input below
         (fromTemplates ? this.templates : this.templatesFromInput).forEach((t) => {
-            console.log(t);
+            console.log(t.getRenderedJSON(renderingContext));
             newInput.push(t.getRenderedJSON(renderingContext));
             Object.assign(
                 newRenderingContext,
