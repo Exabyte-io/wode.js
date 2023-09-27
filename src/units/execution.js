@@ -127,7 +127,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
 
     get input() {
         return (
-            (this.prop("input").length > 0
+            (this.prop("input") && this.prop("input").length > 0
                 ? this.prop("input")
                 : this.flavor.getInputAsRenderedTemplates(this.getCombinedContext())) || []
         );
