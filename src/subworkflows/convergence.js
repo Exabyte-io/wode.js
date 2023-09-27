@@ -19,6 +19,7 @@ export const ConvergenceMixin = (superclass) =>
             const series = scopeTrack
                 .map((scopeItem, i) => ({
                     x: i,
+                    param: scopeItem.scope?.global[this.convergenceParam],
                     y: scopeItem.scope?.global[this.convergenceResult],
                 }))
                 .filter(({ y }) => {
