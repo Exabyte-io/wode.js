@@ -103,7 +103,12 @@ export class Subworkflow extends BaseSubworkflow {
         return this._application;
     }
 
-    setApplication(application) {
+    /**
+     * Set application and update dependencies.
+     * @param {Application} application - Application instance
+     * @param {Object} extraConfig - Object containing dependencies to construct method data.
+     */
+    setApplication(application, extraConfig) {
         // TODO: adjust the logic above to take into account whether units need re-rendering after version change etc.
         // reset units if application name changes
         const previousApplicationName = this.application.name;
@@ -124,6 +129,7 @@ export class Subworkflow extends BaseSubworkflow {
         this.setModel(
             this._ModelFactory.createFromApplication({
                 application: this.prop("application"),
+                ...extraConfig,
             }),
         );
     }
