@@ -33,7 +33,7 @@ export class Workflow extends BaseWorkflow {
         this._UnitFactory = UnitFactory;
         this._Workflow = Workflow;
         this._MapUnit = MapUnit;
-        if (!config.skipInitialize) this.initialize();
+        if (!config.skipInitialize) this.initialize(config.extraConfig);
     }
 
     // TODO: figure out how to avoid circular dependency on import in the platform webapp and re-enable or remove
@@ -44,12 +44,16 @@ export class Workflow extends BaseWorkflow {
     //     }
     // }
 
-    initialize() {
+    initialize(extraConfig) {
         const me = this;
-        this._subworkflows = this.prop("subworkflows").map((x) => new me._Subworkflow(x));
+        this._subworkflows = this.prop("subworkflows").map(
+            (x) => new me._Subworkflow({ ...x, extraConfig }),
+        );
         this._units = this.prop("units").map((unit) => me._UnitFactory.create(unit));
         this._json.workflows = this._json.workflows || [];
-        this._workflows = this.prop("workflows").map((x) => new me._Workflow(x));
+        this._workflows = this.prop("workflows").map(
+            (x) => new me._Workflow({ ...x, extraConfig }),
+        );
     }
 
     static get defaultConfig() {
