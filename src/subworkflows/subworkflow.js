@@ -130,7 +130,10 @@ export class Subworkflow extends BaseSubworkflow {
         this.setModel(
             this._ModelFactory.createFromApplication({
                 application: this.prop("application"),
-                ...extraConfig,
+                extraConfig: {
+                    ...extraConfig,
+                    application: this.prop("application"),
+                },
             }),
         );
     }
