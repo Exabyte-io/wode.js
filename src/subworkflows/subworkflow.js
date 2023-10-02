@@ -31,14 +31,15 @@ export class Subworkflow extends BaseSubworkflow {
         this._Application = Application;
         this._ModelFactory = ModelFactory;
         this._UnitFactory = UnitFactory;
-        this.initialize();
+        this.initialize(config.extraConfig);
     }
 
-    initialize() {
+    initialize(extraConfig) {
         this._application = new this._Application(this.prop("application"));
         this._model = this._ModelFactory.create({
             ...this.prop("model"),
             application: this.prop("application"),
+            extraConfig: { ...extraConfig, application: this.prop("application") },
         });
         this._units = setNextLinks(setUnitsHead(this.prop("units", [])), this.id).map((cfg) =>
             this._UnitFactory.create(
