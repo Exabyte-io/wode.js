@@ -351,4 +351,10 @@ export class Workflow extends BaseWorkflow {
         };
         return calculateHashFromObject(meaningfulFields);
     }
+
+    initializeMethodData(extraConfig) {
+        if (!extraConfig) return;
+        this.subworkflows.map((sw) => sw.initializeMethodData(extraConfig));
+        this.workflows.map((wf) => wf.initializeMethodData(extraConfig));
+    }
 }

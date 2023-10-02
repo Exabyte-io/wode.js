@@ -295,6 +295,13 @@ export class Subworkflow extends BaseSubworkflow {
         return this.model.method.data;
     }
 
+    initializeMethodData(extraConfig) {
+        const method = this.model?.method;
+        if (!method) return;
+        const cfg = { ...extraConfig, application: this.application, model: this.model };
+        method.initializeData(cfg);
+    }
+
     /**
      * @summary Calculates hash of the subworkflow. Meaningful fields are units, app and model.
      * units must be sorted topologically before hashing (already sorted).
