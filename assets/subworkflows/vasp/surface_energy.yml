@@ -3,10 +3,13 @@ application:
   version: 5.3.5
 dynamicSubworkflow:
   name: surfaceEnergy
-method:
-  name: PseudopotentialMethod
 model:
   name: DFTModel
+method:
+  name: PseudopotentialMethod
+  config:
+    type: pseudopotential
+    subtype: paw
 name: Surface Energy
 units:
   - config:

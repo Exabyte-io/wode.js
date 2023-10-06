@@ -1,10 +1,13 @@
 application:
   name: vasp
   version: 5.3.5
-method:
-  name: PseudopotentialMethod
 model:
   name: DFTModel
+method:
+  name: PseudopotentialMethod
+  config:
+    type: pseudopotential
+    subtype: paw
 name: Band Gap
 units:
   - config:
