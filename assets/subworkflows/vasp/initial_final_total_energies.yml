@@ -5,10 +5,13 @@ config:
   isMultiMaterial: true
   functions:
     setDefaultCompute: null
-method:
-  name: PseudopotentialMethod
 model:
   name: DFTModel
+method:
+  name: PseudopotentialMethod
+  config:
+    type: pseudopotential
+    subtype: paw
 name: Initial/Final Total Energies
 units:
   - config:

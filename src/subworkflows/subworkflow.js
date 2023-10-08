@@ -31,14 +31,15 @@ export class Subworkflow extends BaseSubworkflow {
         this._Application = Application;
         this._ModelFactory = ModelFactory;
         this._UnitFactory = UnitFactory;
-        this.initialize();
+        this.initialize(config.extraConfig);
     }
 
-    initialize() {
+    initialize(extraConfig) {
         this._application = new this._Application(this.prop("application"));
         this._model = this._ModelFactory.create({
             ...this.prop("model"),
             application: this.prop("application"),
+            extraConfig: { ...extraConfig, application: this.prop("application") },
         });
         this._units = setNextLinks(setUnitsHead(this.prop("units", [])), this.id).map((cfg) =>
             this._UnitFactory.create(
@@ -103,7 +104,12 @@ export class Subworkflow extends BaseSubworkflow {
         return this._application;
     }
 
-    setApplication(application) {
+    /**
+     * Set application and update dependencies.
+     * @param {Application} application - Application instance
+     * @param {Object} extraConfig - Object containing dependencies to construct method data.
+     */
+    setApplication(application, extraConfig) {
         // TODO: adjust the logic above to take into account whether units need re-rendering after version change etc.
         // reset units if application name changes
         const previousApplicationName = this.application.name;
@@ -124,6 +130,10 @@ export class Subworkflow extends BaseSubworkflow {
         this.setModel(
             this._ModelFactory.createFromApplication({
                 application: this.prop("application"),
+                extraConfig: {
+                    ...extraConfig,
+                    application: this.prop("application"),
+                },
             }),
         );
     }
@@ -283,6 +293,13 @@ export class Subworkflow extends BaseSubworkflow {
 
     get methodData() {
         return this.model.method.data;
+    }
+
+    initializeMethodData(extraConfig) {
+        const method = this.model?.method;
+        if (!method) return;
+        const cfg = { ...extraConfig, application: this.application, model: this.model };
+        method.initializeData(cfg);
     }
 
     /**

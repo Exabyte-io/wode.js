@@ -3,10 +3,13 @@ application:
   version: 5.3.5
 config:
   systemName: vasp-variable-cell-relaxation
-method:
-  name: PseudopotentialMethod
 model:
   name: DFTModel
+method:
+  name: PseudopotentialMethod
+  config:
+    type: pseudopotential
+    subtype: paw
 name: Variable-cell Relaxation
 units:
   - config:
