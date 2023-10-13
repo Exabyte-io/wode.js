@@ -75,22 +75,22 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
                         title: "Hubbard U value",
                         default: defaultHubbardConfig.hubbardUValue,
                     },
-                    dependencies: {
-                        atomicSpecies: {
-                            oneOf: this.uniqueElements.map((e) => {
-                                return {
-                                    properties: {
-                                        atomicSpecies: {
-                                            enum: [e],
-                                        },
-                                        atomicSpeciesIndex: {
-                                            type: "integer",
-                                            enum: [this.uniqueElements.indexOf(e) + 1],
-                                        },
+                },
+                dependencies: {
+                    atomicSpecies: {
+                        oneOf: this.uniqueElements.map((e) => {
+                            return {
+                                properties: {
+                                    atomicSpecies: {
+                                        enum: [e],
                                     },
-                                };
-                            }),
-                        },
+                                    atomicSpeciesIndex: {
+                                        type: "integer",
+                                        enum: [this.uniqueElements.indexOf(e) + 1],
+                                    },
+                                },
+                            };
+                        }),
                     },
                 },
             },
