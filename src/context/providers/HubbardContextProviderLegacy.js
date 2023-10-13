@@ -44,7 +44,7 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
             },
             items: {
                 atomicSpecies: this.defaultFieldStyles,
-                atomicSpeciesIndex: { "ui:readonly": true },
+                atomicSpeciesIndex: { ...this.defaultFieldStyles, "ui:readonly": true },
                 hubbardUValue: this.defaultFieldStyles,
             },
         };
