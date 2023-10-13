@@ -67,7 +67,7 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
                     },
                     atomicSpeciesIndex: {
                         type: "integer",
-                        title: "Atomic species index",
+                        title: "Species index",
                         default: 1,
                     },
                     hubbardUValue: {
