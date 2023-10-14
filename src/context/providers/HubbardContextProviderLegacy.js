@@ -3,8 +3,6 @@ import { Made } from "@exabyte-io/made.js";
 import { mix } from "mixwith";
 
 const defaultHubbardConfig = {
-    atomicSpecies: "",
-    atomicSpeciesIndex: 1,
     hubbardUValue: 0.01,
 };
 
@@ -18,12 +16,11 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
         this.uniqueElements = this.material?.Basis?.uniqueElements || [];
     }
 
+    /* eslint-disable class-methods-use-this */
     get defaultData() {
         return [
             {
                 ...defaultHubbardConfig,
-                atomicSpecies: this.uniqueElements[0],
-                atomicSpeciesIndex: 1,
             },
         ];
     }
@@ -63,12 +60,10 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
                         type: "string",
                         title: "Atomic species",
                         enum: this.uniqueElements,
-                        default: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
                     },
                     atomicSpeciesIndex: {
                         type: "integer",
                         title: "Species index",
-                        default: 1,
                     },
                     hubbardUValue: {
                         type: "number",
@@ -87,6 +82,7 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
                                     atomicSpeciesIndex: {
                                         type: "integer",
                                         enum: [this.uniqueElements.indexOf(e) + 1],
+                                        default: this.uniqueElements.indexOf(e) + 1,
                                     },
                                 },
                             };
