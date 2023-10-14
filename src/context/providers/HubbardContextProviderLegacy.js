@@ -16,18 +16,15 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
         this.uniqueElements = this.material?.Basis?.uniqueElements || [];
     }
 
-    /* eslint-disable class-methods-use-this */
     get defaultData() {
         return [
             {
                 ...defaultHubbardConfig,
+                atomicSpecies: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
+                atomicSpeciesIndex: 1,
             },
         ];
     }
-
-    atomicIndexFromSpecies = (atomicSpecies) => {
-        return this.uniqueElements.indexOf(atomicSpecies) + 1;
-    };
 
     get uiSchemaStyled() {
         return {
@@ -37,11 +34,11 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
                 removable: true,
             },
             title: {
-                classNames: "col-xs-12",
+                "ui:classNames": "col-xs-12",
             },
             items: {
                 atomicSpecies: this.defaultFieldStyles,
-                atomicSpeciesIndex: { ...this.defaultFieldStyles, "ui:readonly": true },
+                atomicSpeciesIndex: { ...this.defaultFieldStyles, "ui:readonly": false },
                 hubbardUValue: this.defaultFieldStyles,
             },
         };
@@ -73,16 +70,18 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
                 },
                 dependencies: {
                     atomicSpecies: {
-                        oneOf: this.uniqueElements.map((e) => {
+                        oneOf: this.uniqueElements.map((atom) => {
                             return {
                                 properties: {
                                     atomicSpecies: {
-                                        enum: [e],
+                                        type: "string",
+                                        enum: [atom],
+                                        default: atom,
                                     },
                                     atomicSpeciesIndex: {
                                         type: "integer",
-                                        enum: [this.uniqueElements.indexOf(e) + 1],
-                                        default: this.uniqueElements.indexOf(e) + 1,
+                                        enum: [this.uniqueElements.indexOf(atom) + 1],
+                                        default: this.uniqueElements.indexOf(atom) + 1,
                                     },
                                 },
                             };
