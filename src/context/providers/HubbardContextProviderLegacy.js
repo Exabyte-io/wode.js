@@ -89,7 +89,7 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
                     },
                 },
             },
-            minItems: 1,
+            // minItems: 1,
         };
     }
 }
