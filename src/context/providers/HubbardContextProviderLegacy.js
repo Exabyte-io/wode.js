@@ -38,7 +38,7 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
             },
             items: {
                 atomicSpecies: this.defaultFieldStyles,
-                atomicSpeciesIndex: { ...this.defaultFieldStyles, "ui:readonly": false },
+                atomicSpeciesIndex: { ...this.defaultFieldStyles, "ui:readonly": true },
                 hubbardUValue: this.defaultFieldStyles,
             },
         };
@@ -46,7 +46,7 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
 
     get jsonSchema() {
         return {
-            // $schema: "http://json-schema.org/draft-04/schema#",
+            $schema: "http://json-schema.org/draft-07/schema#",
             title: "",
             description: "Hubbard parameters for DFT+U calculation.",
             type: "array",
@@ -82,7 +82,6 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
                                     },
                                     atomicSpeciesIndex: {
                                         type: "integer",
-                                        // enum: [this.uniqueElements.indexOf(atom) + 1],
                                         default: this.uniqueElements.indexOf(atom) + 1,
                                     },
                                 },
