@@ -80,7 +80,7 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
                                     },
                                     atomicSpeciesIndex: {
                                         type: "integer",
-                                        enum: [this.uniqueElements.indexOf(atom) + 1],
+                                        // enum: [this.uniqueElements.indexOf(atom) + 1],
                                         default: this.uniqueElements.indexOf(atom) + 1,
                                     },
                                 },
