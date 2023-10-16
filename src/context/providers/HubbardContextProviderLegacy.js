@@ -1,21 +1,10 @@
-import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
-import { Made } from "@exabyte-io/made.js";
-import { mix } from "mixwith";
+import { HubbardContextProvider } from "./HubbardContextProvider";
 
 const defaultHubbardConfig = {
     hubbardUValue: 0.01,
 };
 
-export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider).with(
-    MaterialContextMixin,
-) {
-    static Material = Made.Material;
-
-    constructor(config) {
-        super(config);
-        this.uniqueElements = this.material?.Basis?.uniqueElements || [];
-    }
-
+export class HubbardContextProviderLegacy extends HubbardContextProvider {
     get defaultData() {
         return [
             {
