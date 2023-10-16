@@ -50,6 +50,8 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
             title: "",
             description: "Hubbard parameters for DFT+U calculation.",
             type: "array",
+            uniqueItems: true,
+            minItems: 1,
             items: {
                 type: "object",
                 properties: {
@@ -89,7 +91,6 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
                     },
                 },
             },
-            // minItems: 1,
         };
     }
 }
