@@ -46,7 +46,7 @@ export class HubbardContextProviderLegacy extends mix(JSONSchemaFormDataProvider
 
     get jsonSchema() {
         return {
-            $schema: "http://json-schema.org/draft-04/schema#",
+            // $schema: "http://json-schema.org/draft-04/schema#",
             title: "",
             description: "Hubbard parameters for DFT+U calculation.",
             type: "array",
