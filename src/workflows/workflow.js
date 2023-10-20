@@ -46,10 +46,34 @@ export class Workflow extends BaseWorkflow {
 
     initialize() {
         const me = this;
-        this._subworkflows = this.prop("subworkflows").map((x) => new me._Subworkflow(x));
-        this._units = this.prop("units").map((unit) => me._UnitFactory.create(unit));
+
+        console.log("config.subworkflows", this.prop("subworkflows"));
+        console.log("config.units", this.prop("units"));
+        console.log("config.workflows", this.prop("workflows"));
+
+        if (Array.isArray(this.prop("subworkflows"))) {
+            this._subworkflows = this.prop("subworkflows").map((x) => new me._Subworkflow(x));
+        } else {
+            this._subworkflows = [];
+        }
+
+        if (Array.isArray(this.prop("units"))) {
+            this._units = this.prop("units").map((unit) => me._UnitFactory.create(unit));
+        } else {
+            this._units = [];
+        }
+
         this._json.workflows = this._json.workflows || [];
-        this._workflows = this.prop("workflows").map((x) => new me._Workflow(x));
+
+        if (Array.isArray(this.prop("workflows"))) {
+            this._workflows = this.prop("workflows").map((x) => new me._Workflow(x));
+        } else {
+            this._workflows = [];
+        }
+
+        console.log("this._subworkflows", this._subworkflows);
+        console.log("this._units", this._units);
+        console.log("this._workflows", this._workflows);
     }
 
     static get defaultConfig() {
