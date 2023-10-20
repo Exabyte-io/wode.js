@@ -15,6 +15,13 @@ export class HubbardContextProviderLegacy extends HubbardContextProvider {
         ];
     }
 
+    transformData = (data) => {
+        return data.map((row) => ({
+            ...row,
+            atomicSpeciesIndex: this.uniqueElements.indexOf(row.atomicSpecies) + 1,
+        }));
+    };
+
     get uiSchemaStyled() {
         return {
             "ui:options": {
