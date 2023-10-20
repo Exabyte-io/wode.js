@@ -1,7 +1,7 @@
 import { HubbardContextProvider } from "./HubbardContextProvider";
 
 const defaultHubbardConfig = {
-    hubbardUValue: 0.01,
+    hubbardUValue: 1.0,
 };
 
 export class HubbardContextProviderLegacy extends HubbardContextProvider {
@@ -10,15 +10,19 @@ export class HubbardContextProviderLegacy extends HubbardContextProvider {
             {
                 ...defaultHubbardConfig,
                 atomicSpecies: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
-                atomicSpeciesIndex: 1,
+                atomicSpeciesIndex: this.uniqueElements?.length > 0 ? 1 : null,
             },
         ];
     }
 
+    speciesIndexFromSpecies = (species) => {
+        return this.uniqueElements?.length > 0 ? this.uniqueElements.indexOf(species) + 1 : null;
+    };
+
     transformData = (data) => {
         return data.map((row) => ({
             ...row,
-            atomicSpeciesIndex: this.uniqueElements.indexOf(row.atomicSpecies) + 1,
+            atomicSpeciesIndex: this.speciesIndexFromSpecies(row.atomicSpecies),
         }));
     };
 
@@ -68,17 +72,17 @@ export class HubbardContextProviderLegacy extends HubbardContextProvider {
                 },
                 dependencies: {
                     atomicSpecies: {
-                        oneOf: this.uniqueElements.map((atom) => {
+                        oneOf: this.uniqueElements.map((species) => {
                             return {
                                 properties: {
                                     atomicSpecies: {
                                         type: "string",
-                                        enum: [atom],
-                                        default: atom,
+                                        enum: [species],
+                                        default: species,
                                     },
                                     atomicSpeciesIndex: {
                                         type: "integer",
-                                        default: this.uniqueElements.indexOf(atom) + 1,
+                                        default: this.speciesIndexFromSpecies(species),
                                     },
                                 },
                             };
