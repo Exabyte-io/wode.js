@@ -66,27 +66,8 @@ export class HubbardContextProviderLegacy extends HubbardContextProvider {
                     },
                     hubbardUValue: {
                         type: "number",
-                        title: "Hubbard U value",
+                        title: "Hubbard U (eV)",
                         default: defaultHubbardConfig.hubbardUValue,
-                    },
-                },
-                dependencies: {
-                    atomicSpecies: {
-                        oneOf: this.uniqueElements.map((species) => {
-                            return {
-                                properties: {
-                                    atomicSpecies: {
-                                        type: "string",
-                                        enum: [species],
-                                        default: species,
-                                    },
-                                    atomicSpeciesIndex: {
-                                        type: "integer",
-                                        default: this.speciesIndexFromSpecies(species),
-                                    },
-                                },
-                            };
-                        }),
                     },
                 },
             },

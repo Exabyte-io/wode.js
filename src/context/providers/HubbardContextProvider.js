@@ -5,7 +5,7 @@ import { mix } from "mixwith";
 const defaultHubbardConfig = {
     atomicSpecies: "",
     atomicOrbital: "2p",
-    hubbardUValue: 0.01,
+    hubbardUValue: 1.0,
 };
 
 export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with(
@@ -82,7 +82,7 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
                     },
                     hubbardUValue: {
                         type: "number",
-                        title: "Hubbard U value",
+                        title: "Hubbard U (eV)",
                         default: defaultHubbardConfig.hubbardUValue,
                     },
                 },
