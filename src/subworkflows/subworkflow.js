@@ -204,7 +204,7 @@ export class Subworkflow extends BaseSubworkflow {
             ...context,
             application: this.application,
             methodData: this.model.method.data,
-            model: this.model.toJSON(),
+            model: this.model,
             // context below is assembled from context providers and passed to units to override theirs
             ...this.context,
             subworkflowContext: this.contextFromAssignmentUnits,
