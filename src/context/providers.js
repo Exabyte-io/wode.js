@@ -11,6 +11,7 @@ const {
     ExplicitPointsPathFormDataProvider,
     ExplicitPointsPath2PIBAFormDataProvider,
     HubbardContextProvider,
+    HubbardContextProviderLegacy,
 } = context;
 
 const CONTEXT_DOMAINS = {
@@ -64,6 +65,10 @@ export const wodeProviders = {
     HubbardContextManager: {
         providerCls: HubbardContextProvider,
         config: _makeImportant({ name: "hubbard" }),
+    },
+    HubbardContextManagerLegacy: {
+        providerCls: HubbardContextProviderLegacy,
+        config: _makeImportant({ name: "hubbard_legacy" }),
     },
     // NEBFormDataManager context is stored under the same key (`input`) as InputDataManager contexts.
     NEBFormDataManager: {

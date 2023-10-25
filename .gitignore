@@ -5,3 +5,4 @@ node_modules/
 .nyc_output/
 .idea/
 src/workflows/workflows.js
+.DS_Store
