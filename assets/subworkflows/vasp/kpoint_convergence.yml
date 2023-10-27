@@ -52,7 +52,7 @@ units:
   - config:
       name: check convergence
       flowchartId: check-convergence
-      statement: 'abs((PREV_RESULT-RESULT)/RESULT) < TOL'
+      statement: "abs((PREV_RESULT-RESULT)/RESULT) < TOL"
       maxOccurrences: 50
       then: convergence-is-reached
       else: update-result

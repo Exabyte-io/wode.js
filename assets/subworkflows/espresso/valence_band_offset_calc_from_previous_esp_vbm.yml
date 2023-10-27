@@ -14,22 +14,22 @@ units:
   - config:
       name: Difference of valence band maxima
       operand: VBM_DIFF
-      value: 'VBM_LEFT - VBM_RIGHT'
+      value: "VBM_LEFT - VBM_RIGHT"
     type: assignment
   - config:
       name: Difference of macroscopically averaged ESP in bulk
       operand: AVG_ESP_DIFF
-      value: 'AVG_ESP_LEFT[0] - AVG_ESP_RIGHT[0]'
+      value: "AVG_ESP_LEFT[0] - AVG_ESP_RIGHT[0]"
     type: assignment
   - config:
       name: Lineup of macroscopically averaged ESP in interface
       operand: ESP_LINEUP
-      value: 'np.abs(AVG_ESP_INTERFACE[0] - AVG_ESP_INTERFACE[1])'
+      value: "np.abs(AVG_ESP_INTERFACE[0] - AVG_ESP_INTERFACE[1])"
     type: assignment
   - config:
       name: Valence Band Offset
       operand: VALENCE_BAND_OFFSET
-      value: 'abs(VBM_DIFF - AVG_ESP_DIFF + (np.sign(AVG_ESP_DIFF) * ESP_LINEUP))'
+      value: "abs(VBM_DIFF - AVG_ESP_DIFF + (np.sign(AVG_ESP_DIFF) * ESP_LINEUP))"
       results:
         - name: valence_band_offset
     type: assignment

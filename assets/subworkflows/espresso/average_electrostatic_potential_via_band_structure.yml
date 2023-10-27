@@ -31,7 +31,7 @@ units:
   - config:
       name: Select indirect band gap
       operand: BAND_GAP_INDIRECT
-      value: '[bandgap for bandgap in band_gaps["values"] if bandgap["type"] == "indirect"][0]'
+      value: "[bandgap for bandgap in band_gaps['values'] if bandgap['type'] == 'indirect'][0]"
       input:
         - name: band_gaps
           scope: pw-bands-calculate-band-gap
@@ -39,7 +39,7 @@ units:
   - config:
       name: Set Valence Band Maximum
       operand: VBM
-      value: 'BAND_GAP_INDIRECT["eigenvalueValence"]'
+      value: "BAND_GAP_INDIRECT['eigenvalueValence']"
     type: assignment
   - config:
       execName: bands.x
@@ -60,7 +60,7 @@ units:
   - config:
       name: Set Macroscopically Averaged ESP Data
       operand: array_from_context
-      value: 'average_potential_profile["yDataSeries"][1]'
+      value: "average_potential_profile['yDataSeries'][1]"
       input:
         - name: average_potential_profile
           scope: average-electrostatic-potential

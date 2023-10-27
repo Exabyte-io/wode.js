@@ -20,7 +20,7 @@ units:
   - config:
       name: Set Average ESP Value
       operand: AVG_ESP
-      value: 'json.loads(STDOUT)["minima"]'
+      value: "json.loads(STDOUT)['minima']"
       input:
         - name: STDOUT
           scope: python-find-extrema
