@@ -15,7 +15,7 @@ model:
     subtype: re
     type: ml
   name: Model
-name: 'ML: Kernel Ridge Regression Train Model'
+name: "ML: Kernel Ridge Regression Train Model"
 units:
   - config:
       flowchartId: io

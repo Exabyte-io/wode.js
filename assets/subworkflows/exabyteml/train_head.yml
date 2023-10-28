@@ -13,18 +13,18 @@ units:
       operand: IS_WORKFLOW_RUNNING_TO_PREDICT
       tags:
         - pyml:workflow-type-setter
-      value: 'False'
+      value: "False"
     type: assignment
   - config:
       enableRender: true
       flowchartId: head-fetch-training-data
       input:
-        - basename: '{{DATASET_BASENAME}}'
+        - basename: "{{DATASET_BASENAME}}"
           objectData:
-            CONTAINER: ''
-            NAME: '{{DATASET_FILEPATH}}'
-            PROVIDER: ''
-            REGION: ''
+            CONTAINER: ""
+            NAME: "{{DATASET_FILEPATH}}"
+            PROVIDER: ""
+            REGION: ""
       name: Fetch Dataset
       source: object_storage
     type: io
@@ -42,12 +42,12 @@ units:
       enableRender: true
       flowchartId: head-fetch-trained-model
       input:
-        - basename: ''
+        - basename: ""
           objectData:
-            CONTAINER: ''
-            NAME: ''
-            PROVIDER: ''
-            REGION: ''
+            CONTAINER: ""
+            NAME: ""
+            PROVIDER: ""
+            REGION: ""
       name: Fetch Trained Model as file
       source: object_storage
       tags:
@@ -57,5 +57,5 @@ units:
       flowchartId: end-of-ml-train-head
       name: End Setup
       operand: IS_SETUP_COMPLETE
-      value: 'True'
+      value: "True"
     type: assignment

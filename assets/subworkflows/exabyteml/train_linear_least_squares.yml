@@ -15,7 +15,7 @@ model:
     subtype: re
     type: ml
   name: Model
-name: 'ML: Linear Least Squares Train Model'
+name: "ML: Linear Least Squares Train Model"
 units:
   - config:
       flowchartId: io

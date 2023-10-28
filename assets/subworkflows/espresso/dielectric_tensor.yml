@@ -1,6 +1,6 @@
 application:
   name: espresso
-  version: '6.3'
+  version: "6.3"
 method:
   config:
     data: {}
