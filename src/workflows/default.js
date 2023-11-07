@@ -7,7 +7,7 @@ export default {
             application: {
                 name: "espresso",
                 summary: "Quantum Espresso",
-                version: "5.4.0",
+                version: "6.3",
             },
             model: {
                 method: {
