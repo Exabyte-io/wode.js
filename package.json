@@ -46,13 +46,13 @@
         "underscore.string": "^3.3.4"
     },
     "devDependencies": {
-        "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js#13a518234af434022a717f0f840968edfce22a51",
-        "@exabyte-io/application-flavors.js": "git+https://github.com/Exabyte-io/application-flavors#ca7c63f24ce51928a0a08caf4089d97a9a6798bb",
-        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js#29a2981137d0e7088bfe07338f03f9d980c32bc8",
+        "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js#b8131dcbbbd4d41335b95fbb646fc25975ab7682",
+        "@exabyte-io/application-flavors.js": "git+https://github.com/Exabyte-io/application-flavors#8ed271afe108441817d4b2b5e645fc8faf0f9252",
+        "@exabyte-io/code.js": "2023.6.10-1",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2022.7.28-1",
         "@exabyte-io/made.js": "2023.3.8-0",
-        "@exabyte-io/mode.js": "git+https://github.com/Exabyte-io/mode.js#8b39b37b1769faeae9dc6dd9152b2a673119b086",
+        "@exabyte-io/mode.js": "git+https://github.com/Exabyte-io/mode.js#09336856af4d2ffe2f94308289da82cdbd8a778f",
         "chai": "^4.3.4",
         "eslint": "7.32.0",
         "eslint-config-airbnb": "19.0.2",
