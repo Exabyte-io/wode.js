@@ -1,8 +1,8 @@
-import { UNIT_TYPES } from "../enums";
 import { BaseUnit } from "./base";
+import { AssertionUnitConfig, UNIT_TYPES } from "./types";
 
-export class AssertionUnit extends BaseUnit {
-    constructor(config) {
+export class AssertionUnit extends BaseUnit<AssertionUnitConfig> {
+    constructor(config: AssertionUnitConfig) {
         super({ ...AssertionUnit.getAssertionConfig(), ...config });
     }
 
@@ -23,7 +23,7 @@ export class AssertionUnit extends BaseUnit {
         return this.prop("errorMessage");
     }
 
-    getHashObject() {
+    getHashObject(): Partial<AssertionUnitConfig> {
         return { statement: this.statement, errorMessage: this.errorMessage };
     }
 }

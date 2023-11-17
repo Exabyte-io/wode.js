@@ -1,8 +1,9 @@
 import { UNIT_TYPES } from "../enums";
 import { BaseUnit } from "./base";
+import { ProcessingUnitConfig, UnitInput } from "./types";
 
-export class ProcessingUnit extends BaseUnit {
-    constructor(config) {
+export class ProcessingUnit extends BaseUnit<ProcessingUnitConfig> {
+    constructor(config: ProcessingUnitConfig) {
         super({ ...ProcessingUnit.getProcessingConfig(), ...config });
     }
 
@@ -13,15 +14,15 @@ export class ProcessingUnit extends BaseUnit {
         };
     }
 
-    setOperation(op) {
+    setOperation(op: string) {
         this.setProp("operation", op);
     }
 
-    setOperationType(type) {
+    setOperationType(type: string) {
         this.setProp("operationType", type);
     }
 
-    setInput(input) {
+    setInput(input: UnitInput) {
         this.setProp("input", input);
     }
 

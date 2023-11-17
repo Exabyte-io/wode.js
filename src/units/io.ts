@@ -2,18 +2,21 @@ import lodash from "lodash";
 
 import { IO_ID_COLUMN, UNIT_TYPES } from "../enums";
 import { BaseUnit } from "./base";
+import { IOUnitConfig } from "./types";
 
-export class IOUnit extends BaseUnit {
-    /**
-     * IO Unit Builder for Object Storage sources.
-     *
-     * @param {Object} config - config object with other parameters:
-     * @param {String} config.name - the name of the unit this builder is creating
-     * @param {String} config.subtype - "input", "output", or "dataframe"
-     * @param {Object} config.input - input containing information on the file to download
-     * @param {Boolean} config.enableRender - Whether to use Jinja templating at runtime
-     */
-    constructor(config) {
+export class IOUnit extends BaseUnit<IOUnitConfig> {
+    private _materials: any[]; // TODO: define Material type
+    private _defaultTargets: string[];
+    private _features: string[];
+    private _targets: string[];
+    private _ids: string[];
+    private _jobId: string | null;
+    public dataGridValues: any[];
+    private clean: <T>(obj: T) => T; // TODO: should be coming from mixins
+    // public toJSON: () => T;
+
+
+    constructor(config: IOUnitConfig) {
         super({ ...IOUnit.getIOConfig(), ...config });
         this.initialize(config);
     }
@@ -26,7 +29,7 @@ export class IOUnit extends BaseUnit {
         };
     }
 
-    initialize(config) {
+    initialize(config: IOUnitConfig) {
         this._materials = [];
         this._defaultTargets = ["band_gaps:direct", "band_gaps:indirect"];
         this._features = lodash.get(config, "input.0.endpoint_options.data.features", []);
@@ -39,7 +42,7 @@ export class IOUnit extends BaseUnit {
         this._jobId = null;
     }
 
-    get materials() {
+    get materials() { // TODO: define Material type
         return this._materials || [];
     }
 
@@ -55,7 +58,8 @@ export class IOUnit extends BaseUnit {
         return this.features.filter((x) => x !== IO_ID_COLUMN);
     }
 
-    get availableFeatures() {
+    // TODO: refactor to not use lodash
+    get availableFeatures(): any[] {
         const { materials } = this;
         return lodash.uniq(
             lodash
@@ -76,7 +80,7 @@ export class IOUnit extends BaseUnit {
      * @summary Checks whether selected features contain only IO_ID_COLUMN ('exabyteId').
      * Used to identify that no features are selected yet (features set always contains ID_COLUMN)
      */
-    get onlyIdFeatureSelected() {
+    get onlyIdFeatureSelected(): boolean {
         return lodash.isEmpty(lodash.without(this.features, IO_ID_COLUMN));
     }
 
@@ -120,43 +124,43 @@ export class IOUnit extends BaseUnit {
         return this.prop("subtype") === "dataFrame";
     }
 
-    setMaterials(materials) {
+    setMaterials(materials: any[]) { //TODO: define Material type
         this._materials = materials;
         this._ids = materials.map((m) => m.exabyteId);
     }
 
-    addFeature(feature) {
+    addFeature(feature: string) {
         // only add if not already present
         if (this._features.indexOf(feature) === -1) this._features.push(feature);
     }
 
-    removeFeature(feature) {
+    removeFeature(feature: string) {
         if (this.featuresWithoutId.length === 1) {
             throw new Error("At least one feature is required");
         }
         this._features = this._features.filter((x) => feature !== x && x !== IO_ID_COLUMN);
     }
 
-    addTarget(target) {
+    addTarget(target: string) {
         if (this._targets.indexOf(target) === -1) this._targets.push(target);
     }
 
-    removeTarget(target) {
+    removeTarget(target: string) {
         if (this._targets.length === 1) {
             throw new Error("At least one target is required");
         }
         this._targets = this._targets.filter((x) => target !== x);
     }
 
-    hasFeature(feature) {
+    hasFeature(feature: string) {
         return this._features.indexOf(feature) > -1;
     }
 
-    hasTarget(target) {
+    hasTarget(target: string) {
         return this._targets.indexOf(target) > -1;
     }
 
-    toJSON() {
+    toJSON(): IOUnitConfig {
         const config = this.isDataFrame ? this.dataFrameConfig : {};
         return this.clean({ ...super.toJSON(), ...config });
     }

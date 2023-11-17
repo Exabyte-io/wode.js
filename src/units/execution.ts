@@ -5,12 +5,27 @@ import { mix } from "mixwith";
 import _ from "underscore";
 
 import { BaseUnit } from "./base";
+import { ApplicationType, ExecutableType, ExecutionUnitConfig, FlavorType, TemplateType } from "./types";
 
-export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
+export class ExecutionUnit extends mix(BaseUnit<ExecutionUnitConfig>).with(HashedInputArrayMixin) {
+
+    public prop: <K extends keyof ExecutionUnitConfig>(key: K, defaultValue?: ExecutionUnitConfig[K]) => ExecutionUnitConfig[K]; // TODO: should be coming from mixins
+    public setProp: <K extends keyof ExecutionUnitConfig>(key: K, value: ExecutionUnitConfig[K]) => void; // TODO: should be coming from mixins
+    private _application: ApplicationType;
+    private _executable: ExecutableType;
+    private _flavor: FlavorType;
+    private _templates: TemplateType[];
+    private context: any; //TODO: should be coming from mixins
+    private setRuntimeItemsToDefaultValues: () => void; // TODO: should be coming from mixins
+    private getCombinedContext: () => any; // TODO: should be coming from mixins
+    private updateContext: (context: any) => void; // TODO: should be coming from mixins
+    private _renderingContext: any; // TODO: should be coming from mixins
+    private updatePersistentContext: (context: any) => void; // TODO: should be coming from mixins
+    private hashFromArrayInputContent: string; // TODO: should be coming from mixins
+    private clean: <T>(obj: T) => T; // TODO: should be coming from mixins
+
     static Application = Application;
-
     static Template = Template;
-
     // keys to be omitted during toJSON
     static omitKeys = [
         "job",
@@ -23,7 +38,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     ];
 
     _initApplication(config) {
-        this._application = this.constructor.Application.create(config.application);
+        this._application = ExecutionUnit.Application.create(config.application);
         this._executable = this._application.getExecutableByConfig(config.executable);
         this._flavor = this._executable.getFlavorByConfig(config.flavor);
         this._templates = this._flavor ? this._flavor.inputAsTemplates : [];
@@ -55,10 +70,10 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     }
 
     get templatesFromInput() {
-        return this.input.map((i) => new this.constructor.Template(i));
+        return this.input.map((i) => new ExecutionUnit.Template(i));
     }
 
-    setApplication(application, omitSettingExecutable = false) {
+    setApplication(application: Application, omitSettingExecutable = false): void {
         this._application = application;
         this.setProp("application", application.toJSON());
         if (!omitSettingExecutable) {
@@ -66,25 +81,27 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         }
     }
 
-    setExecutable(executable) {
+    // TODO: use isolated Executable type
+    setExecutable(executable: ExecutableType): void {
         this._executable = executable;
         this.setProp("executable", executable.toJSON());
         this.setFlavor(this.executable.defaultFlavor);
     }
 
-    setFlavor(flavor) {
+    // TODO: use isolated Flavor type
+    setFlavor(flavor: FlavorType): void {
         this._flavor = flavor;
         this.setRuntimeItemsToDefaultValues();
         this.setProp("flavor", flavor.toJSON());
         this.setTemplates(this.flavor.inputAsTemplates);
     }
 
-    setTemplates(templates) {
+    setTemplates(templates: Template[]): void {
         this._templates = templates;
         this.render(this.context, true);
     }
 
-    setInput(input) {
+    setInput(input: ExecutionUnitConfig["input"]): void {
         this.setProp("input", input);
     }
 
@@ -113,7 +130,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     }
 
     get allContextProviders() {
-        const list = [];
+        const list: any = [];
         // pass context below to keep UI changes
         this.templates.forEach((i) =>
             list.push(...i.getContextProvidersAsClassInstances(this.getCombinedContext())),
@@ -143,12 +160,12 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
 
     // context to persist in toJSON
     get storedContext() {
-        return _.omit(this.context, ...this.constructor.omitKeys);
+        return _.omit(this.context, ...ExecutionUnit.omitKeys);
     }
 
     // context to show to users with some extra keys omitted
     get visibleRenderingContext() {
-        return _.omit(this.renderingContext, ...this.constructor.omitKeys);
+        return _.omit(this.renderingContext, ...ExecutionUnit.omitKeys);
     }
 
     static getSubworkflowContext(context) {
@@ -162,7 +179,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
      * @param fromTemplates
      */
     render(context, fromTemplates = false) {
-        const newInput = [];
+        const newInput: any = [];
         const newPersistentContext = {};
         const newRenderingContext = {};
         const renderingContext = { ...this.context, ...context };
@@ -189,7 +206,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
      * @summary Calculates hash on unit-specific fields.
      * The meaningful fields of processing unit are operation, flavor and input at the moment.
      */
-    getHashObject() {
+    getHashObject(): Partial<ExecutionUnitConfig> {
         return {
             ...super.getHashObject(),
             application: removeTimestampableKeysFromConfig(this.application.toJSON()),
@@ -199,7 +216,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         };
     }
 
-    toJSON() {
+    toJSON(): ExecutionUnitConfig {
         return this.clean({
             ...super.toJSON(),
             executable: this.executable.toJSON(),
