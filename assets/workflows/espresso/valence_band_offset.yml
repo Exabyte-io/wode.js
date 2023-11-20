@@ -29,7 +29,7 @@ units:
         config:
           attributes:
             name: Set Material Index (Interface)
-            value: '0'
+            value: "0"
   - name: average_electrostatic_potential_find_minima
     type: subworkflow
     config:
@@ -54,7 +54,7 @@ units:
         config:
           attributes:
             name: Set Material Index (Interface left)
-            value: '1'
+            value: "1"
       - index: 2
         type: executionBuilder
         config:
@@ -116,7 +116,7 @@ units:
         config:
           attributes:
             name: Set Material Index (Interface right)
-            value: '2'
+            value: "2"
       - index: 2
         type: executionBuilder
         config:

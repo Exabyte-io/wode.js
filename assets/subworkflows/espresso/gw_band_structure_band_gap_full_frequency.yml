@@ -1,6 +1,6 @@
 application:
   name: espresso
-  version: '6.3'
+  version: "6.3"
 method:
   name: PseudopotentialMethod
   setSearchText: .*dojo-oncv.*

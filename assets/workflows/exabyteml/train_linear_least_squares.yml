@@ -1,4 +1,4 @@
-name: 'ML: Linear Least Squares Train Model'
+name: "ML: Linear Least Squares Train Model"
 units:
 - name: train_linear_least_squares
   type: subworkflow
