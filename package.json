@@ -48,7 +48,7 @@
     "devDependencies": {
         "@exabyte-io/ade.js": "2023.11.22-0",
         "@exabyte-io/application-flavors.js": "2023.11.22-2",
-        "@exabyte-io/code.js": "2023.6.10-1",
+        "@exabyte-io/code.js": "^2023.11.22-0",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2022.7.28-1",
         "@exabyte-io/made.js": "2023.3.8-0",
