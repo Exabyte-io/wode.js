@@ -16,10 +16,10 @@ jobs:
 
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Checkout actions repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: Exabyte-io/actions
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
@@ -36,14 +36,14 @@ jobs:
     if: github.repository != 'Exabyte-io/template-definitions'
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [12.x, 14.x, 16.x, 18.x]
 
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Checkout actions repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: Exabyte-io/actions
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
@@ -61,10 +61,10 @@ jobs:
 
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Checkout actions repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: Exabyte-io/actions
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
