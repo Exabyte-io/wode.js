@@ -12,7 +12,13 @@ const defaultHubbardConfig = {
 
 export class HubbardVContextProvider extends HubbardUContextProvider {
     get defaultData() {
-        return [{ ...defaultHubbardConfig, atomicSpecies2: this.uniqueElements }];
+        return [
+            {
+                ...defaultHubbardConfig,
+                atomicSpecies: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
+                atomicSpecies2: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
+            },
+        ];
     }
 
     get uiSchemaStyled() {
