@@ -109,12 +109,12 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                         default: defaultHubbardConfig.atomicOrbital,
                     },
                     siteIndex: {
-                        type: "number",
+                        type: "integer",
                         title: "Site no 1",
                         default: defaultHubbardConfig.siteIndex,
                     },
                     siteIndex2: {
-                        type: "number",
+                        type: "integer",
                         title: "Site no 2",
                         default: defaultHubbardConfig.siteIndex,
                     },
