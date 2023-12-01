@@ -5,6 +5,8 @@ const defaultHubbardConfig = {
     atomicOrbital: "2p",
     atomicSpecies2: "",
     atomicOrbital2: "2p",
+    siteIndex: 1,
+    siteIndex2: 1,
     hubbardVValue: 1.0,
 };
 
@@ -28,6 +30,8 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                 atomicOrbital: this.defaultFieldStyles,
                 atomicSpecies2: this.defaultFieldStyles,
                 atomicOrbital2: this.defaultFieldStyles,
+                siteIndex: this.defaultFieldStyles,
+                siteIndex2: this.defaultFieldStyles,
                 hubbardVValue: this.defaultFieldStyles,
             },
         };
@@ -44,13 +48,13 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                 properties: {
                     atomicSpecies: {
                         type: "string",
-                        title: "Atomic species",
+                        title: "Species 1",
                         enum: this.uniqueElements,
                         default: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
                     },
                     atomicOrbital: {
                         type: "string",
-                        title: "Atomic orbital",
+                        title: "Orbital 1",
                         enum: [
                             "2p",
                             "3s",
@@ -75,13 +79,13 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                     },
                     atomicSpecies2: {
                         type: "string",
-                        title: "Atomic species",
+                        title: "Species 2",
                         enum: this.uniqueElements,
                         default: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
                     },
                     atomicOrbital2: {
                         type: "string",
-                        title: "Atomic orbital",
+                        title: "Orbital 2",
                         enum: [
                             "2p",
                             "3s",
@@ -104,9 +108,19 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                         ],
                         default: defaultHubbardConfig.atomicOrbital,
                     },
+                    siteIndex: {
+                        type: "number",
+                        title: "Site no 1",
+                        default: defaultHubbardConfig.siteIndex,
+                    },
+                    siteIndex2: {
+                        type: "number",
+                        title: "Site no 2",
+                        default: defaultHubbardConfig.siteIndex,
+                    },
                     hubbardVValue: {
                         type: "number",
-                        title: "Hubbard U (eV)",
+                        title: "V (eV)",
                         default: defaultHubbardConfig.hubbardVValue,
                     },
                 },
