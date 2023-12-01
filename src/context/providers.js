@@ -10,7 +10,7 @@ const {
     PointsPathFormDataProvider,
     ExplicitPointsPathFormDataProvider,
     ExplicitPointsPath2PIBAFormDataProvider,
-    HubbardContextProvider,
+    HubbardUContextProvider,
     HubbardContextProviderLegacy,
 } = context;
 
@@ -63,8 +63,8 @@ export const wodeProviders = {
         config: _makeImportant({ name: "explicitKPath2PIBA" }),
     },
     HubbardContextManager: {
-        providerCls: HubbardContextProvider,
-        config: _makeImportant({ name: "hubbard" }),
+        providerCls: HubbardUContextProvider,
+        config: _makeImportant({ name: "hubbard_u" }),
     },
     HubbardContextManagerLegacy: {
         providerCls: HubbardContextProviderLegacy,

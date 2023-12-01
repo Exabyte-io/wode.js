@@ -8,7 +8,7 @@ const defaultHubbardConfig = {
     hubbardUValue: 1.0,
 };
 
-export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with(
+export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).with(
     MaterialContextMixin,
 ) {
     static Material = Made.Material;
