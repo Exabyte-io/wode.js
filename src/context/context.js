@@ -1,5 +1,6 @@
 import { BoundaryConditionsFormDataProvider } from "./providers/BoundaryConditionsFormDataProvider";
 import { HubbardContextProviderLegacy } from "./providers/HubbardContextProviderLegacy";
+import { HubbardJContextProvider } from "./providers/HubbardJContextProvider";
 import { HubbardUContextProvider } from "./providers/HubbardUContextProvider";
 import { HubbardVContextProvider } from "./providers/HubbardVContextProvider";
 import { MLSettingsContextProvider } from "./providers/MLSettingsContextProvider";
@@ -23,6 +24,7 @@ export default {
     PointsPathFormDataProvider,
     ExplicitPointsPathFormDataProvider,
     ExplicitPointsPath2PIBAFormDataProvider,
+    HubbardJContextProvider,
     HubbardUContextProvider,
     HubbardVContextProvider,
     HubbardContextProviderLegacy,
