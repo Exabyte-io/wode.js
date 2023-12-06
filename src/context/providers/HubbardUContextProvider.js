@@ -49,7 +49,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         return {
             $schema: "http://json-schema.org/draft-04/schema#",
             title: "",
-            description: "Hubbard parameters for DFT+U calculation.",
+            description: "Hubbard U parameters for DFT+U or DFT+U+V calculation.",
             type: "array",
             items: {
                 type: "object",

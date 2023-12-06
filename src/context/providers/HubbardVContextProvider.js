@@ -47,7 +47,7 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
         return {
             $schema: "http://json-schema.org/draft-04/schema#",
             title: "",
-            description: "Hubbard parameters for DFT+U+V calculation.",
+            description: "Hubbard V parameters for DFT+U+V calculation.",
             type: "array",
             items: {
                 type: "object",
