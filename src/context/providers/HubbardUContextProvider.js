@@ -92,7 +92,6 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                     },
                 },
             },
-            minItems: 1,
         };
     }
 }
