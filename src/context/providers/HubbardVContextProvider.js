@@ -15,10 +15,18 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
         return [
             {
                 ...defaultHubbardConfig,
-                atomicSpecies: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
-                atomicSpecies2: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
+                atomicSpecies: this.firstSpecies,
+                atomicSpecies2: this.secondSpecies,
             },
         ];
+    }
+
+    get firstSpecies() {
+        return this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "";
+    }
+
+    get secondSpecies() {
+        return this.uniqueElements?.length > 1 ? this.uniqueElements[1] : this.firstSpecies;
     }
 
     get uiSchemaStyled() {
@@ -56,7 +64,7 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                         type: "string",
                         title: "Species 1",
                         enum: this.uniqueElements,
-                        default: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
+                        default: this.firstSpecies,
                     },
                     atomicOrbital: {
                         type: "string",
@@ -87,7 +95,7 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                         type: "string",
                         title: "Species 2",
                         enum: this.uniqueElements,
-                        default: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
+                        default: this.secondSpecies,
                     },
                     atomicOrbital2: {
                         type: "string",
@@ -122,7 +130,8 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                     siteIndex2: {
                         type: "integer",
                         title: "Site no 2",
-                        default: defaultHubbardConfig.siteIndex,
+                        default:
+                            this.uniqueElements?.length > 1 ? 2 : defaultHubbardConfig.siteIndex2,
                     },
                     hubbardVValue: {
                         type: "number",
