@@ -19,7 +19,12 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
     }
 
     get defaultData() {
-        return [{ ...defaultHubbardConfig, atomicSpecies: this.uniqueElements }];
+        return [
+            {
+                ...defaultHubbardConfig,
+                atomicSpecies: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
+            },
+        ];
     }
 
     get uiSchemaStyled() {
