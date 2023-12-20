@@ -16,6 +16,26 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
     constructor(config) {
         super(config);
         this.uniqueElements = this.material?.Basis?.uniqueElements || [];
+        this.orbitalList = [
+            "2p",
+            "3s",
+            "3p",
+            "3d",
+            "4s",
+            "4p",
+            "4d",
+            "4f",
+            "5s",
+            "5p",
+            "5d",
+            "5f",
+            "6s",
+            "6p",
+            "6d",
+            "7s",
+            "7p",
+            "7d",
+        ];
     }
 
     get defaultData() {
@@ -63,26 +83,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                     atomicOrbital: {
                         type: "string",
                         title: "Atomic orbital",
-                        enum: [
-                            "2p",
-                            "3s",
-                            "3p",
-                            "3d",
-                            "4s",
-                            "4p",
-                            "4d",
-                            "4f",
-                            "5s",
-                            "5p",
-                            "5d",
-                            "5f",
-                            "6s",
-                            "6p",
-                            "6d",
-                            "7s",
-                            "7p",
-                            "7d",
-                        ],
+                        enum: this.orbitalList,
                         default: defaultHubbardConfig.atomicOrbital,
                     },
                     hubbardUValue: {
