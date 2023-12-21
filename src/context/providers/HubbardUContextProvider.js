@@ -8,7 +8,7 @@ const defaultHubbardConfig = {
     hubbardUValue: 1.0,
 };
 
-export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with(
+export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).with(
     MaterialContextMixin,
 ) {
     static Material = Made.Material;
@@ -16,6 +16,26 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
     constructor(config) {
         super(config);
         this.uniqueElements = this.material?.Basis?.uniqueElements || [];
+        this.orbitalList = [
+            "2p",
+            "3s",
+            "3p",
+            "3d",
+            "4s",
+            "4p",
+            "4d",
+            "4f",
+            "5s",
+            "5p",
+            "5d",
+            "5f",
+            "6s",
+            "6p",
+            "6d",
+            "7s",
+            "7p",
+            "7d",
+        ];
     }
 
     get defaultData() {
@@ -49,7 +69,7 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
         return {
             $schema: "http://json-schema.org/draft-04/schema#",
             title: "",
-            description: "Hubbard parameters for DFT+U calculation.",
+            description: "Hubbard U parameters for DFT+U or DFT+U+V calculation.",
             type: "array",
             items: {
                 type: "object",
@@ -63,26 +83,7 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
                     atomicOrbital: {
                         type: "string",
                         title: "Atomic orbital",
-                        enum: [
-                            "2p",
-                            "3s",
-                            "3p",
-                            "3d",
-                            "4s",
-                            "4p",
-                            "4d",
-                            "4f",
-                            "5s",
-                            "5p",
-                            "5d",
-                            "5f",
-                            "6s",
-                            "6p",
-                            "6d",
-                            "7s",
-                            "7p",
-                            "7d",
-                        ],
+                        enum: this.orbitalList,
                         default: defaultHubbardConfig.atomicOrbital,
                     },
                     hubbardUValue: {
@@ -92,7 +93,6 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
                     },
                 },
             },
-            minItems: 1,
         };
     }
 }

@@ -1,6 +1,8 @@
 import { BoundaryConditionsFormDataProvider } from "./providers/BoundaryConditionsFormDataProvider";
-import { HubbardContextProvider } from "./providers/HubbardContextProvider";
 import { HubbardContextProviderLegacy } from "./providers/HubbardContextProviderLegacy";
+import { HubbardJContextProvider } from "./providers/HubbardJContextProvider";
+import { HubbardUContextProvider } from "./providers/HubbardUContextProvider";
+import { HubbardVContextProvider } from "./providers/HubbardVContextProvider";
 import { MLSettingsContextProvider } from "./providers/MLSettingsContextProvider";
 import { MLTrainTestSplitContextProvider } from "./providers/MLTrainTestSplitContextProvider";
 import { NEBFormDataProvider } from "./providers/NEBFormDataProvider";
@@ -22,6 +24,8 @@ export default {
     PointsPathFormDataProvider,
     ExplicitPointsPathFormDataProvider,
     ExplicitPointsPath2PIBAFormDataProvider,
-    HubbardContextProvider,
+    HubbardJContextProvider,
+    HubbardUContextProvider,
+    HubbardVContextProvider,
     HubbardContextProviderLegacy,
 };
