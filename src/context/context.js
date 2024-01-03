@@ -5,6 +5,7 @@ import { HubbardUContextProvider } from "./providers/HubbardUContextProvider";
 import { HubbardVContextProvider } from "./providers/HubbardVContextProvider";
 import { MLSettingsContextProvider } from "./providers/MLSettingsContextProvider";
 import { MLTrainTestSplitContextProvider } from "./providers/MLTrainTestSplitContextProvider";
+import { MolDynContextProvider } from "./providers/MolDynContextProvider";
 import { NEBFormDataProvider } from "./providers/NEBFormDataProvider";
 import { PlanewaveCutoffsContextProvider } from "./providers/PlanewaveCutoffsContextProvider";
 import { PointsGridFormDataProvider } from "./providers/PointsGridFormDataProvider";
@@ -28,4 +29,5 @@ export default {
     HubbardUContextProvider,
     HubbardVContextProvider,
     HubbardContextProviderLegacy,
+    MolDynContextProvider,
 };

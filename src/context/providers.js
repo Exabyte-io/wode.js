@@ -14,6 +14,7 @@ const {
     HubbardUContextProvider,
     HubbardVContextProvider,
     HubbardContextProviderLegacy,
+    MolDynContextProvider,
 } = context;
 
 const CONTEXT_DOMAINS = {
@@ -96,5 +97,9 @@ export const wodeProviders = {
     MLTrainTestSplitDataManager: {
         providerCls: MLTrainTestSplitContextProvider,
         config: _makeImportant({ name: "mlTrainTestSplit" }),
+    },
+    MolDynContextProvider: {
+        providerCls: MolDynContextProvider,
+        config: _makeImportant({ name: "md" }),
     },
 };
