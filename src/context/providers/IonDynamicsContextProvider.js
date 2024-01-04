@@ -1,13 +1,13 @@
 import { JSONSchemaFormDataProvider } from "@exabyte-io/code.js/dist/context";
 
 const defaultMDConfig = {
-    nstep: 100,
-    dt: 5.0,
-    emass: 100.0,
-    tempw: 300.0,
+    numberOfSteps: 100,
+    timeStep: 5.0,
+    electronMass: 100.0,
+    temperature: 300.0,
 };
 
-export class MolDynContextProvider extends JSONSchemaFormDataProvider {
+export class IonDynamicsContextProvider extends JSONSchemaFormDataProvider {
     // eslint-disable-next-line class-methods-use-this
     get defaultData() {
         return defaultMDConfig;
@@ -16,10 +16,10 @@ export class MolDynContextProvider extends JSONSchemaFormDataProvider {
     // eslint-disable-next-line class-methods-use-this
     get uiSchema() {
         return {
-            nstep: {},
-            dt: {},
-            emass: {},
-            tempw: {},
+            numberOfSteps: {},
+            timeStep: {},
+            electronMass: {},
+            temperature: {},
         };
     }
 
@@ -30,25 +30,25 @@ export class MolDynContextProvider extends JSONSchemaFormDataProvider {
             type: "object",
             description: "Important parameters for molecular dynamics calculation",
             properties: {
-                nstep: {
+                numberOfSteps: {
                     type: "integer",
-                    title: "nstep",
-                    default: defaultMDConfig.nstep,
+                    title: "numberOfSteps",
+                    default: defaultMDConfig.numberOfSteps,
                 },
-                dt: {
+                timeStep: {
                     type: "number",
-                    title: "dt (Hartree a.u.)",
-                    default: defaultMDConfig.dt,
+                    title: "timeStep (Hartree a.u.)",
+                    default: defaultMDConfig.timeStep,
                 },
-                emass: {
+                electronMass: {
                     type: "number",
                     title: "Effective electron mass",
-                    default: defaultMDConfig.emass,
+                    default: defaultMDConfig.electronMass,
                 },
-                tempw: {
+                temperature: {
                     type: "number",
                     title: "Ionic temperature (K)",
-                    default: defaultMDConfig.tempw,
+                    default: defaultMDConfig.temperature,
                 },
             },
         };
