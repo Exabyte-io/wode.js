@@ -13,17 +13,13 @@ export class MolDynContextProvider extends JSONSchemaFormDataProvider {
         return [defaultMDConfig];
     }
 
-    get uiSchemaStyled() {
+    // eslint-disable-next-line class-methods-use-this
+    get uiSchema() {
         return {
-            title: {
-                "ui:classNames": "col-xs-12",
-            },
-            items: {
-                nstep: this.defaultFieldStyles,
-                dt: this.defaultFieldStyles,
-                emass: this.defaultFieldStyles,
-                tempw: this.defaultFieldStyles,
-            },
+            nstep: {},
+            dt: {},
+            emass: {},
+            tempw: {},
         };
     }
 
@@ -46,8 +42,7 @@ export class MolDynContextProvider extends JSONSchemaFormDataProvider {
                 },
                 emass: {
                     type: "number",
-                    title: "emass (a.u.)",
-                    description: "Effective electron mass in atomic units",
+                    title: "Effective electron mass (emass in a.u.)",
                     default: defaultMDConfig.emass,
                 },
                 tempw: {
