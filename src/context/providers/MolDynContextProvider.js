@@ -10,7 +10,7 @@ const defaultMDConfig = {
 export class MolDynContextProvider extends JSONSchemaFormDataProvider {
     // eslint-disable-next-line class-methods-use-this
     get defaultData() {
-        return [defaultMDConfig];
+        return defaultMDConfig;
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -42,7 +42,7 @@ export class MolDynContextProvider extends JSONSchemaFormDataProvider {
                 },
                 emass: {
                     type: "number",
-                    title: "Effective electron mass (emass in a.u.)",
+                    title: "Effective electron mass",
                     default: defaultMDConfig.emass,
                 },
                 tempw: {
