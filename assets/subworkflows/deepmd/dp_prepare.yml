@@ -1,0 +1,16 @@
+application:
+  name: deepmd
+  version: 2.0.2
+method:
+  name: UnknownMethod
+model:
+  name: UnknownModel
+name: Prepare DeePMD Data
+units:
+  - config:
+      execName: dp_prepare
+      flavorName: qe_cp_to_deepmd
+      name: qe_cp_to_deepmd
+    functions:
+      head: true
+    type: executionBuilder
