@@ -29,9 +29,6 @@ export class HubbardContextProvider extends mix(JSONSchemaFormDataProvider).with
                 orderable: false,
                 removable: true,
             },
-            title: {
-                "ui:classNames": "col-xs-12",
-            },
             items: {
                 atomicSpecies: this.defaultFieldStyles,
                 atomicOrbital: this.defaultFieldStyles,
