@@ -1,6 +1,6 @@
 application:
   name: espresso
-  version: 5.4.0
+  version: "6.3"
 dynamicSubworkflow:
   name: surfaceEnergy
 method:

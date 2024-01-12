@@ -1,10 +1,10 @@
-import { HubbardContextProvider } from "./HubbardContextProvider";
+import { HubbardUContextProvider } from "./HubbardUContextProvider";
 
 const defaultHubbardConfig = {
     hubbardUValue: 1.0,
 };
 
-export class HubbardContextProviderLegacy extends HubbardContextProvider {
+export class HubbardContextProviderLegacy extends HubbardUContextProvider {
     get defaultData() {
         return [
             {

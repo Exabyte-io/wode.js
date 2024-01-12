@@ -6,12 +6,12 @@ import { AssignmentUnit, ConditionUnit } from "../src/units";
 
 const assignmentUnitData = {
     type: "assignment",
-    application: { name: "espresso", version: "5.4.0" },
+    application: { name: "espresso", version: "6.3" },
 };
 
 const conditionUnitData = {
     type: "condition",
-    application: { name: "espresso", version: "5.4.0" },
+    application: { name: "espresso", version: "6.3" },
 };
 
 describe("subworkflows", () => {
@@ -98,7 +98,7 @@ describe("subworkflows", () => {
         expect(subworkflow.units.length).to.be.equal(2);
         expect(subworkflow.units[0]._json.type).to.be.equal("execution");
         expect(subworkflow.units[1]._json.type).to.be.equal("assignment");
-        expect(subworkflow.units[0].application.version).to.be.equal("5.4.0");
+        expect(subworkflow.units[0].application.version).to.be.equal("6.3");
         expect(subworkflow.units[1].application?.version).to.be.equal(undefined);
 
         const newApplication = Application.createFromNameVersionBuild({
