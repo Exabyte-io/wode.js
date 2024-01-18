@@ -10,8 +10,11 @@ const {
     PointsPathFormDataProvider,
     ExplicitPointsPathFormDataProvider,
     ExplicitPointsPath2PIBAFormDataProvider,
-    HubbardContextProvider,
+    HubbardJContextProvider,
+    HubbardUContextProvider,
+    HubbardVContextProvider,
     HubbardContextProviderLegacy,
+    IonDynamicsContextProvider,
 } = context;
 
 const CONTEXT_DOMAINS = {
@@ -62,9 +65,17 @@ export const wodeProviders = {
         providerCls: ExplicitPointsPath2PIBAFormDataProvider,
         config: _makeImportant({ name: "explicitKPath2PIBA" }),
     },
-    HubbardContextManager: {
-        providerCls: HubbardContextProvider,
-        config: _makeImportant({ name: "hubbard" }),
+    HubbardJContextManager: {
+        providerCls: HubbardJContextProvider,
+        config: _makeImportant({ name: "hubbard_j" }),
+    },
+    HubbardUContextManager: {
+        providerCls: HubbardUContextProvider,
+        config: _makeImportant({ name: "hubbard_u" }),
+    },
+    HubbardVContextManager: {
+        providerCls: HubbardVContextProvider,
+        config: _makeImportant({ name: "hubbard_v" }),
     },
     HubbardContextManagerLegacy: {
         providerCls: HubbardContextProviderLegacy,
@@ -86,5 +97,9 @@ export const wodeProviders = {
     MLTrainTestSplitDataManager: {
         providerCls: MLTrainTestSplitContextProvider,
         config: _makeImportant({ name: "mlTrainTestSplit" }),
+    },
+    IonDynamicsContextProvider: {
+        providerCls: IonDynamicsContextProvider,
+        config: _makeImportant({ name: "dynamics" }),
     },
 };
