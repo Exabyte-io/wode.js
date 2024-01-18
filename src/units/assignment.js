@@ -11,7 +11,7 @@ export class AssignmentUnit extends BaseUnit {
             name: UNIT_TYPES.assignment,
             type: UNIT_TYPES.assignment,
             operand: "X",
-            value: 1,
+            value: "1",
             input: [],
         };
     }
