@@ -8,7 +8,7 @@ model:
 name: Prepare DeePMD Data
 units:
   - config:
-      execName: dp_prepare
+      execName: python
       flavorName: qe_cp_to_deepmd
       name: qe_cp_to_deepmd
     functions:
