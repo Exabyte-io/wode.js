@@ -3,6 +3,7 @@ import { HubbardContextProviderLegacy } from "./providers/HubbardContextProvider
 import { HubbardJContextProvider } from "./providers/HubbardJContextProvider";
 import { HubbardUContextProvider } from "./providers/HubbardUContextProvider";
 import { HubbardVContextProvider } from "./providers/HubbardVContextProvider";
+import { IonDynamicsContextProvider } from "./providers/IonDynamicsContextProvider";
 import { MLSettingsContextProvider } from "./providers/MLSettingsContextProvider";
 import { MLTrainTestSplitContextProvider } from "./providers/MLTrainTestSplitContextProvider";
 import { NEBFormDataProvider } from "./providers/NEBFormDataProvider";
@@ -28,4 +29,5 @@ export default {
     HubbardUContextProvider,
     HubbardVContextProvider,
     HubbardContextProviderLegacy,
+    IonDynamicsContextProvider,
 };
