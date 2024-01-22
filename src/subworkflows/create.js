@@ -180,7 +180,16 @@ function createSubworkflow({
     }
 
     const { functions = {}, attributes = {}, ...cfg } = config;
-    let subworkflow = subworkflowCls.fromArguments(application, model, method, name, units, cfg);
+    let subworkflow = subworkflowCls.fromArguments(
+        application,
+        model,
+        method,
+        name,
+        units.map((unit) => {
+            return unit.toJSON ? unit.toJSON() : unit;
+        }),
+        cfg,
+    );
     subworkflow = applyConfig({ obj: subworkflow, config: { functions, attributes } });
     if (setSearchText) subworkflow.model.method.setSearchText(setSearchText);
     return subworkflow;
