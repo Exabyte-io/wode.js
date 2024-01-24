@@ -186,7 +186,7 @@ function createSubworkflow({
         method,
         name,
         units.map((unit) => {
-            return unit.toJSON ? unit.toJSON() : unit;
+            return unit.toJSON ? unit.toJSONSafe() : unit;
         }),
         cfg,
     );
