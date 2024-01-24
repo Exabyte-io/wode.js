@@ -1,0 +1,16 @@
+application:
+  name: deepmd
+  version: 2.0.2
+method:
+  name: UnknownMethod
+model:
+  name: UnknownModel
+name: Prepare DeePMD Data
+units:
+  - config:
+      execName: python
+      flavorName: espresso_cp_to_deepmd
+      name: espresso_cp_to_deepmd
+    functions:
+      head: true
+    type: executionBuilder
