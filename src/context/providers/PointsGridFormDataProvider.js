@@ -31,7 +31,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             KPPRA: `${this.name[0].toUpperCase()}PPRA (${this.name[0]}pt per reciprocal atom)`, // KPPRA or QPPRA
             spacing: "grid spacing",
         };
-        this.defaultClassNames = "col-xs-12 col-sm-6 col-md-3 col-lg-2";
+        this.defaultClassNames = "";
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -215,7 +215,6 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                 "ui:placeholder": this.gridMetricValue.toString(), // make string to prevent prop type error
             },
             preferGridMetric: {
-                ...this.fieldStyles("p-t-20"), // add padding top to level with other elements
                 "ui:emptyValue": true,
                 "ui:disabled": this.isUsingJinjaVariables,
             },
