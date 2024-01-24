@@ -185,9 +185,7 @@ function createSubworkflow({
         model,
         method,
         name,
-        units.map((unit) => {
-            return unit.toJSON ? unit.toJSONSafe() : unit;
-        }),
+        units.map((unit) => ({ ...unit })),
         cfg,
     );
     subworkflow = applyConfig({ obj: subworkflow, config: { functions, attributes } });
