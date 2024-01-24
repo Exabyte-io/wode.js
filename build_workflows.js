@@ -10,6 +10,7 @@ const allApplications = [
     "python",
     "shell",
     "vasp",
+    "deepmd",
 ];
 
 const allWorkflows = { workflows: {}, subworkflows: {} };
