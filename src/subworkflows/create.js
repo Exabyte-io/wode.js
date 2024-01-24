@@ -1,4 +1,5 @@
 import { Application } from "@exabyte-io/ade.js";
+import { deepClone } from "@exabyte-io/code.js/dist/utils";
 import {
     default_methods as MethodConfigs,
     default_models as ModelConfigs,
@@ -185,7 +186,7 @@ function createSubworkflow({
         model,
         method,
         name,
-        units.map((unit) => ({ ...unit })),
+        units.map((unit) => deepClone(unit)),
         cfg,
     );
     subworkflow = applyConfig({ obj: subworkflow, config: { functions, attributes } });
