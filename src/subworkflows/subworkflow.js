@@ -95,7 +95,7 @@ export class Subworkflow extends BaseSubworkflow {
                 ...model.toJSON(),
                 method: method.toJSON(),
             },
-            units,
+            units: units.map((unit) => (unit.toJSON ? unit.toJSON() : unit)),
         });
     }
 

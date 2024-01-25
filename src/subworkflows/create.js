@@ -1,5 +1,4 @@
 import { Application } from "@exabyte-io/ade.js";
-import { deepClone } from "@exabyte-io/code.js/dist/utils";
 import {
     default_methods as MethodConfigs,
     default_models as ModelConfigs,
@@ -181,14 +180,7 @@ function createSubworkflow({
     }
 
     const { functions = {}, attributes = {}, ...cfg } = config;
-    let subworkflow = subworkflowCls.fromArguments(
-        application,
-        model,
-        method,
-        name,
-        units.map((unit) => deepClone(unit)),
-        cfg,
-    );
+    let subworkflow = subworkflowCls.fromArguments(application, model, method, name, units, cfg);
     subworkflow = applyConfig({ obj: subworkflow, config: { functions, attributes } });
     if (setSearchText) subworkflow.model.method.setSearchText(setSearchText);
     return subworkflow;
