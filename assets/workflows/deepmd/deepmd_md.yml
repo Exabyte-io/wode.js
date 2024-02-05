@@ -1,0 +1,6 @@
+name: Molecular Dynamics - DeePMD
+units:
+- name: espresso_cp_md
+  type: subworkflow
+- name: deepmd
+  type: subworkflow

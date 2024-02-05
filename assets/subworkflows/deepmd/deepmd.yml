@@ -1,0 +1,31 @@
+application:
+  name: deepmd
+  version: 2.0.2
+method:
+  name: UnknownMethod
+model:
+  name: UnknownModel
+name: DeePMD
+units:
+  - config:
+      execName: python
+      flavorName: espresso_cp_to_deepmd
+      name: espresso_cp_to_deepmd
+    functions:
+      head: true
+    type: executionBuilder
+  - config:
+      execName: dp
+      flavorName: dp_train_se_e2_r
+      name: dp_train_se_e2_r
+    type: executionBuilder
+  - config:
+      execName: python
+      flavorName: espresso_to_lammps_structure
+      name: espresso_to_lammps_structure
+    type: executionBuilder
+  - config:
+      execName: lmp
+      flavorName: lammps_md
+      name: lammps_md
+    type: executionBuilder
