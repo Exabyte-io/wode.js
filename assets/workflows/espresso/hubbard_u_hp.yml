@@ -1,0 +1,7 @@
+name: Hubbard U - HP
+units:
+- name: hubbard_u_hp
+  type: subworkflow
+  config:
+    attributes:
+      name: Hubbard U Calculation

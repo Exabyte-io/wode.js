@@ -1,0 +1,21 @@
+name: Hubbard U
+application:
+  name: espresso
+  version: "7.2"
+method:
+  name: PseudopotentialMethod
+model:
+  name: DFTModel
+units:
+  - config:
+      execName: pw.x
+      flavorName: pw_scf_dft_u
+      name: pw_scf_dft_u
+    functions:
+      head: true
+    type: executionBuilder
+  - config:
+      execName: hp.x
+      flavorName: hp
+      name: hp
+    type: executionBuilder
