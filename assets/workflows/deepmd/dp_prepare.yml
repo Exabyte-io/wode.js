@@ -1,4 +1,0 @@
-name: Prepare DeePMD input
-units:
-- name: dp_prepare
-  type: subworkflow

@@ -1,0 +1,16 @@
+application:
+  name: espresso
+  version: "7.2"
+method:
+  name: PseudopotentialMethod
+model:
+  name: DFTModel
+name: CP-MD
+units:
+  - config:
+      execName: cp.x
+      flavorName: cp
+      name: cp
+    functions:
+      head: true
+    type: executionBuilder
