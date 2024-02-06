@@ -3,6 +3,7 @@ import { NamedDefaultableRepetitionContextAndRenderInMemoryEntity } from "@exaby
 import { calculateHashFromObject, getUUID } from "@exabyte-io/code.js/dist/utils";
 import { ComputedEntityMixin, getDefaultComputeConfig } from "@exabyte-io/ide.js";
 import { tree } from "@exabyte-io/mode.js";
+import workflowSchema from "@mat3ra/esse/lib/js/schema/workflow.json";
 import lodash from "lodash";
 import { mix } from "mixwith";
 import _ from "underscore";
@@ -26,6 +27,8 @@ class BaseWorkflow extends mix(NamedDefaultableRepetitionContextAndRenderInMemor
 
 export class Workflow extends BaseWorkflow {
     static getDefaultComputeConfig = getDefaultComputeConfig;
+
+    static jsonSchema = workflowSchema;
 
     constructor(config) {
         super(config);

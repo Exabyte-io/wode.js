@@ -48,11 +48,12 @@
     "devDependencies": {
         "@exabyte-io/ade.js": "2024.1.23-1",
         "@exabyte-io/application-flavors.js": "2024.1.23-1",
-        "@exabyte-io/code.js": "2024.1.18-0",
+        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#57e4ed388b0ffb9c8bf319a8b25525f951a3901b",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2022.7.28-1",
         "@exabyte-io/made.js": "2023.3.8-0",
         "@exabyte-io/mode.js": "2023.11.22-0",
+        "@mat3ra/esse": "git+https://github.com/Exabyte-io/esse.git#12cf9831278c2e7fd3301cc751ba3cf7964c0f8b",
         "chai": "^4.3.4",
         "eslint": "7.32.0",
         "eslint-config-airbnb": "19.0.2",
@@ -75,7 +76,8 @@
         "@exabyte-io/ade.js": "*",
         "@exabyte-io/ide.js": "*",
         "@exabyte-io/mode.js": "*",
-        "@exabyte-io/code.js": "*"
+        "@exabyte-io/code.js": "*",
+        "@mat3ra/esse": "*"
     },
     "engines": {
         "node": ">=12.0.0"

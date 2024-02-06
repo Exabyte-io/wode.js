@@ -90,7 +90,9 @@ export class Subworkflow extends BaseSubworkflow {
             _id: Cls.generateSubworkflowId(),
             name,
             application: application.toJSON(),
-            properties: lodash.sortedUniq(lodash.flatten(units.map((x) => x.resultNames))),
+            properties: lodash.sortedUniq(
+                lodash.flatten(units.filter((x) => x.resultNames).map((x) => x.resultNames)),
+            ),
             model: {
                 ...model.toJSON(),
                 method: method.toJSON(),

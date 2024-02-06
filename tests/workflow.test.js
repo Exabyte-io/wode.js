@@ -10,6 +10,10 @@ describe("workflows", () => {
         workflows.map((wf) => {
             // eslint-disable-next-line no-unused-expressions
             expect(wf).to.exist;
+            // eslint-disable-next-line no-unused-expressions
+            expect(wf.isValid()).to.be.true;
+
+            // expect(wf.validate()).to.be.true;
             return null;
         });
     });
