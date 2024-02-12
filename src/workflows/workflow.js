@@ -155,7 +155,7 @@ export class Workflow extends BaseWorkflow {
                 units: this._units.map((x) => x.toJSON()),
                 subworkflows: this._subworkflows.map((x) => x.toJSON()),
                 workflows: this.workflows.map((x) => x.toJSON()),
-                compute: this.compute,
+                ...(this.compute ? { compute: this.compute } : {}),
             },
             exclude,
         );
