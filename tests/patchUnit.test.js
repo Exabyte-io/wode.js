@@ -13,7 +13,7 @@ describe("assignement unit", () => {
                 index: 0,
                 type: "assignment",
                 config: {
-                    attributes: { operand: "someOtherOperand", value: 42 },
+                    attributes: { operand: "someOtherOperand", value: "42" },
                 },
             },
         ];

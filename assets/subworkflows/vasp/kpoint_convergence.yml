@@ -14,25 +14,25 @@ units:
       name: Init tolerance
       flowchartId: init-tolerance
       operand: TOL
-      value: 1.0e-5
+      value: "1.0e-5"
     type: assignment
   - config:
       name: Init increment
       flowchartId: init-increment
       operand: INC
-      value: 1
+      value: "1"
     type: assignment
   - config:
       name: Init result
       flowchartId: init-result
       operand: PREV_RESULT
-      value: 0
+      value: "0"
     type: assignment
   - config:
       name: Init parameter
       flowchartId: init-parameter
       operand: PARAMETER
-      value: 1
+      value: "1"
     type: assignment
   - config:
       name: vasp_kpt_conv
