@@ -1,4 +1,4 @@
-import { allApplications } from "@exabyte-io/ade.js";
+import { allowedApplications } from "@exabyte-io/ade.js";
 
 // Import Template here to apply context provider patch
 // eslint-disable-next-line no-unused-vars
@@ -16,7 +16,7 @@ import { workflowData as allWorkflowData } from "./workflows";
         5. top-level subworkflows are added directly in the order also specified by "units"
  */
 function createWorkflows({ appName = null, workflowCls = Workflow, ...swArgs }) {
-    const apps = appName !== null ? [appName] : allApplications;
+    const apps = appName !== null ? [appName] : allowedApplications;
     const wfs = [];
     const { workflows } = allWorkflowData;
     apps.map((name) => {
