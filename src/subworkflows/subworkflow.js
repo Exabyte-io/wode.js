@@ -151,7 +151,7 @@ export class Subworkflow extends BaseSubworkflow {
             ...super.toJSON(exclude),
             model: this.model.toJSON(),
             units: this.units.map((x) => x.toJSON()),
-            compute: this.compute,
+            ...(this.compute ? { compute: this.compute } : {}), // {"compute": null } won't pass esse validation
         };
     }
 
