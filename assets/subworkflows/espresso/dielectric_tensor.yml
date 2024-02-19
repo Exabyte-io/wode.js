@@ -21,7 +21,7 @@ units:
   - config:
       name: Set No-Symmetry Flag
       operand: NO_SYMMETRY_NO_INVERSION
-      value: "True" # yamllint disable-line rule:truthy
+      value: True # yamllint disable-line rule:truthy
     type: assignment
   - config:
       execName: pw.x

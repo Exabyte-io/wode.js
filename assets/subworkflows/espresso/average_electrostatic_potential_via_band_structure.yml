@@ -12,7 +12,7 @@ units:
   - config:
       name: Set Material Index
       operand: MATERIAL_INDEX
-      value: "0"
+      value: 0
     type: assignment
   - config:
       execName: pw.x
