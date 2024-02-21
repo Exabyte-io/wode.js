@@ -90,7 +90,9 @@ export class Subworkflow extends BaseSubworkflow {
             _id: Cls.generateSubworkflowId(),
             name,
             application: application.toJSON(),
-            properties: lodash.sortedUniq(lodash.flatten(units.map((x) => x.resultNames))),
+            properties: lodash.sortedUniq(
+                lodash.flatten(units.filter((x) => x.resultNames).map((x) => x.resultNames)),
+            ),
             model: {
                 ...model.toJSON(),
                 method: method.toJSON(),
@@ -149,7 +151,7 @@ export class Subworkflow extends BaseSubworkflow {
             ...super.toJSON(exclude),
             model: this.model.toJSON(),
             units: this.units.map((x) => x.toJSON()),
-            compute: this.compute,
+            ...(this.compute ? { compute: this.compute } : {}), // {"compute": null } won't pass esse validation
         };
     }
 

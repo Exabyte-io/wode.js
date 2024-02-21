@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { createWorkflows } from "../src/workflows";
+import { createWorkflows, Workflow } from "../src/workflows";
 import { createWorkflow } from "../src/workflows/create";
 import { workflowData as allWorkflowData } from "../src/workflows/workflows";
 
@@ -10,6 +10,15 @@ describe("workflows", () => {
         workflows.map((wf) => {
             // eslint-disable-next-line no-unused-expressions
             expect(wf).to.exist;
+            // eslint-disable-next-line no-unused-expressions
+            expect(wf.isValid()).to.be.true;
+
+            const wfCopy = new Workflow(wf.toJSON());
+
+            // eslint-disable-next-line no-unused-expressions
+            expect(wfCopy.isValid()).to.be.true;
+
+            // expect(wf.validate()).to.be.true;
             return null;
         });
     });
