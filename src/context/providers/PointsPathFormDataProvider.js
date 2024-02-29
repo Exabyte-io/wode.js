@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+/* eslint react/prop-types: 0 */
 import { Application } from "@exabyte-io/ade.js";
 import {
     ApplicationContextMixin,
@@ -81,20 +82,21 @@ export class PointsPathFormDataProvider extends mix(JSONSchemaFormDataProvider).
         };
     }
 
+    // eslint-disable-next-line class-methods-use-this
     get templates() {
+        return {};
+    }
+
+    getBrillouinZoneImageComponent(title) {
         const hasRequiredFn = typeof this.material.getBrillouinZoneImageComponent === "function";
         if (!hasRequiredFn) {
             console.log(
                 "PointsPathFormDataProvider: Material class has no function" +
                     " 'getBrillouinZoneImageComponent'! Returning empty Object instead.",
             );
-            return {};
+            return null;
         }
-        return {
-            // eslint-disable-next-line no-unused-vars
-            TitleFieldTemplate: ({ title, required }) =>
-                this.material.getBrillouinZoneImageComponent(title),
-        };
+        return this.material.getBrillouinZoneImageComponent(title);
     }
 
     get useExplicitPath() {
