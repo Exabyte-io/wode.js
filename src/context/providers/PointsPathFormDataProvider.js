@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+/* eslint react/prop-types: 0 */
 import { Application } from "@exabyte-io/ade.js";
 import {
     ApplicationContextMixin,
@@ -91,9 +92,14 @@ export class PointsPathFormDataProvider extends mix(JSONSchemaFormDataProvider).
             return {};
         }
         return {
-            // eslint-disable-next-line no-unused-vars
-            TitleFieldTemplate: ({ title, required }) =>
-                this.material.getBrillouinZoneImageComponent(title),
+            TitleFieldTemplate: ({ title, formContext }) => {
+                // Ensure the Brillouin zone image component is rendered only once.
+                if (!formContext.brillouinZoneImageRendered) {
+                    formContext.brillouinZoneImageRendered = true; // Conceptually set the flag; see note below.
+                    return this.material.getBrillouinZoneImageComponent(title);
+                }
+                return null; // Or render the title without the image if needed.
+            },
         };
     }
 
