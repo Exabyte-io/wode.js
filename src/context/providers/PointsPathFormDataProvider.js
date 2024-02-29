@@ -82,25 +82,21 @@ export class PointsPathFormDataProvider extends mix(JSONSchemaFormDataProvider).
         };
     }
 
+    // eslint-disable-next-line class-methods-use-this
     get templates() {
+        return {};
+    }
+
+    getBrillouinZoneImageComponent(title) {
         const hasRequiredFn = typeof this.material.getBrillouinZoneImageComponent === "function";
         if (!hasRequiredFn) {
             console.log(
                 "PointsPathFormDataProvider: Material class has no function" +
                     " 'getBrillouinZoneImageComponent'! Returning empty Object instead.",
             );
-            return {};
+            return null;
         }
-        return {
-            TitleFieldTemplate: ({ title, formContext }) => {
-                // Ensure the Brillouin zone image component is rendered only once.
-                if (!formContext.brillouinZoneImageRendered) {
-                    formContext.brillouinZoneImageRendered = true; // Conceptually set the flag; see note below.
-                    return this.material.getBrillouinZoneImageComponent(title);
-                }
-                return null; // Or render the title without the image if needed.
-            },
-        };
+        return this.material.getBrillouinZoneImageComponent(title);
     }
 
     get useExplicitPath() {
