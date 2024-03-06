@@ -14,6 +14,7 @@ import {
     ExplicitPointsPathFormDataProvider,
     PointsPathFormDataProvider,
 } from "./providers/PointsPathFormDataProvider";
+import { SpinMagneticContextProvider } from "./providers/SpinMagneticContextProvider";
 
 export default {
     BoundaryConditionsFormDataProvider,
@@ -30,4 +31,5 @@ export default {
     HubbardVContextProvider,
     HubbardContextProviderLegacy,
     IonDynamicsContextProvider,
+    SpinMagneticContextProvider,
 };
