@@ -19,9 +19,9 @@ export class SpinMagneticContextProvider extends mix(JSONSchemaFormDataProvider)
         return [...new Set(elementsWithLabelsArray)];
     }
 
-    indexOfElement(element) {
+    indexOfElement = (element) => {
         return this.uniqueElementsWithLabels.indexOf(element) + 1;
-    }
+    };
 
     // eslint-disable-next-line class-methods-use-this
     get defaultData() {
