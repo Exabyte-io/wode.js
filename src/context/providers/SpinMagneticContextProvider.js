@@ -15,7 +15,9 @@ export class SpinMagneticContextProvider extends mix(JSONSchemaFormDataProvider)
 
     get uniqueElementsWithLabels() {
         const elementsWithLabelsArray = [];
-        this.elementsArray.forEach((item, idx) => elementsWithLabelsArray.push(item + idx));
+        this.elementsArray.forEach((item, idx) =>
+            elementsWithLabelsArray.push(item + this.atomicLabelsArray[idx]),
+        );
         return [...new Set(elementsWithLabelsArray)];
     }
 
