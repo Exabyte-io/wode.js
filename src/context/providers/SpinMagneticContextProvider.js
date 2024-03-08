@@ -34,7 +34,7 @@ export class SpinMagneticContextProvider extends mix(JSONSchemaFormDataProvider)
                     this.uniqueElementsWithLabels?.length > 0
                         ? this.uniqueElementsWithLabels[0]
                         : "",
-                starting_magnetization: 0.0,
+                value: 0.0,
             },
         ];
     }
@@ -67,7 +67,7 @@ export class SpinMagneticContextProvider extends mix(JSONSchemaFormDataProvider)
         return {
             $schema: "http://json-schema.org/draft-04/schema#",
             title: "",
-            description: "Set starting magnetization.",
+            description: "Set starting magnetization, can have values in the range [-1, +1].",
             type: "array",
             items: {
                 type: "object",
