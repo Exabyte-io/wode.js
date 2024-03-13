@@ -85,6 +85,8 @@ export class SpinMagneticContextProvider extends mix(JSONSchemaFormDataProvider)
                         type: "number",
                         title: "Starting magnetization",
                         default: 0.0,
+                        minimum: -1.0,
+                        maximum: 1.0,
                     },
                 },
             },
