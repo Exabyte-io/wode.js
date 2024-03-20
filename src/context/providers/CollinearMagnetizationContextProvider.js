@@ -2,7 +2,7 @@ import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/co
 import { Made } from "@exabyte-io/made.js";
 import { mix } from "mixwith";
 
-export class SpinMagneticContextProvider extends mix(JSONSchemaFormDataProvider).with(
+export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDataProvider).with(
     MaterialContextMixin,
 ) {
     static Material = Made.Material;

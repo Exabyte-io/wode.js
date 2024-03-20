@@ -1,4 +1,5 @@
 import { BoundaryConditionsFormDataProvider } from "./providers/BoundaryConditionsFormDataProvider";
+import { CollinearMagnetizationContextProvider } from "./providers/CollinearMagnetizationContextProvider";
 import { HubbardContextProviderLegacy } from "./providers/HubbardContextProviderLegacy";
 import { HubbardJContextProvider } from "./providers/HubbardJContextProvider";
 import { HubbardUContextProvider } from "./providers/HubbardUContextProvider";
@@ -14,7 +15,6 @@ import {
     ExplicitPointsPathFormDataProvider,
     PointsPathFormDataProvider,
 } from "./providers/PointsPathFormDataProvider";
-import { SpinMagneticContextProvider } from "./providers/SpinMagneticContextProvider";
 
 export default {
     BoundaryConditionsFormDataProvider,
@@ -31,5 +31,5 @@ export default {
     HubbardVContextProvider,
     HubbardContextProviderLegacy,
     IonDynamicsContextProvider,
-    SpinMagneticContextProvider,
+    CollinearMagnetizationContextProvider,
 };
