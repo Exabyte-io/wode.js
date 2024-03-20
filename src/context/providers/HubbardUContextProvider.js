@@ -36,6 +36,13 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
             "7p",
             "7d",
         ];
+        const _labels = this.material?.Basis?.atomicLabelsArray || [];
+        const _elements = this.material?.Basis?.elementsArray || [];
+        const _elementsWithLabels = [];
+        _elements.forEach((element, idx) => {
+            _elementsWithLabels.push(element + _labels[idx]);
+        });
+        this.uniqueElementsWithLabels = [...new Set(_elementsWithLabels)];
     }
 
     get defaultData() {
@@ -77,8 +84,11 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                     atomicSpecies: {
                         type: "string",
                         title: "Atomic species",
-                        enum: this.uniqueElements,
-                        default: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
+                        enum: this.uniqueElementsWithLabels,
+                        default:
+                            this.uniqueElementsWithLabels?.length > 0
+                                ? this.uniqueElementsWithLabels[0]
+                                : "",
                     },
                     atomicOrbital: {
                         type: "string",
