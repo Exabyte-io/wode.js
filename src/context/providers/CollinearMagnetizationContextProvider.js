@@ -7,17 +7,8 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
 ) {
     static Material = Made.Material;
 
-    constructor(config) {
-        super(config);
-        this.atomicLabelsArray = this.material?.Basis?.atomicLabelsArray || [];
-        this.elementsArray = this.material?.Basis?.elementsArray || [];
-    }
-
     get uniqueElementsWithLabels() {
-        const elementsWithLabelsArray = [];
-        this.elementsArray.forEach((item, idx) =>
-            elementsWithLabelsArray.push(item + this.atomicLabelsArray[idx]),
-        );
+        const elementsWithLabelsArray = this.material?.Basis?.elementsWithLabelsArray || [];
         return [...new Set(elementsWithLabelsArray)];
     }
 
