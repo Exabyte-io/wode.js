@@ -46,7 +46,7 @@
         "underscore.string": "^3.3.4"
     },
     "devDependencies": {
-        "@exabyte-io/ade.js": "2024.3.21-0",
+        "@exabyte-io/ade.js": "2024.3.23-0",
         "@exabyte-io/application-flavors.js": "2024.3.21-0",
         "@exabyte-io/code.js": "2024.2.29-0",
         "@mat3ra/esse": "2024.3.20-0",
