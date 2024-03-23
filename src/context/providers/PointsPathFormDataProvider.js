@@ -6,7 +6,7 @@ import {
     MaterialContextMixin,
 } from "@exabyte-io/code.js/dist/context";
 import { math as codeJSMath } from "@exabyte-io/code.js/dist/math";
-import { Made } from "@exabyte-io/made.js";
+import { Made } from "@mat3ra/made";
 import { mix } from "mixwith";
 import s from "underscore.string";
 
