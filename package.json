@@ -52,7 +52,7 @@
         "@mat3ra/esse": "2024.3.20-0",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2022.7.28-1",
-        "@exabyte-io/made.js": "2024.3.21-1",
+        "@mat3ra/made": "2024.3.23-1",
         "@exabyte-io/mode.js": "2023.11.22-0",
         "chai": "^4.3.4",
         "eslint": "7.32.0",
@@ -72,7 +72,7 @@
         "prettier": "^2.7.1"
     },
     "peerDependencies": {
-        "@exabyte-io/made.js": "*",
+        "@mat3ra/made": "*",
         "@exabyte-io/ade.js": "*",
         "@exabyte-io/ide.js": "*",
         "@exabyte-io/mode.js": "*",
