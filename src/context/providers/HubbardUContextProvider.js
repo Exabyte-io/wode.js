@@ -1,5 +1,5 @@
 import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
-import { Made } from "@exabyte-io/made.js";
+import { Made } from "@mat3ra/made";
 import { mix } from "mixwith";
 
 const defaultHubbardConfig = {

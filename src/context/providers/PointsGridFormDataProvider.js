@@ -1,7 +1,7 @@
 import { units as UNITS } from "@exabyte-io/code.js/dist/constants";
 import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
 import { math as codeJSMath } from "@exabyte-io/code.js/dist/math";
-import { Made } from "@exabyte-io/made.js";
+import { Made } from "@mat3ra/made";
 import lodash from "lodash";
 import { mix } from "mixwith";
 // TODO : pass appSettings to use defaultKPPRA
