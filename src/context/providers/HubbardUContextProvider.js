@@ -36,12 +36,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
             "7p",
             "7d",
         ];
-        const _labels = this.material?.Basis?.atomicLabelsArray || [];
-        const _elements = this.material?.Basis?.elementsArray || [];
-        const _elementsWithLabels = [];
-        _elements.forEach((element, idx) => {
-            _elementsWithLabels.push(element + _labels[idx]);
-        });
+        const _elementsWithLabels = this.material?.Basis?.elementsWithLabelsArray || [];
         this.uniqueElementsWithLabels = [...new Set(_elementsWithLabels)];
     }
 
