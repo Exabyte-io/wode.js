@@ -44,7 +44,10 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         return [
             {
                 ...defaultHubbardConfig,
-                atomicSpecies: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
+                atomicSpecies:
+                    this.uniqueElementsWithLabels?.length > 0
+                        ? this.uniqueElementsWithLabels[0]
+                        : "",
             },
         ];
     }
