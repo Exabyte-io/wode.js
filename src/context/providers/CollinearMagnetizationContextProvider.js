@@ -46,7 +46,9 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
             },
             items: {
                 atomicSpecies: this.defaultFieldStyles,
-                value: this.defaultFieldStyles,
+                value: {
+                    "ui:classNames": "col-xs-6 ",
+                },
             },
         };
     }
