@@ -1,14 +1,14 @@
 import { Application } from "@exabyte-io/ade.js";
+import { Model, ModelFactory } from "@exabyte-io/mode.js";
 import {
     ContextAndRenderFieldsMixin,
     NamedDefaultableRepetitionImportantSettingsInMemoryEntity,
-} from "@exabyte-io/code.js/dist/entity";
+} from "@mat3ra/code/dist/js/entity";
 import {
     calculateHashFromObject,
     getUUID,
     removeTimestampableKeysFromConfig,
-} from "@exabyte-io/code.js/dist/utils";
-import { Model, ModelFactory } from "@exabyte-io/mode.js";
+} from "@mat3ra/code/dist/js/utils";
 import lodash from "lodash";
 import { mix } from "mixwith";
 import _ from "underscore";
