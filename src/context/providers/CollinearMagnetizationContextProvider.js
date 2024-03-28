@@ -60,7 +60,9 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                 },
             },
             is_constrained_magnetization: {},
-            total_magnetization: {},
+            total_magnetization: {
+                "ui:classNames": "col-xs-6 ",
+            },
         };
     }
 
