@@ -68,7 +68,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
 
     get jsonSchema() {
         return {
-            $schema: "http://json-schema.org/draft-07/schema#",
+            $schema: "https://json-schema.org/draft/2020-12/schema",
             title: "",
             description: "Set starting magnetization, can have values in the range [-1, +1].",
             type: "object",
