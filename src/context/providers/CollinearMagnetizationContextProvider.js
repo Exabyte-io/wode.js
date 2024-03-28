@@ -30,7 +30,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                 },
             ],
             is_constrained_magnetization: false,
-            constrained_magnetization: 0.0,
+            total_magnetization: 0.0,
         };
     }
 
@@ -46,6 +46,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
         };
     };
 
+    // eslint-disable-next-line class-methods-use-this
     get uiSchemaStyled() {
         return {
             items: {
@@ -55,18 +56,22 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                         orderable: false,
                         removable: true,
                     },
-                    items: {
-                        atomicSpecies: this.defaultFieldStyles,
-                        value: this.defaultFieldStyles,
-                    },
                     "ui:classNames": "col-xs-12",
+                    items: {
+                        atomicSpecies: {
+                            "ui:classNames": "col-xs-3 ",
+                        },
+                        value: {
+                            "ui:classNames": "col-xs-6 ",
+                        },
+                    },
                 },
                 is_constrained_magnetization: {
                     "ui:widget": "radio",
                     "ui:classNames": "col-xs-12",
                 },
-                constrained_magnetization: {
-                    "ui:classNames": "col-xs-12",
+                total_magnetization: {
+                    "ui:classNames": "col-xs-6",
                 },
             },
         };
@@ -108,9 +113,9 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                     title: "Set constrained magnetization instead",
                     default: false,
                 },
-                constrained_magnetization: {
+                total_magnetization: {
                     type: "number",
-                    title: "Constrained magnetization",
+                    title: "total magnetization",
                     default: 0.0,
                 },
             },
