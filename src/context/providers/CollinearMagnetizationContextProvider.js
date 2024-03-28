@@ -67,7 +67,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                     },
                 },
                 is_constrained_magnetization: {
-                    "ui:widget": "radio",
+                    "ui:widget": "checkboxes",
                     "ui:classNames": "col-xs-12",
                 },
                 total_magnetization: {
