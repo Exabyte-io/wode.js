@@ -49,7 +49,16 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
     // eslint-disable-next-line class-methods-use-this
     get uiSchemaStyled() {
         return {
-            starting_magnetization: {},
+            starting_magnetization: {
+                items: {
+                    atomicSpecies: {
+                        "ui:classNames": "col-xs-3 ",
+                    },
+                    value: {
+                        "ui:classNames": "col-xs-6 ",
+                    },
+                },
+            },
             is_constrained_magnetization: {},
             total_magnetization: {},
         };
