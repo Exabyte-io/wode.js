@@ -18,64 +18,94 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
 
     // eslint-disable-next-line class-methods-use-this
     get defaultData() {
-        return [
-            {
-                index: 1,
-                atomicSpecies:
-                    this.uniqueElementsWithLabels?.length > 0
-                        ? this.uniqueElementsWithLabels[0]
-                        : "",
-                value: 0.0,
-            },
-        ];
+        return {
+            starting_magnetization: [
+                {
+                    index: 1,
+                    atomicSpecies:
+                        this.uniqueElementsWithLabels?.length > 0
+                            ? this.uniqueElementsWithLabels[0]
+                            : "",
+                    value: 0.0,
+                },
+            ],
+            is_constrained_magnetization: true,
+            total_magnetization: 0.0,
+        };
     }
 
     transformData = (data) => {
-        return data.map((row) => ({
+        const startingMagnetizationWithIndex = data.starting_magnetization.map((row) => ({
             ...row,
             index: this.indexOfElement(row.atomicSpecies),
         }));
+
+        return {
+            ...data,
+            starting_magnetization: startingMagnetizationWithIndex,
+        };
     };
 
+    // eslint-disable-next-line class-methods-use-this
     get uiSchemaStyled() {
         return {
-            "ui:options": {
-                addable: true,
-                orderable: false,
-                removable: true,
+            starting_magnetization: {
+                items: {
+                    atomicSpecies: {
+                        "ui:classNames": "col-xs-3 ",
+                    },
+                    value: {
+                        "ui:classNames": "col-xs-6 ",
+                    },
+                },
             },
-            items: {
-                atomicSpecies: this.defaultFieldStyles,
-                value: this.defaultFieldStyles,
+            is_constrained_magnetization: {},
+            total_magnetization: {
+                "ui:classNames": "col-xs-6 ",
             },
         };
     }
 
     get jsonSchema() {
         return {
-            $schema: "http://json-schema.org/draft-04/schema#",
+            $schema: "https://json-schema.org/draft/2020-12/schema",
             title: "",
             description: "Set starting magnetization, can have values in the range [-1, +1].",
-            type: "array",
-            items: {
-                type: "object",
-                properties: {
-                    atomicSpecies: {
-                        type: "string",
-                        title: "Atomic species",
-                        enum: this.uniqueElementsWithLabels,
-                        default:
-                            this.uniqueElementsWithLabels?.length > 0
-                                ? this.uniqueElementsWithLabels[0]
-                                : "",
+            type: "object",
+            properties: {
+                starting_magnetization: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            atomicSpecies: {
+                                type: "string",
+                                title: "Atomic species",
+                                enum: this.uniqueElementsWithLabels,
+                                default:
+                                    this.uniqueElementsWithLabels?.length > 0
+                                        ? this.uniqueElementsWithLabels[0]
+                                        : "",
+                            },
+                            value: {
+                                type: "number",
+                                title: "Starting magnetization",
+                                default: 0.0,
+                                minimum: -1.0,
+                                maximum: 1.0,
+                            },
+                        },
                     },
-                    value: {
-                        type: "number",
-                        title: "Starting magnetization",
-                        default: 0.0,
-                        minimum: -1.0,
-                        maximum: 1.0,
-                    },
+                },
+                is_constrained_magnetization: {
+                    type: "boolean",
+                    title: "Set constrained magnetization instead",
+                    default: true,
+                },
+                total_magnetization: {
+                    type: "number",
+                    title: "total magnetization",
+                    default: 0.0,
                 },
             },
         };
