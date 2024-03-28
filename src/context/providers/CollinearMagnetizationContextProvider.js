@@ -29,7 +29,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                     value: 0.0,
                 },
             ],
-            is_constrained_magnetization: false,
+            is_constrained_magnetization: true,
             total_magnetization: 0.0,
         };
     }
@@ -100,7 +100,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                 is_constrained_magnetization: {
                     type: "boolean",
                     title: "Set constrained magnetization instead",
-                    default: false,
+                    default: true,
                 },
                 total_magnetization: {
                     type: "number",
