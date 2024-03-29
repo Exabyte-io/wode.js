@@ -17,17 +17,20 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                 ...defaultHubbardConfig,
                 atomicSpecies: this.firstSpecies,
                 atomicSpecies2: this.secondSpecies,
-                siteIndex2: this.uniqueElements?.length > 1 ? 2 : defaultHubbardConfig.siteIndex2,
+                siteIndex2:
+                    this.uniqueElementsWithLabels?.length > 1 ? 2 : defaultHubbardConfig.siteIndex2,
             },
         ];
     }
 
     get firstSpecies() {
-        return this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "";
+        return this.firstElement;
     }
 
     get secondSpecies() {
-        return this.uniqueElements?.length > 1 ? this.uniqueElements[1] : this.firstSpecies;
+        return this.uniqueElementsWithLabels?.length > 1
+            ? this.uniqueElementsWithLabels[1]
+            : this.firstSpecies;
     }
 
     get uiSchemaStyled() {
@@ -64,7 +67,7 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                     atomicSpecies: {
                         type: "string",
                         title: "Species 1",
-                        enum: this.uniqueElements,
+                        enum: this.uniqueElementsWithLabels,
                         default: this.firstSpecies,
                     },
                     siteIndex: {
@@ -81,14 +84,16 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                     atomicSpecies2: {
                         type: "string",
                         title: "Species 2",
-                        enum: this.uniqueElements,
+                        enum: this.uniqueElementsWithLabels,
                         default: this.secondSpecies,
                     },
                     siteIndex2: {
                         type: "integer",
                         title: "Site no 2",
                         default:
-                            this.uniqueElements?.length > 1 ? 2 : defaultHubbardConfig.siteIndex2,
+                            this.uniqueElementsWithLabels?.length > 1
+                                ? 2
+                                : defaultHubbardConfig.siteIndex2,
                     },
                     atomicOrbital2: {
                         type: "string",

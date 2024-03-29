@@ -9,14 +9,16 @@ export class HubbardContextProviderLegacy extends HubbardUContextProvider {
         return [
             {
                 ...defaultHubbardConfig,
-                atomicSpecies: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
-                atomicSpeciesIndex: this.uniqueElements?.length > 0 ? 1 : null,
+                atomicSpecies: this.firstElement,
+                atomicSpeciesIndex: this.uniqueElementsWithLabels?.length > 0 ? 1 : null,
             },
         ];
     }
 
     speciesIndexFromSpecies = (species) => {
-        return this.uniqueElements?.length > 0 ? this.uniqueElements.indexOf(species) + 1 : null;
+        return this.uniqueElementsWithLabels?.length > 0
+            ? this.uniqueElementsWithLabels.indexOf(species) + 1
+            : null;
     };
 
     transformData = (data) => {
@@ -58,7 +60,7 @@ export class HubbardContextProviderLegacy extends HubbardUContextProvider {
                     atomicSpecies: {
                         type: "string",
                         title: "Atomic species",
-                        enum: this.uniqueElements,
+                        enum: this.uniqueElementsWithLabels,
                     },
                     atomicSpeciesIndex: {
                         type: "integer",
