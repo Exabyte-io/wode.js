@@ -59,9 +59,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                     },
                 },
             },
-            is_constrained_magnetization: {
-                "ui:widget": "checkbox",
-            },
+            is_constrained_magnetization: {},
             total_magnetization: {
                 "ui:classNames": "col-xs-6",
             },
@@ -106,7 +104,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                 },
                 total_magnetization: {
                     type: "number",
-                    title: "total magnetization",
+                    title: "Total magnetization",
                     default: 0.0,
                 },
             },
