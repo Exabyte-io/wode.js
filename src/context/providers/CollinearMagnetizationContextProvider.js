@@ -82,6 +82,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
             properties: {
                 starting_magnetization: {
                     type: "array",
+                    maxItems: this.uniqueElementsWithLabels.length,
                     items: {
                         type: "object",
                         properties: {
