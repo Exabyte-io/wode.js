@@ -26,7 +26,7 @@ export class IonDynamicsContextProvider extends JSONSchemaFormDataProvider {
     // eslint-disable-next-line class-methods-use-this
     get jsonSchema() {
         return {
-            $schema: "http://json-schema.org/draft-04/schema#",
+            $schema: "http://json-schema.org/draft-07/schema#",
             type: "object",
             description: "Important parameters for molecular dynamics calculation",
             properties: {

@@ -7,6 +7,12 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
 ) {
     static Material = Made.Material;
 
+    constructor(config) {
+        super(config);
+        this.firstElement =
+            this.uniqueElementsWithLabels?.length > 0 ? this.uniqueElementsWithLabels[0] : "";
+    }
+
     get uniqueElementsWithLabels() {
         const elementsWithLabelsArray = this.material?.Basis?.elementsWithLabelsArray || [];
         return [...new Set(elementsWithLabelsArray)];
@@ -22,10 +28,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
             starting_magnetization: [
                 {
                     index: 1,
-                    atomicSpecies:
-                        this.uniqueElementsWithLabels?.length > 0
-                            ? this.uniqueElementsWithLabels[0]
-                            : "",
+                    atomicSpecies: this.firstElement,
                     value: 0.0,
                 },
             ],
@@ -82,10 +85,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                                 type: "string",
                                 title: "Atomic species",
                                 enum: this.uniqueElementsWithLabels,
-                                default:
-                                    this.uniqueElementsWithLabels?.length > 0
-                                        ? this.uniqueElementsWithLabels[0]
-                                        : "",
+                                default: this.firstElement,
                             },
                             value: {
                                 type: "number",

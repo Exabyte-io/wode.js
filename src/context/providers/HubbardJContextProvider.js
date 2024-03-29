@@ -24,9 +24,6 @@ export class HubbardJContextProvider extends HubbardUContextProvider {
                 orderable: true,
                 removable: true,
             },
-            title: {
-                "ui:classNames": "col-xs-12",
-            },
             items: {
                 paramType: this.defaultFieldStyles,
                 atomicSpecies: this.defaultFieldStyles,
@@ -38,7 +35,7 @@ export class HubbardJContextProvider extends HubbardUContextProvider {
 
     get jsonSchema() {
         return {
-            $schema: "http://json-schema.org/draft-04/schema#",
+            $schema: "http://json-schema.org/draft-07/schema#",
             title: "",
             description: "Hubbard parameters for DFT+U+J calculation.",
             type: "array",
