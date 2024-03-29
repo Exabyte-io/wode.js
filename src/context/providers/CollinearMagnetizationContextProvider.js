@@ -12,11 +12,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
         super(config);
         this.firstElement =
             this.uniqueElementsWithLabels?.length > 0 ? this.uniqueElementsWithLabels[0] : "";
-        this.is_constrained_magnetization = lodash.get(
-            this.data,
-            "is_constrained_magnetization",
-            false,
-        );
+        this.is_total_magnetization = lodash.get(this.data, "is_total_magnetization", false);
     }
 
     get uniqueElementsWithLabels() {
@@ -38,7 +34,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                     value: 0.0,
                 },
             ],
-            is_constrained_magnetization: false,
+            is_total_magnetization: false,
             total_magnetization: 0.0,
         };
     }
@@ -67,12 +63,12 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                         "ui:classNames": "col-xs-6",
                     },
                 },
-                "ui:readonly": this.is_constrained_magnetization,
+                "ui:readonly": this.is_total_magnetization,
             },
-            is_constrained_magnetization: {},
+            is_total_magnetization: {},
             total_magnetization: {
                 "ui:classNames": "col-xs-6",
-                "ui:readonly": !this.is_constrained_magnetization,
+                "ui:readonly": !this.is_total_magnetization,
             },
         };
     }
@@ -105,9 +101,9 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                         },
                     },
                 },
-                is_constrained_magnetization: {
+                is_total_magnetization: {
                     type: "boolean",
-                    title: "Set constrained magnetization instead",
+                    title: "Set total magnetization instead",
                     default: false,
                 },
                 total_magnetization: {
