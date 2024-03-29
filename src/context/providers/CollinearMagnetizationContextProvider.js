@@ -52,16 +52,18 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
             starting_magnetization: {
                 items: {
                     atomicSpecies: {
-                        "ui:classNames": "col-xs-3 ",
+                        "ui:classNames": "col-xs-3",
                     },
                     value: {
-                        "ui:classNames": "col-xs-6 ",
+                        "ui:classNames": "col-xs-6",
                     },
                 },
             },
-            is_constrained_magnetization: {},
+            is_constrained_magnetization: {
+                "ui:widget": "checkbox",
+            },
             total_magnetization: {
-                "ui:classNames": "col-xs-6 ",
+                "ui:classNames": "col-xs-6",
             },
         };
     }
