@@ -1,4 +1,4 @@
-import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
+import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@mat3ra/code/dist/js/context";
 import { Made } from "@mat3ra/made";
 import { mix } from "mixwith";
 

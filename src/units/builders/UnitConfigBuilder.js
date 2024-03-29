@@ -1,4 +1,4 @@
-import { getUUID } from "@exabyte-io/code.js/dist/utils";
+import { getUUID } from "@mat3ra/code/dist/js/utils";
 import _ from "underscore";
 
 export class UnitConfigBuilder {

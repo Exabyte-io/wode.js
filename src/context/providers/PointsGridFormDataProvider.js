@@ -1,6 +1,6 @@
-import { units as UNITS } from "@exabyte-io/code.js/dist/constants";
-import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@exabyte-io/code.js/dist/context";
-import { math as codeJSMath } from "@exabyte-io/code.js/dist/math";
+import { units as UNITS } from "@mat3ra/code/dist/js/constants";
+import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@mat3ra/code/dist/js/context";
+import { math as codeJSMath } from "@mat3ra/code/dist/js/math";
 import { Made } from "@mat3ra/made";
 import lodash from "lodash";
 import { mix } from "mixwith";

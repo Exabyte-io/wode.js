@@ -1,8 +1,8 @@
 import {
     NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity,
     TaggableMixin,
-} from "@exabyte-io/code.js/dist/entity";
-import { getUUID } from "@exabyte-io/code.js/dist/utils";
+} from "@mat3ra/code/dist/js/entity";
+import { getUUID } from "@mat3ra/code/dist/js/utils";
 import lodash from "lodash";
 import { mix } from "mixwith";
 
