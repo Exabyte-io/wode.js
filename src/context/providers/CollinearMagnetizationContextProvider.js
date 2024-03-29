@@ -1,5 +1,6 @@
 import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@mat3ra/code/dist/js/context";
 import { Made } from "@mat3ra/made";
+import lodash from "lodash";
 import { mix } from "mixwith";
 
 export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDataProvider).with(
@@ -11,6 +12,11 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
         super(config);
         this.firstElement =
             this.uniqueElementsWithLabels?.length > 0 ? this.uniqueElementsWithLabels[0] : "";
+        this.is_constrained_magnetization = lodash.get(
+            this.data,
+            "is_constrained_magnetization",
+            false,
+        );
     }
 
     get uniqueElementsWithLabels() {
@@ -61,10 +67,12 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                         "ui:classNames": "col-xs-6",
                     },
                 },
+                "ui:readonly": this.is_constrained_magnetization,
             },
             is_constrained_magnetization: {},
             total_magnetization: {
                 "ui:classNames": "col-xs-6",
+                "ui:readonly": !this.is_constrained_magnetization,
             },
         };
     }
