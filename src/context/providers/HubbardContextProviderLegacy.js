@@ -9,10 +9,7 @@ export class HubbardContextProviderLegacy extends HubbardUContextProvider {
         return [
             {
                 ...defaultHubbardConfig,
-                atomicSpecies:
-                    this.uniqueElementsWithLabels?.length > 0
-                        ? this.uniqueElementsWithLabels[0]
-                        : "",
+                atomicSpecies: this.firstElement,
                 atomicSpeciesIndex: this.uniqueElementsWithLabels?.length > 0 ? 1 : null,
             },
         ];

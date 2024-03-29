@@ -38,16 +38,15 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         ];
         const _elementsWithLabels = this.material?.Basis?.elementsWithLabelsArray || [];
         this.uniqueElementsWithLabels = [...new Set(_elementsWithLabels)];
+        this.firstElement =
+            this.uniqueElementsWithLabels?.length > 0 ? this.uniqueElementsWithLabels[0] : "";
     }
 
     get defaultData() {
         return [
             {
                 ...defaultHubbardConfig,
-                atomicSpecies:
-                    this.uniqueElementsWithLabels?.length > 0
-                        ? this.uniqueElementsWithLabels[0]
-                        : "",
+                atomicSpecies: this.firstElement,
             },
         ];
     }
@@ -83,10 +82,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                         type: "string",
                         title: "Atomic species",
                         enum: this.uniqueElementsWithLabels,
-                        default:
-                            this.uniqueElementsWithLabels?.length > 0
-                                ? this.uniqueElementsWithLabels[0]
-                                : "",
+                        default: this.firstElement,
                     },
                     atomicOrbital: {
                         type: "string",

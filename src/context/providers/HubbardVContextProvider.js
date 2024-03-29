@@ -24,7 +24,7 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
     }
 
     get firstSpecies() {
-        return this.uniqueElementsWithLabels?.length > 0 ? this.uniqueElementsWithLabels[0] : "";
+        return this.firstElement;
     }
 
     get secondSpecies() {
