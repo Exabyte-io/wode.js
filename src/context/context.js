@@ -1,4 +1,5 @@
 import { BoundaryConditionsFormDataProvider } from "./providers/BoundaryConditionsFormDataProvider";
+import { CollinearMagnetizationContextProvider } from "./providers/CollinearMagnetizationContextProvider";
 import { HubbardContextProviderLegacy } from "./providers/HubbardContextProviderLegacy";
 import { HubbardJContextProvider } from "./providers/HubbardJContextProvider";
 import { HubbardUContextProvider } from "./providers/HubbardUContextProvider";
@@ -30,4 +31,5 @@ export default {
     HubbardVContextProvider,
     HubbardContextProviderLegacy,
     IonDynamicsContextProvider,
+    CollinearMagnetizationContextProvider,
 };

@@ -1,4 +1,4 @@
-import { removeNewLinesAndExtraSpaces } from "@exabyte-io/code.js/dist/utils";
+import { removeNewLinesAndExtraSpaces } from "@mat3ra/code/dist/js/utils";
 
 function getIOUnitEndpointOptions(query, projection = "{}") {
     return {

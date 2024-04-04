@@ -12,7 +12,7 @@ export class HubbardJContextProvider extends HubbardUContextProvider {
         return [
             {
                 ...defaultHubbardConfig,
-                atomicSpecies: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
+                atomicSpecies: this.firstElement,
             },
         ];
     }
@@ -54,8 +54,8 @@ export class HubbardJContextProvider extends HubbardUContextProvider {
                     atomicSpecies: {
                         type: "string",
                         title: "Species",
-                        enum: this.uniqueElements,
-                        default: this.uniqueElements?.length > 0 ? this.uniqueElements[0] : "",
+                        enum: this.uniqueElementsWithLabels,
+                        default: this.firstElement,
                     },
                     atomicOrbital: {
                         type: "string",

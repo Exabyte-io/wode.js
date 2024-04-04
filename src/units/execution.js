@@ -1,6 +1,6 @@
 import { Application, Template } from "@exabyte-io/ade.js";
-import { HashedInputArrayMixin } from "@exabyte-io/code.js/dist/entity";
-import { removeTimestampableKeysFromConfig } from "@exabyte-io/code.js/dist/utils";
+import { HashedInputArrayMixin } from "@mat3ra/code/dist/js/entity";
+import { removeTimestampableKeysFromConfig } from "@mat3ra/code/dist/js/utils";
 import { mix } from "mixwith";
 import _ from "underscore";
 

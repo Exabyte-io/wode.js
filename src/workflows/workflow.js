@@ -1,9 +1,9 @@
 /* eslint-disable max-classes-per-file */
-import { NamedDefaultableRepetitionContextAndRenderInMemoryEntity } from "@exabyte-io/code.js/dist/entity";
-import { calculateHashFromObject, getUUID } from "@exabyte-io/code.js/dist/utils";
 import { ComputedEntityMixin, getDefaultComputeConfig } from "@exabyte-io/ide.js";
 import { tree } from "@exabyte-io/mode.js";
-import workflowSchema from "@mat3ra/esse/lib/js/schema/workflow.json";
+import { NamedDefaultableRepetitionContextAndRenderInMemoryEntity } from "@mat3ra/code/dist/js/entity";
+import { calculateHashFromObject, getUUID } from "@mat3ra/code/dist/js/utils";
+import workflowSchema from "@mat3ra/esse/dist/js/schema/workflow.json";
 import lodash from "lodash";
 import { mix } from "mixwith";
 import _ from "underscore";

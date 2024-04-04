@@ -15,6 +15,7 @@ const {
     HubbardVContextProvider,
     HubbardContextProviderLegacy,
     IonDynamicsContextProvider,
+    CollinearMagnetizationContextProvider,
 } = context;
 
 const CONTEXT_DOMAINS = {
@@ -101,5 +102,9 @@ export const wodeProviders = {
     IonDynamicsContextProvider: {
         providerCls: IonDynamicsContextProvider,
         config: _makeImportant({ name: "dynamics" }),
+    },
+    CollinearMagnetizationDataManager: {
+        providerCls: CollinearMagnetizationContextProvider,
+        config: _makeImportant({ name: "starting_magnetization" }),
     },
 };

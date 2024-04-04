@@ -1,5 +1,5 @@
 import { Application } from "@exabyte-io/ade.js";
-import { ApplicationContextMixin, ContextProvider } from "@exabyte-io/code.js/dist/context";
+import { ApplicationContextMixin, ContextProvider } from "@mat3ra/code/dist/js/context";
 import { mix } from "mixwith";
 
 export class MLTrainTestSplitContextProvider extends mix(ContextProvider).with(
