@@ -12,7 +12,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
         super(config);
         this.firstElement =
             this.uniqueElementsWithLabels?.length > 0 ? this.uniqueElementsWithLabels[0] : "";
-        this.is_total_magnetization = lodash.get(this.data, "is_total_magnetization", false);
+        this.isTotalMagnetization = lodash.get(this.data, "isTotalMagnetization", false);
     }
 
     get uniqueElementsWithLabels() {
@@ -24,37 +24,36 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
         return this.uniqueElementsWithLabels.indexOf(element) + 1;
     };
 
-    // eslint-disable-next-line class-methods-use-this
     get defaultData() {
         return {
-            starting_magnetization: [
+            startingMagnetization: [
                 {
                     index: 1,
                     atomicSpecies: this.firstElement,
                     value: 0.0,
                 },
             ],
-            is_total_magnetization: false,
-            total_magnetization: 0.0,
+            isTotalMagnetization: false,
+            totalMagnetization: 0.0,
         };
     }
 
     transformData = (data) => {
-        const startingMagnetizationWithIndex = data.starting_magnetization.map((row) => ({
+        const startingMagnetizationWithIndex = data.startingMagnetization.map((row) => ({
             ...row,
             index: this.indexOfElement(row.atomicSpecies),
         }));
 
         return {
             ...data,
-            starting_magnetization: startingMagnetizationWithIndex,
+            startingMagnetization: startingMagnetizationWithIndex,
         };
     };
 
     // eslint-disable-next-line class-methods-use-this
     get uiSchemaStyled() {
         return {
-            starting_magnetization: {
+            startingMagnetization: {
                 items: {
                     atomicSpecies: {
                         "ui:classNames": "col-xs-3",
@@ -63,12 +62,12 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                         "ui:classNames": "col-xs-6",
                     },
                 },
-                "ui:readonly": this.is_total_magnetization,
+                "ui:readonly": this.isTotalMagnetization,
             },
-            is_total_magnetization: {},
-            total_magnetization: {
+            isTotalMagnetization: {},
+            totalMagnetization: {
                 "ui:classNames": "col-xs-6",
-                "ui:readonly": !this.is_total_magnetization,
+                "ui:readonly": !this.isTotalMagnetization,
             },
         };
     }
@@ -80,7 +79,7 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
             description: "Set starting magnetization, can have values in the range [-1, +1].",
             type: "object",
             properties: {
-                starting_magnetization: {
+                startingMagnetization: {
                     type: "array",
                     maxItems: this.uniqueElementsWithLabels.length,
                     items: {
@@ -102,12 +101,12 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
                         },
                     },
                 },
-                is_total_magnetization: {
+                isTotalMagnetization: {
                     type: "boolean",
                     title: "Set total magnetization instead",
                     default: false,
                 },
-                total_magnetization: {
+                totalMagnetization: {
                     type: "number",
                     title: "Total magnetization",
                     default: 0.0,
