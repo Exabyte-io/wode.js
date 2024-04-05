@@ -40,9 +40,6 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                 orderable: true,
                 removable: true,
             },
-            title: {
-                "ui:classNames": "col-xs-12",
-            },
             items: {
                 atomicSpecies: this.defaultFieldStyles,
                 atomicOrbital: this.defaultFieldStyles,
@@ -57,7 +54,7 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
 
     get jsonSchema() {
         return {
-            $schema: "http://json-schema.org/draft-04/schema#",
+            $schema: "http://json-schema.org/draft-07/schema#",
             title: "",
             description: "Hubbard V parameters for DFT+U+V calculation.",
             type: "array",

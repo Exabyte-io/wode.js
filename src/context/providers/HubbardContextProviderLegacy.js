@@ -35,9 +35,6 @@ export class HubbardContextProviderLegacy extends HubbardUContextProvider {
                 orderable: false,
                 removable: true,
             },
-            title: {
-                "ui:classNames": "col-xs-12",
-            },
             items: {
                 atomicSpecies: this.defaultFieldStyles,
                 atomicSpeciesIndex: { ...this.defaultFieldStyles, "ui:readonly": true },
