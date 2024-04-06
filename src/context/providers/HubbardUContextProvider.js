@@ -58,9 +58,6 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                 orderable: false,
                 removable: true,
             },
-            title: {
-                "ui:classNames": "col-xs-12",
-            },
             items: {
                 atomicSpecies: this.defaultFieldStyles,
                 atomicOrbital: this.defaultFieldStyles,
@@ -71,7 +68,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
 
     get jsonSchema() {
         return {
-            $schema: "http://json-schema.org/draft-04/schema#",
+            $schema: "http://json-schema.org/draft-07/schema#",
             title: "",
             description: "Hubbard U parameters for DFT+U or DFT+U+V calculation.",
             type: "array",

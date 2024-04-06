@@ -105,6 +105,6 @@ export const wodeProviders = {
     },
     CollinearMagnetizationDataManager: {
         providerCls: CollinearMagnetizationContextProvider,
-        config: _makeImportant({ name: "starting_magnetization" }),
+        config: _makeImportant({ name: "collinearMagnetization" }),
     },
 };
