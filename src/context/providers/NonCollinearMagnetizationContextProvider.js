@@ -49,7 +49,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             startingMagnetization,
             constrainedMagnetization: {
                 lambda: 0.0,
-                constrainedMagnetizationType: "atomic direction",
+                constrainType: "atomic direction",
             },
             spinAngles,
         };
@@ -77,12 +77,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             },
             isConstrainedMagnetization: {},
             constrainedMagnetization: {
-                constrainedMagnetizationType: {
-                    "ui:classNames": "col-xs-6",
-                },
-                lambda: {
-                    "ui:classNames": "col-xs-3",
-                },
+                "ui:classNames": "col-xs-3",
                 "ui:readonly": !this.isConstrainedMagnetization,
             },
             isExistingChargeDensity: {},
@@ -92,7 +87,10 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                         "ui:classNames": "col-xs-3",
                         "ui:readonly": true,
                     },
-                    value: {
+                    angle1: {
+                        "ui:classNames": "col-xs-3",
+                    },
+                    angle2: {
                         "ui:classNames": "col-xs-3",
                     },
                 },
@@ -148,9 +146,9 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                 constrainedMagnetization: {
                     type: "object",
                     properties: {
-                        constrainedMagnetizationType: {
+                        constrainType: {
                             type: "string",
-                            title: "Constrained magnetization",
+                            title: "Constrain type",
                             enum: [
                                 "none",
                                 "total",
