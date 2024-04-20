@@ -45,7 +45,7 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
 
     get jsonSchema() {
         return {
-            $schema: "http://json-schema.org/draft-04/schema#",
+            $schema: "http://json-schema.org/draft-07/schema#",
             title: " ",
             description:
                 "Planewave cutoff parameters for electronic wavefunctions and density. Units are specific to simulation engine.",
