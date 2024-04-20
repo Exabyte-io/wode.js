@@ -10,11 +10,13 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
 
     constructor(config) {
         super(config);
+        this.isStartingMagnetization = lodash.get(this.data, "isStartingMagnetization", true);
         this.isConstrainedMagnetization = lodash.get(
             this.data,
             "isConstrainedMagnetization",
             false,
         );
+        this.isExistingChargeDensity = lodash.get(this.data, "isExistingChargeDensity", false);
     }
 
     get uniqueElementsWithLabels() {
@@ -31,36 +33,31 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             };
         });
 
-        const constrainedMagnetizationValues = this.uniqueElementsWithLabels.map(
-            (element, index) => {
-                return {
-                    index: index + 1,
-                    atomicSpecies: element,
-                    angle1: 0.0,
-                    angle2: 0.0,
-                };
-            },
-        );
+        const spinAngles = this.uniqueElementsWithLabels.map((element, index) => {
+            return {
+                index: index + 1,
+                atomicSpecies: element,
+                angle1: 0.0,
+                angle2: 0.0,
+            };
+        });
 
         return {
-            startingMagnetization,
+            isStartingMagnetization: true,
             isConstrainedMagnetization: false,
+            isExistingChargeDensity: false,
+            startingMagnetization,
             constrainedMagnetization: {
                 lambda: 0.0,
-                lforcet: false,
                 constrainedMagnetizationType: "atomic direction",
-                values: constrainedMagnetizationValues,
             },
+            spinAngles,
         };
     }
 
-    // overwrite transformData from parent class
-    transformData = (data) => {
-        return data;
-    };
-
     get uiSchemaStyled() {
         return {
+            isStartingMagnetization: {},
             startingMagnetization: {
                 items: {
                     atomicSpecies: {
@@ -71,7 +68,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                         "ui:classNames": "col-xs-6",
                     },
                 },
-                "ui:readonly": this.isConstrainedMagnetization,
+                "ui:readonly": !this.isStartingMagnetization,
                 "ui:options": {
                     addable: false,
                     orderable: false,
@@ -80,38 +77,32 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             },
             isConstrainedMagnetization: {},
             constrainedMagnetization: {
-                values: {
-                    items: {
-                        atomicSpecies: {
-                            "ui:classNames": "col-xs-3",
-                            "ui:readonly": true,
-                        },
-                        angle1: {
-                            "ui:classNames": "col-xs-3",
-                        },
-                        angle2: {
-                            "ui:classNames": "col-xs-3",
-                        },
-                    },
-                    "ui:options": {
-                        addable: false,
-                        orderable: false,
-                        removable: false,
-                    },
-                },
                 constrainedMagnetizationType: {
                     "ui:classNames": "col-xs-6",
                 },
                 lambda: {
                     "ui:classNames": "col-xs-3",
                 },
-                lforcet: {
-                    "ui:classNames": "col-xs-12",
-                    "ui:widget": "radio",
-                    "ui:inline": true,
+                "ui:readonly": !this.isConstrainedMagnetization,
+            },
+            isExistingChargeDensity: {},
+            spinAngles: {
+                items: {
+                    atomicSpecies: {
+                        "ui:classNames": "col-xs-3",
+                        "ui:readonly": true,
+                    },
+                    value: {
+                        "ui:classNames": "col-xs-3",
+                    },
+                },
+                "ui:readonly": !this.isExistingChargeDensity,
+                "ui:options": {
+                    addable: false,
+                    orderable: false,
+                    removable: false,
                 },
             },
-            "ui:readonly": !this.isConstrainedMagnetization,
         };
     }
 
@@ -123,6 +114,11 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                 "Set initial parameters for non-collinear spin magnetic (SOC) calculation.",
             type: "object",
             properties: {
+                isStartingMagnetization: {
+                    type: "boolean",
+                    title: "Set starting magnetization",
+                    default: true,
+                },
                 startingMagnetization: {
                     type: "array",
                     minItems: this.uniqueElementsWithLabels.length,
@@ -133,8 +129,6 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                             atomicSpecies: {
                                 type: "string",
                                 title: "Atomic species",
-                                enum: this.uniqueElementsWithLabels,
-                                default: this.firstElement,
                             },
                             value: {
                                 type: "number",
@@ -148,7 +142,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                 },
                 isConstrainedMagnetization: {
                     type: "boolean",
-                    title: "Set constrained magnetization instead",
+                    title: "Set constrained magnetization",
                     default: false,
                 },
                 constrainedMagnetization: {
@@ -171,39 +165,33 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                             title: "lambda",
                             default: 0.0,
                         },
-                        lforcet: {
-                            type: "boolean",
-                            title: "lforcet",
-                            oneOf: [
-                                { const: true, title: "True" },
-                                { const: false, title: "False" },
-                            ],
-                            default: false,
-                        },
-                        values: {
-                            type: "array",
-                            minItems: this.uniqueElementsWithLabels.length,
-                            maxItems: this.uniqueElementsWithLabels.length,
-                            items: {
-                                type: "object",
-                                properties: {
-                                    atomicSpecies: {
-                                        type: "string",
-                                        title: "Atomic species",
-                                        enum: this.uniqueElementsWithLabels,
-                                        default: this.firstElement,
-                                    },
-                                    angle1: {
-                                        type: "number",
-                                        title: "Angle1 (deg)",
-                                        default: 0.0,
-                                    },
-                                    angle2: {
-                                        type: "number",
-                                        title: "Angle2 (deg)",
-                                        default: 0.0,
-                                    },
-                                },
+                    },
+                },
+                isExistingChargeDensity: {
+                    type: "boolean",
+                    title: "Start calculation from existing charge density",
+                    default: false,
+                },
+                spinAngles: {
+                    type: "array",
+                    minItems: this.uniqueElementsWithLabels.length,
+                    maxItems: this.uniqueElementsWithLabels.length,
+                    items: {
+                        type: "object",
+                        properties: {
+                            atomicSpecies: {
+                                type: "string",
+                                title: "Atomic species",
+                            },
+                            angle1: {
+                                type: "number",
+                                title: "Angle1 (deg)",
+                                default: 0.0,
+                            },
+                            angle2: {
+                                type: "number",
+                                title: "Angle2 (deg)",
+                                default: 0.0,
                             },
                         },
                     },
