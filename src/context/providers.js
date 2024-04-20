@@ -16,6 +16,7 @@ const {
     HubbardContextProviderLegacy,
     IonDynamicsContextProvider,
     CollinearMagnetizationContextProvider,
+    NonCollinearMagnetizationContextProvider,
 } = context;
 
 const CONTEXT_DOMAINS = {
@@ -106,5 +107,9 @@ export const wodeProviders = {
     CollinearMagnetizationDataManager: {
         providerCls: CollinearMagnetizationContextProvider,
         config: _makeImportant({ name: "collinearMagnetization" }),
+    },
+    NonCollinearMagnetizationDataManager: {
+        providerCls: NonCollinearMagnetizationContextProvider,
+        config: _makeImportant({ name: "nonCollinearMagnetization" }),
     },
 };
