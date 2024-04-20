@@ -1,8 +1,13 @@
+import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@mat3ra/code/dist/js/context";
+import { Made } from "@mat3ra/made";
 import lodash from "lodash";
+import { mix } from "mixwith";
 
-import CollinearMagnetizationContextProvider from "./CollinearMagnetizationContextProvider";
+export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaFormDataProvider).with(
+    MaterialContextMixin,
+) {
+    static Material = Made.Material;
 
-export class NonCollinearMagnetizationContextProvider extends CollinearMagnetizationContextProvider {
     constructor(config) {
         super(config);
         this.isConstrainedMagnetization = lodash.get(
@@ -10,6 +15,11 @@ export class NonCollinearMagnetizationContextProvider extends CollinearMagnetiza
             "isConstrainedMagnetization",
             false,
         );
+    }
+
+    get uniqueElementsWithLabels() {
+        const elementsWithLabelsArray = this.material?.Basis?.elementsWithLabelsArray || [];
+        return [...new Set(elementsWithLabelsArray)];
     }
 
     get defaultData() {
@@ -43,6 +53,11 @@ export class NonCollinearMagnetizationContextProvider extends CollinearMagnetiza
             },
         };
     }
+
+    // overwrite transformData from parent class
+    transformData = (data) => {
+        return data;
+    };
 
     get uiSchemaStyled() {
         return {
