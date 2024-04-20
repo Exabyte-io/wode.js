@@ -48,7 +48,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             constrainedMagnetization: {
                 lambda: 0.0,
                 lforcet: false,
-                constrainedMagnetizationType: "atomic-direction",
+                constrainedMagnetizationType: "atomic direction",
                 values: constrainedMagnetizationValues,
             },
         };
@@ -154,6 +154,18 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                 constrainedMagnetization: {
                     type: "object",
                     properties: {
+                        constrainedMagnetizationType: {
+                            type: "string",
+                            title: "Constrained magnetization",
+                            enum: [
+                                "none",
+                                "total",
+                                "atomic",
+                                "total direction",
+                                "atomic direction",
+                            ],
+                            default: "atomic direction",
+                        },
                         lambda: {
                             type: "number",
                             title: "lambda",
