@@ -50,7 +50,7 @@
         "@exabyte-io/application-flavors.js": "git+https://github.com/Exabyte-io/application-flavors.git#bcbd691f03369e7cb57bc0b21801e7d76e9a1e53",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2024.3.26-0",
-        "@exabyte-io/mode.js": "2024.4.19-0",
+        "@exabyte-io/mode.js": "git+https://github.com/Exabyte-io/mode.js.git#5b4252c75243eac7155d537333aacbac51ab8247",
         "@mat3ra/code": "2024.3.25-3",
         "@mat3ra/esse": "2024.4.19-1",
         "@mat3ra/made": "2024.3.26-0",
