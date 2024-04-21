@@ -77,9 +77,6 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             },
             isConstrainedMagnetization: {},
             constrainedMagnetization: {
-                items: {
-                    "ui:classNames": "col-xs-3",
-                },
                 "ui:readonly": !this.isConstrainedMagnetization,
             },
             isExistingChargeDensity: {},
