@@ -76,10 +76,6 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                 },
             },
             isConstrainedMagnetization: {},
-            constrainedMagnetization: {
-                "ui:classNames": "col-xs-12",
-                "ui:readonly": !this.isConstrainedMagnetization,
-            },
             isExistingChargeDensity: {},
             spinAngles: {
                 items: {
@@ -100,6 +96,10 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                     orderable: false,
                     removable: false,
                 },
+            },
+            constrainedMagnetization: {
+                "ui:classNames": "col-xs-3",
+                "ui:readonly": !this.isConstrainedMagnetization,
             },
         };
     }
@@ -138,33 +138,6 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                         },
                     },
                 },
-                isConstrainedMagnetization: {
-                    type: "boolean",
-                    title: "Set constrained magnetization",
-                    default: false,
-                },
-                constrainedMagnetization: {
-                    type: "object",
-                    properties: {
-                        constrainType: {
-                            type: "string",
-                            title: "Constrain type",
-                            enum: [
-                                "none",
-                                "total",
-                                "atomic",
-                                "total direction",
-                                "atomic direction",
-                            ],
-                            default: "atomic direction",
-                        },
-                        lambda: {
-                            type: "number",
-                            title: "lambda",
-                            default: 0.0,
-                        },
-                    },
-                },
                 isExistingChargeDensity: {
                     type: "boolean",
                     title: "Start calculation from existing charge density",
@@ -191,6 +164,33 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                                 title: "Angle2 (deg)",
                                 default: 0.0,
                             },
+                        },
+                    },
+                },
+                isConstrainedMagnetization: {
+                    type: "boolean",
+                    title: "Set constrained magnetization",
+                    default: false,
+                },
+                constrainedMagnetization: {
+                    type: "object",
+                    properties: {
+                        constrainType: {
+                            type: "string",
+                            title: "Constrain type",
+                            enum: [
+                                "none",
+                                "total",
+                                "atomic",
+                                "total direction",
+                                "atomic direction",
+                            ],
+                            default: "atomic direction",
+                        },
+                        lambda: {
+                            type: "number",
+                            title: "lambda",
+                            default: 0.0,
                         },
                     },
                 },
