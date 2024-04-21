@@ -17,6 +17,8 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             false,
         );
         this.isExistingChargeDensity = lodash.get(this.data, "isExistingChargeDensity", false);
+        this.isArbitrarySpinDirection = lodash.get(this.data, "isArbitrarySpinDirection", false);
+        this.isFixedMagnetization = lodash.get(this.data, "isFixedMagnetization", false);
     }
 
     get uniqueElementsWithLabels() {
@@ -46,11 +48,18 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             isExistingChargeDensity: false,
             isStartingMagnetization: true,
             isConstrainedMagnetization: false,
+            isArbitrarySpinAngle: false,
+            isFixedMagnetization: false,
             spinAngles,
             startingMagnetization,
             constrainedMagnetization: {
                 lambda: 0.0,
                 constrainType: "atomic direction",
+            },
+            fixedMagnetization: {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
             },
         };
     }
@@ -58,6 +67,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
     get uiSchemaStyled() {
         return {
             isExistingChargeDensity: {},
+            isArbitrarySpinDirection: {},
             spinAngles: {
                 items: {
                     atomicSpecies: {
@@ -98,6 +108,20 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                 lambda: this.defaultFieldStyles,
                 "ui:readonly": !this.isConstrainedMagnetization,
             },
+            isFixedMagnetization: {
+                "ui:readonly":
+                    !this.isConstrainedMagnetization &&
+                    !(this.data.constrainedMagnetization.constrainType === "total"),
+            },
+            fixedMagnetization: {
+                x: this.defaultFieldStyles,
+                y: this.defaultFieldStyles,
+                z: this.defaultFieldStyles,
+                "ui:readonly":
+                    this.isFixedMagnetization &&
+                    !this.isConstrainedMagnetization &&
+                    !(this.data.constrainedMagnetization.constrainType === "total"),
+            },
         };
     }
 
@@ -113,30 +137,6 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                     type: "boolean",
                     title: "Start calculation from existing charge density",
                     default: false,
-                },
-                spinAngles: {
-                    type: "array",
-                    minItems: this.uniqueElementsWithLabels.length,
-                    maxItems: this.uniqueElementsWithLabels.length,
-                    items: {
-                        type: "object",
-                        properties: {
-                            atomicSpecies: {
-                                type: "string",
-                                title: "Atomic species",
-                            },
-                            angle1: {
-                                type: "number",
-                                title: "Angle1 (deg)",
-                                default: 0.0,
-                            },
-                            angle2: {
-                                type: "number",
-                                title: "Angle2 (deg)",
-                                default: 0.0,
-                            },
-                        },
-                    },
                 },
                 isStartingMagnetization: {
                     type: "boolean",
@@ -164,6 +164,35 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                         },
                     },
                 },
+                isArbitrarySpinDirection: {
+                    type: "boolean",
+                    title: "Set arbitrary spin direction",
+                    default: false,
+                },
+                spinAngles: {
+                    type: "array",
+                    minItems: this.uniqueElementsWithLabels.length,
+                    maxItems: this.uniqueElementsWithLabels.length,
+                    items: {
+                        type: "object",
+                        properties: {
+                            atomicSpecies: {
+                                type: "string",
+                                title: "Atomic species",
+                            },
+                            angle1: {
+                                type: "number",
+                                title: "Angle1 (deg)",
+                                default: 0.0,
+                            },
+                            angle2: {
+                                type: "number",
+                                title: "Angle2 (deg)",
+                                default: 0.0,
+                            },
+                        },
+                    },
+                },
                 isConstrainedMagnetization: {
                     type: "boolean",
                     title: "Set constrained magnetization",
@@ -187,6 +216,31 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                         lambda: {
                             type: "number",
                             title: "lambda",
+                            default: 0.0,
+                        },
+                    },
+                },
+                isFixedMagnetization: {
+                    type: "boolean",
+                    title: "Set Fixed magnetization (only applicable to constrained magnetization of 'total' type)",
+                    default: true,
+                },
+                fixedMagnetization: {
+                    type: "object",
+                    properties: {
+                        x: {
+                            type: "number",
+                            title: "x-component",
+                            default: 0.0,
+                        },
+                        y: {
+                            type: "number",
+                            title: "y-component",
+                            default: 0.0,
+                        },
+                        z: {
+                            type: "number",
+                            title: "z-component",
                             default: 0.0,
                         },
                     },
