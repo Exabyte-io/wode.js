@@ -78,7 +78,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                     angle1: this.defaultFieldStyles,
                     angle2: this.defaultFieldStyles,
                 },
-                "ui:readonly": !this.isExistingChargeDensity,
+                "ui:readonly": !this.isArbitrarySpinDirection,
                 "ui:options": {
                     addable: false,
                     orderable: false,
@@ -231,17 +231,17 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                     properties: {
                         x: {
                             type: "number",
-                            title: "x-component",
+                            title: "X-component",
                             default: 0.0,
                         },
                         y: {
                             type: "number",
-                            title: "y-component",
+                            title: "Y-component",
                             default: 0.0,
                         },
                         z: {
                             type: "number",
-                            title: "z-component",
+                            title: "Z-component",
                             default: 0.0,
                         },
                     },
