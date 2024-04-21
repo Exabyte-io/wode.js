@@ -57,25 +57,6 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
 
     get uiSchemaStyled() {
         return {
-            isStartingMagnetization: {},
-            startingMagnetization: {
-                items: {
-                    atomicSpecies: {
-                        "ui:classNames": "col-xs-3",
-                        "ui:readonly": true,
-                    },
-                    value: {
-                        "ui:classNames": "col-xs-6",
-                    },
-                },
-                "ui:readonly": !this.isStartingMagnetization,
-                "ui:options": {
-                    addable: false,
-                    orderable: false,
-                    removable: false,
-                },
-            },
-            isConstrainedMagnetization: {},
             isExistingChargeDensity: {},
             spinAngles: {
                 items: {
@@ -97,6 +78,25 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                     removable: false,
                 },
             },
+            isStartingMagnetization: {},
+            startingMagnetization: {
+                items: {
+                    atomicSpecies: {
+                        "ui:classNames": "col-xs-3",
+                        "ui:readonly": true,
+                    },
+                    value: {
+                        "ui:classNames": "col-xs-6",
+                    },
+                },
+                "ui:readonly": !this.isStartingMagnetization,
+                "ui:options": {
+                    addable: false,
+                    orderable: false,
+                    removable: false,
+                },
+            },
+            isConstrainedMagnetization: {},
             constrainedMagnetization: {
                 "ui:classNames": "col-xs-3",
                 "ui:readonly": !this.isConstrainedMagnetization,
@@ -112,32 +112,6 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                 "Set initial parameters for non-collinear spin magnetic (SOC) calculation.",
             type: "object",
             properties: {
-                isStartingMagnetization: {
-                    type: "boolean",
-                    title: "Set starting magnetization",
-                    default: true,
-                },
-                startingMagnetization: {
-                    type: "array",
-                    minItems: this.uniqueElementsWithLabels.length,
-                    maxItems: this.uniqueElementsWithLabels.length,
-                    items: {
-                        type: "object",
-                        properties: {
-                            atomicSpecies: {
-                                type: "string",
-                                title: "Atomic species",
-                            },
-                            value: {
-                                type: "number",
-                                title: "Starting magnetization",
-                                default: 0.0,
-                                minimum: -1.0,
-                                maximum: 1.0,
-                            },
-                        },
-                    },
-                },
                 isExistingChargeDensity: {
                     type: "boolean",
                     title: "Start calculation from existing charge density",
@@ -163,6 +137,32 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                                 type: "number",
                                 title: "Angle2 (deg)",
                                 default: 0.0,
+                            },
+                        },
+                    },
+                },
+                isStartingMagnetization: {
+                    type: "boolean",
+                    title: "Set starting magnetization",
+                    default: true,
+                },
+                startingMagnetization: {
+                    type: "array",
+                    minItems: this.uniqueElementsWithLabels.length,
+                    maxItems: this.uniqueElementsWithLabels.length,
+                    items: {
+                        type: "object",
+                        properties: {
+                            atomicSpecies: {
+                                type: "string",
+                                title: "Atomic species",
+                            },
+                            value: {
+                                type: "number",
+                                title: "Starting magnetization",
+                                default: 0.0,
+                                minimum: -1.0,
+                                maximum: 1.0,
                             },
                         },
                     },
