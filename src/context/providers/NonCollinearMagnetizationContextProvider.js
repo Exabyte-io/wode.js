@@ -43,15 +43,15 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
         });
 
         return {
+            isExistingChargeDensity: false,
             isStartingMagnetization: true,
             isConstrainedMagnetization: false,
-            isExistingChargeDensity: false,
+            spinAngles,
             startingMagnetization,
             constrainedMagnetization: {
                 lambda: 0.0,
                 constrainType: "atomic direction",
             },
-            spinAngles,
         };
     }
 
@@ -61,15 +61,11 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             spinAngles: {
                 items: {
                     atomicSpecies: {
-                        "ui:classNames": "col-xs-3",
+                        ...this.defaultFieldStyles,
                         "ui:readonly": true,
                     },
-                    angle1: {
-                        "ui:classNames": "col-xs-3",
-                    },
-                    angle2: {
-                        "ui:classNames": "col-xs-3",
-                    },
+                    angle1: this.defaultFieldStyles,
+                    angle2: this.defaultFieldStyles,
                 },
                 "ui:readonly": !this.isExistingChargeDensity,
                 "ui:options": {
@@ -82,7 +78,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             startingMagnetization: {
                 items: {
                     atomicSpecies: {
-                        "ui:classNames": "col-xs-3",
+                        ...this.defaultFieldStyles,
                         "ui:readonly": true,
                     },
                     value: {
@@ -98,7 +94,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             },
             isConstrainedMagnetization: {},
             constrainedMagnetization: {
-                "ui:classNames": "col-xs-3",
+                ...this.defaultFieldStyles,
                 "ui:readonly": !this.isConstrainedMagnetization,
             },
         };
