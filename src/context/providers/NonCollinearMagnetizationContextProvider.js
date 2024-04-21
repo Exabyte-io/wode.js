@@ -66,21 +66,6 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
     }
 
     get uiSchemaStyled() {
-        const shouldFixedMagnetizationCheckboxBeReadonly =
-            !this.isConstrainedMagnetization &&
-            this.constrainedMagnetization?.constrainType !== "total";
-
-        const shouldFixedMagnetizationRowBeReadonly =
-            !this.isFixedMagnetization &&
-            !this.isConstrainedMagnetization &&
-            this.constrainedMagnetization?.constrainType !== "total";
-
-        console.log(
-            ">>>>>>>",
-            shouldFixedMagnetizationCheckboxBeReadonly,
-            shouldFixedMagnetizationRowBeReadonly,
-        );
-
         return {
             isExistingChargeDensity: {},
             isArbitrarySpinDirection: {},
@@ -125,13 +110,20 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                 "ui:readonly": !this.isConstrainedMagnetization,
             },
             isFixedMagnetization: {
-                "ui:readonly": shouldFixedMagnetizationCheckboxBeReadonly,
+                "ui:readonly": !(
+                    this.isConstrainedMagnetization &&
+                    this.constrainedMagnetization?.constrainType === "total"
+                ),
             },
             fixedMagnetization: {
                 x: this.defaultFieldStyles,
                 y: this.defaultFieldStyles,
                 z: this.defaultFieldStyles,
-                "ui:readonly": shouldFixedMagnetizationRowBeReadonly,
+                "ui:readonly": !(
+                    this.isFixedMagnetization &&
+                    this.isConstrainedMagnetization &&
+                    this.constrainedMagnetization?.constrainType === "total"
+                ),
             },
         };
     }
