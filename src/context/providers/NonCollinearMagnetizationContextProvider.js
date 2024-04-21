@@ -94,7 +94,10 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             },
             isConstrainedMagnetization: {},
             constrainedMagnetization: {
-                ...this.defaultFieldStyles,
+                props: {
+                    constrainType: this.defaultFieldStyles,
+                    lambda: this.defaultFieldStyles,
+                },
                 "ui:readonly": !this.isConstrainedMagnetization,
             },
         };
