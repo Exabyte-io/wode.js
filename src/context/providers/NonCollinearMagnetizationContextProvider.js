@@ -19,6 +19,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
         this.isExistingChargeDensity = lodash.get(this.data, "isExistingChargeDensity", false);
         this.isArbitrarySpinDirection = lodash.get(this.data, "isArbitrarySpinDirection", false);
         this.isFixedMagnetization = lodash.get(this.data, "isFixedMagnetization", false);
+        this.constrainedMagnetization = lodash.get(this.data, "constrainedMagnetization", {});
     }
 
     get uniqueElementsWithLabels() {
@@ -111,7 +112,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             isFixedMagnetization: {
                 "ui:readonly":
                     !this.isConstrainedMagnetization &&
-                    !(this.data.constrainedMagnetization.constrainType === "total"),
+                    !(this.constrainedMagnetization?.constrainType === "total"),
             },
             fixedMagnetization: {
                 x: this.defaultFieldStyles,
@@ -120,7 +121,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                 "ui:readonly":
                     this.isFixedMagnetization &&
                     !this.isConstrainedMagnetization &&
-                    !(this.data.constrainedMagnetization.constrainType === "total"),
+                    !(this.constrainedMagnetization?.constrainType === "total"),
             },
         };
     }
