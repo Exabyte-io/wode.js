@@ -144,19 +144,6 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                 "Set initial parameters for non-collinear spin magnetic (SOC) calculation.",
             type: "object",
             properties: {
-                isExistingChargeDensity: {
-                    type: "boolean",
-                    title: "Start calculation from existing charge density",
-                    default: false,
-                },
-                lforcet: {
-                    title: "Set lforcet",
-                    type: "boolean",
-                    oneOf: [
-                        { const: true, title: "True" },
-                        { const: false, title: "False" },
-                    ],
-                },
                 isStartingMagnetization: {
                     type: "boolean",
                     title: "Set starting magnetization",
@@ -183,9 +170,22 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                         },
                     },
                 },
+                isExistingChargeDensity: {
+                    type: "boolean",
+                    title: "Start calculation from existing charge density",
+                    default: false,
+                },
+                lforcet: {
+                    title: "Set lforcet to",
+                    type: "boolean",
+                    oneOf: [
+                        { const: true, title: "True" },
+                        { const: false, title: "False" },
+                    ],
+                },
                 isArbitrarySpinDirection: {
                     type: "boolean",
-                    title: "Set arbitrary spin direction",
+                    title: "Set spin directions",
                     default: false,
                 },
                 spinAngles: {
