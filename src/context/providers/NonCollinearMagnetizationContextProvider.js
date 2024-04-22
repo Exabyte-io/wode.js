@@ -51,6 +51,7 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
             isConstrainedMagnetization: false,
             isArbitrarySpinAngle: false,
             isFixedMagnetization: false,
+            lforcet: true,
             spinAngles,
             startingMagnetization,
             constrainedMagnetization: {
@@ -68,6 +69,13 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
     get uiSchemaStyled() {
         return {
             isExistingChargeDensity: {},
+            lforcet: {
+                "ui:readonly": !this.isExistingChargeDensity,
+                "ui:widget": "radio",
+                "ui:options": {
+                    inline: true,
+                },
+            },
             isArbitrarySpinDirection: {},
             spinAngles: {
                 items: {
@@ -140,6 +148,14 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
                     type: "boolean",
                     title: "Start calculation from existing charge density",
                     default: false,
+                },
+                lforcet: {
+                    title: "Set lforcet",
+                    type: "boolean",
+                    oneOf: [
+                        { const: true, title: "True" },
+                        { const: false, title: "False" },
+                    ],
                 },
                 isStartingMagnetization: {
                     type: "boolean",
