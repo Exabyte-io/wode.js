@@ -23,7 +23,7 @@ export class MLSettingsContextProvider extends mix(ContextProvider).with(Applica
 
     get jsonSchema() {
         return {
-            $schema: "http://json-schema.org/draft-04/schema#",
+            $schema: "http://json-schema.org/draft-07/schema#",
             title: " ",
             description: "Settings important to machine learning runs.",
             type: "object",

@@ -8,6 +8,7 @@ import { IonDynamicsContextProvider } from "./providers/IonDynamicsContextProvid
 import { MLSettingsContextProvider } from "./providers/MLSettingsContextProvider";
 import { MLTrainTestSplitContextProvider } from "./providers/MLTrainTestSplitContextProvider";
 import { NEBFormDataProvider } from "./providers/NEBFormDataProvider";
+import { NonCollinearMagnetizationContextProvider } from "./providers/NonCollinearMagnetizationContextProvider";
 import { PlanewaveCutoffsContextProvider } from "./providers/PlanewaveCutoffsContextProvider";
 import { PointsGridFormDataProvider } from "./providers/PointsGridFormDataProvider";
 import {
@@ -32,4 +33,5 @@ export default {
     HubbardContextProviderLegacy,
     IonDynamicsContextProvider,
     CollinearMagnetizationContextProvider,
+    NonCollinearMagnetizationContextProvider,
 };

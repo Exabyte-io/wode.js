@@ -50,7 +50,6 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
         };
     };
 
-    // eslint-disable-next-line class-methods-use-this
     get uiSchemaStyled() {
         return {
             startingMagnetization: {

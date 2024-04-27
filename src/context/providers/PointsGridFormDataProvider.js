@@ -117,7 +117,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         };
 
         return {
-            $schema: "http://json-schema.org/draft-04/schema#",
+            $schema: "http://json-schema.org/draft-07/schema#",
             description: `3D grid with shifts. Default min value for ${
                 this._metricDescription[this.gridMetricType]
             } is ${this._getDefaultGridMetricValue(this.gridMetricType)}.`,

@@ -44,7 +44,7 @@ export class PointsPathFormDataProvider extends mix(JSONSchemaFormDataProvider).
         // no need to pass context to get symmetry points on client
         const points = [].concat(this.symmetryPoints).map((x) => x.point);
         return {
-            $schema: "http://json-schema.org/draft-04/schema#",
+            $schema: "http://json-schema.org/draft-07/schema#",
             title: " ",
             description: "path in reciprocal space",
             type: "array",

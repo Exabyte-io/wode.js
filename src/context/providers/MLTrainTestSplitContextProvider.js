@@ -24,7 +24,7 @@ export class MLTrainTestSplitContextProvider extends mix(ContextProvider).with(
 
     get jsonSchema() {
         return {
-            $schema: "http://json-schema.org/draft-04/schema#",
+            $schema: "http://json-schema.org/draft-07/schema#",
             title: " ",
             description:
                 "Fraction held as the test set. For example, a value of 0.2 corresponds to an 80/20 train/test split.",
