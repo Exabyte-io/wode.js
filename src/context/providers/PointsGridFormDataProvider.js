@@ -206,7 +206,6 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
             dimensions: _arraySubStyle(1),
             shifts: _arraySubStyle(0),
             gridMetricType: {
-                ...this.fieldStyles("rjsf-select"),
                 "ui:title": "Grid Metric",
             },
             gridMetricValue: {
@@ -215,7 +214,6 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
                 "ui:placeholder": this.gridMetricValue.toString(), // make string to prevent prop type error
             },
             preferGridMetric: {
-                ...this.fieldStyles("p-t-20"), // add padding top to level with other elements
                 "ui:emptyValue": true,
                 "ui:disabled": this.isUsingJinjaVariables,
             },
