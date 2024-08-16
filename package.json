@@ -46,8 +46,8 @@
         "underscore.string": "^3.3.4"
     },
     "devDependencies": {
-        "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js.git#3da4810e217de07c7f3d4bef3051d5a1acb80085",
-        "@exabyte-io/application-flavors.js": "git+https://github.com/Exabyte-io/application-flavors.git#23692ef9a833930077d434dd7bc8bc11580b0e17",
+        "@exabyte-io/ade.js": "git+https://github.com/Exabyte-io/ade.js.git#42938b0fd6f6ef858b1c7e51e77eba08ee07960c",
+        "@exabyte-io/application-flavors.js": "git+https://github.com/Exabyte-io/application-flavors.git#7f72e1edbde24b9f96d4d18a2a3532bbd37a4d5d",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2024.3.26-0",
         "@exabyte-io/mode.js": "2024.4.28-0",
