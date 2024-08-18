@@ -1,0 +1,7 @@
+name: Spin orbit coupling bandstructure - QE
+units:
+- name: soc_bands
+  type: subworkflow
+  config:
+    attributes:
+      name: Spin orbit coupling bandstructure
