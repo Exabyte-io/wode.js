@@ -1,0 +1,7 @@
+name: Bandstructure with SOC - QE
+units:
+- name: band_structure_soc
+  type: subworkflow
+  config:
+    attributes:
+      name: Bandstructure with SOC

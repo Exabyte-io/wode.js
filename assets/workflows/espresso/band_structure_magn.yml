@@ -1,0 +1,7 @@
+name: Bandstructure with spin magnetism - QE
+units:
+- name: band_structure_magn
+  type: subworkflow
+  config:
+    attributes:
+      name: Bandstructure with spin magnetism
