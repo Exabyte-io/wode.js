@@ -21,6 +21,11 @@ units:
     type: executionBuilder
   - config:
       execName: bands.x
-      flavorName: bands
-      name: bands
+      flavorName: bands_spin_up
+      name: bands_spin_up
+    type: executionBuilder
+  - config:
+      execName: bands.x
+      flavorName: bands_spin_dn
+      name: bands_spin_dn
     type: executionBuilder
