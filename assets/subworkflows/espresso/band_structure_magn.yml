@@ -1,0 +1,31 @@
+name: Spin magnetic bandstructure
+application:
+  name: espresso
+  version: "7.3"
+method:
+  name: PseudopotentialMethod
+model:
+  name: DFTModel
+units:
+  - config:
+      execName: pw.x
+      flavorName: pw_scf_magn
+      name: pw_scf_magn
+    functions:
+      head: true
+    type: executionBuilder
+  - config:
+      execName: pw.x
+      flavorName: pw_bands_magn
+      name: pw_bands_magn
+    type: executionBuilder
+  - config:
+      execName: bands.x
+      flavorName: bands_spin_up
+      name: bands_spin_up
+    type: executionBuilder
+  - config:
+      execName: bands.x
+      flavorName: bands_spin_dn
+      name: bands_spin_dn
+    type: executionBuilder

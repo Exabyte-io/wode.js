@@ -1,0 +1,26 @@
+name: Spin orbit coupling bandstructure
+application:
+  name: espresso
+  version: "7.3"
+method:
+  name: PseudopotentialMethod
+model:
+  name: DFTModel
+units:
+  - config:
+      execName: pw.x
+      flavorName: pw_scf_soc
+      name: pw_scf_soc
+    functions:
+      head: true
+    type: executionBuilder
+  - config:
+      execName: pw.x
+      flavorName: pw_bands_soc
+      name: pw_bands_soc
+    type: executionBuilder
+  - config:
+      execName: bands.x
+      flavorName: bands
+      name: bands
+    type: executionBuilder
