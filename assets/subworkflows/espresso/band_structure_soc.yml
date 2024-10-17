@@ -4,6 +4,10 @@ application:
   version: "7.3"
 method:
   name: PseudopotentialMethod
+  setSearchText: nc-fr
+  config:
+    type: pseudopotential
+    subtype: nc-fr
 model:
   name: DFTModel
 units:
