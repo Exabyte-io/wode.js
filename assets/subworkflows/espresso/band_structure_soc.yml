@@ -1,7 +1,7 @@
 name: Spin orbit coupling bandstructure
 application:
   name: espresso
-  version: "7.3"
+  version: "6.3"
 method:
   name: PseudopotentialMethod
   setSearchText: nc-fr
