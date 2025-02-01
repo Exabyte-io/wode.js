@@ -44,14 +44,24 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
         let ecutwfc = 0;
         (this.methodData.pseudo || []).forEach((element) => {
             // set the highest of all elements
-            if (element.cutoffs.wfc.standard && element.cutoffs.wfc.standard > ecutwfc) {
+            if (
+                element.cutoffs &&
+                element.cutoffs.wfc &&
+                element.cutoffs.wfc.standard &&
+                element.cutoffs.wfc.standard > ecutwfc
+            ) {
                 ecutwfc = element.cutoffs.wfc.standard;
             }
         });
 
         let ecutrho = 0;
         (this.methodData.pseudo || []).forEach((element) => {
-            if (element.cutoffs.rho.standard && element.cutoffs.rho.standard > ecutrho) {
+            if (
+                element.cutoffs &&
+                element.cutoffs.rho &&
+                element.cutoffs.rho.standard &&
+                element.cutoffs.rho.standard > ecutrho
+            ) {
                 ecutrho = element.cutoffs.rho.standard;
                 // if rho cutoff is not present, set it based on wfc cutoff
             } else if (this.methodData.pseudo.type === "us") {
@@ -68,7 +78,6 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
 
     get defaultECUTWFC() {
         const [ecutwfc] = this.getCutoffsFromPseudos();
-        console.log(">>>>>>>>", ecutwfc);
 
         if (ecutwfc > 0) {
             return ecutwfc;
@@ -79,7 +88,6 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
 
     get defaultECUTRHO() {
         const [, ecutrho] = this.getCutoffsFromPseudos();
-        console.log("<<<<<<<<", ecutrho);
 
         if (ecutrho > 0) {
             return ecutrho;
