@@ -1,5 +1,9 @@
 import { Application } from "@exabyte-io/ade.js";
-import { ApplicationContextMixin, ContextProvider } from "@mat3ra/code/dist/js/context";
+import {
+    ApplicationContextMixin,
+    ContextProvider,
+    MethodDataContextMixin,
+} from "@mat3ra/code/dist/js/context";
 import { mix } from "mixwith";
 
 const cutoffConfig = {
@@ -13,6 +17,7 @@ const cutoffConfig = {
 
 export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
     ApplicationContextMixin,
+    MethodDataContextMixin,
 ) {
     static Application = Application;
 
@@ -36,6 +41,15 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
     }
 
     get defaultECUTWFC() {
+        let highestCutoff = 0;
+        (this.methodData.pseudo || []).forEach((element) => {
+            if (element.cutoffs.wfc.standard && element.cutoffs.wfc.standard > highestCutoff) {
+                highestCutoff = element.cutoffs.wfc.standard;
+            }
+        });
+
+        console.log(">>>>>>>", highestCutoff);
+
         return this._cutoffConfigPerApplication.wavefunction || null;
     }
 
