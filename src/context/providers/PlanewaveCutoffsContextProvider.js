@@ -53,11 +53,11 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
 
             if (data.cutoffs?.rho?.standard > ecutrho) {
                 ecutrho = data.cutoffs.rho.standard;
-            } else if (this.methodData.pseudo?.type === "us") {
+            } else if (this.methodData.pseudo?.type === "us" && ecutwfc * 8 > ecutrho) {
                 // if rho cutoff is not present, set it based on wfc cutoff
                 // if it is ultrasoft pseudopotential set rho cutoff 8 times that of wfc cutoff
                 ecutrho = ecutwfc * 8;
-            } else {
+            } else if (ecutwfc * 4 > ecutrho) {
                 // if it is not ultrasoft pseudopotential set rho cutoff 4 times that of wfc cutoff
                 ecutrho = ecutwfc * 4;
             }
