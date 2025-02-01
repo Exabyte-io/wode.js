@@ -41,30 +41,22 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
     }
 
     getCutoffsFromPseudos = () => {
+        const pseudos = this.methodData.pseudo || [];
         let ecutwfc = 0;
-        (this.methodData.pseudo || []).forEach((element) => {
-            // set the highest of all elements
-            if (
-                element.cutoffs &&
-                element.cutoffs.wfc &&
-                element.cutoffs.wfc.standard &&
-                element.cutoffs.wfc.standard > ecutwfc
-            ) {
-                ecutwfc = element.cutoffs.wfc.standard;
+        let ecutrho = 0;
+
+        pseudos.forEach((data) => {
+            // set the highest cutoff of all elements
+            if (data.cutoffs?.wfc?.standard > ecutwfc) {
+                ecutwfc = data.cutoffs.wfc.standard;
             }
         });
 
-        let ecutrho = 0;
-        (this.methodData.pseudo || []).forEach((element) => {
-            if (
-                element.cutoffs &&
-                element.cutoffs.rho &&
-                element.cutoffs.rho.standard &&
-                element.cutoffs.rho.standard > ecutrho
-            ) {
-                ecutrho = element.cutoffs.rho.standard;
+        pseudos.forEach((data) => {
+            if (data.cutoffs?.rho?.standard > ecutrho) {
+                ecutrho = data.cutoffs.rho.standard;
+            } else if (this.methodData.pseudo?.type === "us") {
                 // if rho cutoff is not present, set it based on wfc cutoff
-            } else if (this.methodData.pseudo.type === "us") {
                 // if it is ultrasoft pseudopotential set rho cutoff 8 times that of wfc cutoff
                 ecutrho = ecutwfc * 8;
             } else {
