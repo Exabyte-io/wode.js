@@ -50,9 +50,7 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
             if (data.cutoffs?.wfc?.standard > ecutwfc) {
                 ecutwfc = data.cutoffs.wfc.standard;
             }
-        });
 
-        pseudos.forEach((data) => {
             if (data.cutoffs?.rho?.standard > ecutrho) {
                 ecutrho = data.cutoffs.rho.standard;
             } else if (this.methodData.pseudo?.type === "us") {
