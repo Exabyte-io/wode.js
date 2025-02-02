@@ -79,10 +79,12 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
     }
 
     get defaultECUTRHO() {
-        const [, ecutrho] = this.getCutoffsFromPseudos();
+        if (["espresso", "qe"].includes(this.application.shortName)) {
+            const [, ecutrho] = this.getCutoffsFromPseudos();
 
-        if (ecutrho > 0) {
-            return ecutrho;
+            if (ecutrho > 0) {
+                return ecutrho;
+            }
         }
 
         return this._cutoffConfigPerApplication.density || null;
