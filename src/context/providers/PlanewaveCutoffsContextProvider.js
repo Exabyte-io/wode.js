@@ -47,11 +47,11 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
 
         pseudos.forEach((data) => {
             // set the highest cutoff of all elements
-            if (data.cutoffs?.wfc?.standard > ecutwfc) {
+            if (data?.cutoffs?.wfc?.standard > ecutwfc) {
                 ecutwfc = data.cutoffs.wfc.standard;
             }
 
-            if (data.cutoffs?.rho?.standard > ecutrho) {
+            if (data?.cutoffs?.rho?.standard > ecutrho) {
                 ecutrho = data.cutoffs.rho.standard;
             } else if (this.methodData.pseudo?.type === "us" && ecutwfc * 8 > ecutrho) {
                 // if rho cutoff is not present, set it based on wfc cutoff
@@ -67,10 +67,12 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
     };
 
     get defaultECUTWFC() {
-        const [ecutwfc] = this.getCutoffsFromPseudos();
+        if (["espresso", "qe"].includes(this.application.shortName)) {
+            const [ecutwfc] = this.getCutoffsFromPseudos();
 
-        if (ecutwfc > 0) {
-            return ecutwfc;
+            if (ecutwfc > 0) {
+                return ecutwfc;
+            }
         }
 
         return this._cutoffConfigPerApplication.wavefunction || null;
