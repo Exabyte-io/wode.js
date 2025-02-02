@@ -40,8 +40,8 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
         return cutoffConfig[this.application.name];
     }
 
-    getCutoffsFromPseudos = () => {
-        const pseudos = this.methodData.pseudo || [];
+    get _cutoffsFromPseudos() {
+        const pseudos = this.methodData?.pseudo || [];
         let ecutwfc = 0;
         let ecutrho = 0;
 
@@ -53,22 +53,21 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
 
             if (data?.cutoffs?.rho?.standard > ecutrho) {
                 ecutrho = data.cutoffs.rho.standard;
-            } else if (this.methodData.pseudo?.type === "us" && ecutwfc * 8 > ecutrho) {
+            } else {
                 // if rho cutoff is not present, set it based on wfc cutoff
-                // if it is ultrasoft pseudopotential set rho cutoff 8 times that of wfc cutoff
-                ecutrho = ecutwfc * 8;
-            } else if (ecutwfc * 4 > ecutrho) {
-                // if it is not ultrasoft pseudopotential set rho cutoff 4 times that of wfc cutoff
-                ecutrho = ecutwfc * 4;
+                // if it is ultrasoft pseudopotential set rho cutoff 8 times
+                // that of wfc cutoff, otherwise 4 times that of wfc cutoff
+                const rhoMultiplier = this.methodData?.pseudo?.type === "us" ? 8 : 4;
+                ecutrho = Math.max(ecutrho, ecutwfc * rhoMultiplier);
             }
         });
 
         return [ecutwfc, ecutrho];
-    };
+    }
 
     get defaultECUTWFC() {
         if (["espresso", "qe"].includes(this.application.shortName)) {
-            const [ecutwfc] = this.getCutoffsFromPseudos();
+            const [ecutwfc] = this._cutoffsFromPseudos;
 
             if (ecutwfc > 0) {
                 return ecutwfc;
@@ -80,7 +79,7 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
 
     get defaultECUTRHO() {
         if (["espresso", "qe"].includes(this.application.shortName)) {
-            const [, ecutrho] = this.getCutoffsFromPseudos();
+            const [, ecutrho] = this._cutoffsFromPseudos;
 
             if (ecutrho > 0) {
                 return ecutrho;
