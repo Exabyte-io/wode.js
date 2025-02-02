@@ -80,7 +80,7 @@
         "@mat3ra/made": "*"
     },
     "engines": {
-        "node": ">=14.0.0"
+        "node": ">=20"
     },
     "lint-staged": {
         "*.js": "eslint --cache --fix",
