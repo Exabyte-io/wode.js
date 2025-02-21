@@ -57,7 +57,7 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
                 // if rho cutoff is not present, set it based on wfc cutoff
                 // if it is ultrasoft pseudopotential set rho cutoff 8 times
                 // that of wfc cutoff, otherwise 4 times that of wfc cutoff
-                const rhoMultiplier = this.methodData?.pseudo?.type === "us" ? 8 : 4;
+                const rhoMultiplier = data?.type === "us" ? 8 : 4;
                 ecutrho = Math.max(ecutrho, ecutwfc * rhoMultiplier);
             }
         });
