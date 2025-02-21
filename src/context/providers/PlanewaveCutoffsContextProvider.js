@@ -47,12 +47,12 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
 
         pseudos.forEach((data) => {
             // set the highest cutoff of all elements
-            if (data?.cutoffs?.wfc?.standard > ecutwfc) {
-                ecutwfc = data.cutoffs.wfc.standard;
+            if (data?.cutoffs?.wavefunction?.standard > ecutwfc) {
+                ecutwfc = data.cutoffs.wavefunction.standard;
             }
 
-            if (data?.cutoffs?.rho?.standard > ecutrho) {
-                ecutrho = data.cutoffs.rho.standard;
+            if (data?.cutoffs?.density?.standard > ecutrho) {
+                ecutrho = data.cutoffs.density.standard;
             } else {
                 // if rho cutoff is not present, set it based on wfc cutoff
                 // if it is ultrasoft pseudopotential set rho cutoff 8 times
