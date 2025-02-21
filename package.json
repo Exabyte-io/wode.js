@@ -52,7 +52,7 @@
         "@exabyte-io/ide.js": "2024.3.26-0",
         "@exabyte-io/mode.js": "2024.4.28-0",
         "@mat3ra/code": "2025.1.27-0",
-        "@mat3ra/esse": "git+https://github.com/Exabyte-io/esse.git#049de31c74d03e1184a6c7de8d0e55e10b44c0d2",
+        "@mat3ra/esse": "git+https://github.com/Exabyte-io/esse.git#a7ab153b8b8ada3ea3c3a9c5e0c6e492a7b2f8e4",
         "@mat3ra/made": "2025.1.23-0",
         "chai": "^4.5.0",
         "eslint": "^7.32.0",
