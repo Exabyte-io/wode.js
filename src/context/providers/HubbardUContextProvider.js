@@ -137,33 +137,31 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                     },
                     dependencies: {
                         atomicSpecies: {
-                            oneOf: [
-                                this.uniqueElementsWithLabels.map((elementWithLabel) => {
-                                    const element = parseInt(elementWithLabel.slice(-1), 10)
-                                        ? elementWithLabel.slice(0, -1)
-                                        : elementWithLabel;
-                                    return {
-                                        properties: {
-                                            atomicSpecies: {
-                                                enum: [elementWithLabel],
-                                            },
-                                            atomicOrbital: {
-                                                enum:
-                                                    this._getValenceOrbitals(element).length > 0
-                                                        ? this._getValenceOrbitals(element)
-                                                        : this.orbitalList,
-                                                default:
-                                                    this._getValenceOrbitals(element).length > 0
-                                                        ? this._getValenceOrbitals(element)[
-                                                              this._getValenceOrbitals(element)
-                                                                  .length - 1
-                                                          ]
-                                                        : defaultHubbardConfig.atomicOrbital,
-                                            },
+                            oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
+                                const element = parseInt(elementWithLabel.slice(-1), 10)
+                                    ? elementWithLabel.slice(0, -1)
+                                    : elementWithLabel;
+                                return {
+                                    properties: {
+                                        atomicSpecies: {
+                                            enum: [elementWithLabel],
                                         },
-                                    };
-                                }),
-                            ],
+                                        atomicOrbital: {
+                                            enum:
+                                                this._getValenceOrbitals(element).length > 0
+                                                    ? this._getValenceOrbitals(element)
+                                                    : this.orbitalList,
+                                            default:
+                                                this._getValenceOrbitals(element).length > 0
+                                                    ? this._getValenceOrbitals(element)[
+                                                          this._getValenceOrbitals(element).length -
+                                                              1
+                                                      ]
+                                                    : defaultHubbardConfig.atomicOrbital,
+                                        },
+                                    },
+                                };
+                            }),
                         },
                     },
                 },
