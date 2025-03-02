@@ -71,3 +71,15 @@ export function findUnit({ subworkflowData, index, type }) {
     if (unit.type !== type) throw new Error("findUnit() error: unit type does not match!");
     return unit;
 }
+
+// Function to sort array based on the order given in a separate array
+export function sortArrayByOrder(arr, order) {
+    const orderMap = new Map();
+    order.forEach((item, index) => orderMap.set(item, index));
+
+    return arr.sort((a, b) => {
+        const indexA = orderMap.has(a) ? orderMap.get(a) : order.length;
+        const indexB = orderMap.has(b) ? orderMap.get(b) : order.length;
+        return indexA - indexB;
+    });
+}

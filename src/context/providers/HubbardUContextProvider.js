@@ -1,6 +1,12 @@
-import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@mat3ra/code/dist/js/context";
+import {
+    JSONSchemaFormDataProvider,
+    MaterialContextMixin,
+    MethodDataContextMixin,
+} from "@mat3ra/code/dist/js/context";
 import { Made } from "@mat3ra/made";
 import { mix } from "mixwith";
+
+import { sortArrayByOrder } from "../../utils";
 
 const defaultHubbardConfig = {
     atomicSpecies: "",
@@ -8,8 +14,33 @@ const defaultHubbardConfig = {
     hubbardUValue: 1.0,
 };
 
+// Madelung's rule
+const orbitalsByStability = [
+    "1s",
+    "2s",
+    "2p",
+    "3s",
+    "3p",
+    "4s",
+    "3d",
+    "4p",
+    "5s",
+    "4d",
+    "5p",
+    "6s",
+    "4f",
+    "5d",
+    "6p",
+    "7s",
+    "5f",
+    "6d",
+    "7p",
+    "8s",
+];
+
 export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).with(
     MaterialContextMixin,
+    MethodDataContextMixin,
 ) {
     static Material = Made.Material;
 
@@ -66,6 +97,18 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         };
     }
 
+    _getValenceOrbitals = (element) => {
+        const pseudos = this.methodData?.pseudo || [];
+        let valenceConfig;
+        pseudos.forEach((data) => {
+            if (data.element === element) {
+                valenceConfig = data.valenceConfiguration || [];
+            }
+        });
+        const valenceOrbitals = valenceConfig.map((item) => item.orbitalName.toLowerCase());
+        return sortArrayByOrder(valenceOrbitals, orbitalsByStability);
+    };
+
     get jsonSchema() {
         return {
             $schema: "http://json-schema.org/draft-07/schema#",
@@ -91,6 +134,35 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                         type: "number",
                         title: "Hubbard U (eV)",
                         default: defaultHubbardConfig.hubbardUValue,
+                    },
+                    dependencies: {
+                        atomicSpecies: {
+                            oneOf: [
+                                this.uniqueElementsWithLabels.map((elementWithLabel) => {
+                                    const element = parseInt(elementWithLabel.slice(-1), 10)
+                                        ? elementWithLabel.slice(0, -1)
+                                        : elementWithLabel;
+                                    return {
+                                        atomicSpecies: {
+                                            enum: [elementWithLabel],
+                                        },
+                                        atomicOrbital: {
+                                            enum:
+                                                this._getValenceOrbitals(element).length > 0
+                                                    ? this._getValenceOrbitals(element)
+                                                    : this.orbitalList,
+                                            default:
+                                                this._getValenceOrbitals(element).length > 0
+                                                    ? this._getValenceOrbitals(element)[
+                                                          this._getValenceOrbitals(element).length -
+                                                              1
+                                                      ]
+                                                    : defaultHubbardConfig.atomicOrbital,
+                                        },
+                                    };
+                                }),
+                            ],
+                        },
                     },
                 },
             },
