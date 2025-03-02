@@ -130,41 +130,40 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                     hubbardUValue: {
                         type: "number",
                     },
-                    dependencies: {
-                        atomicSpecies: {
-                            oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
-                                const element = parseInt(elementWithLabel.slice(-1), 10)
-                                    ? elementWithLabel.slice(0, -1)
-                                    : elementWithLabel;
-                                return {
-                                    properties: {
-                                        atomicSpecies: {
-                                            enum: [elementWithLabel],
-                                        },
-                                        atomicOrbital: {
-                                            type: "string",
-                                            title: "Atomic orbital",
-                                            enum:
-                                                this._getValenceOrbitals(element).length > 0
-                                                    ? this._getValenceOrbitals(element)
-                                                    : this.orbitalList,
-                                            default:
-                                                this._getValenceOrbitals(element).length > 0
-                                                    ? this._getValenceOrbitals(element)[
-                                                          this._getValenceOrbitals(element).length -
-                                                              1
-                                                      ]
-                                                    : defaultHubbardConfig.atomicOrbital,
-                                        },
-                                        hubbardUValue: {
-                                            type: "number",
-                                            title: "Hubbard U (eV)",
-                                            default: defaultHubbardConfig.hubbardUValue,
-                                        },
+                },
+                dependencies: {
+                    atomicSpecies: {
+                        oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
+                            const element = parseInt(elementWithLabel.slice(-1), 10)
+                                ? elementWithLabel.slice(0, -1)
+                                : elementWithLabel;
+                            return {
+                                properties: {
+                                    atomicSpecies: {
+                                        enum: [elementWithLabel],
                                     },
-                                };
-                            }),
-                        },
+                                    atomicOrbital: {
+                                        type: "string",
+                                        title: "Atomic orbital",
+                                        enum:
+                                            this._getValenceOrbitals(element).length > 0
+                                                ? this._getValenceOrbitals(element)
+                                                : this.orbitalList,
+                                        default:
+                                            this._getValenceOrbitals(element).length > 0
+                                                ? this._getValenceOrbitals(element)[
+                                                      this._getValenceOrbitals(element).length - 1
+                                                  ]
+                                                : defaultHubbardConfig.atomicOrbital,
+                                    },
+                                    hubbardUValue: {
+                                        type: "number",
+                                        title: "Hubbard U (eV)",
+                                        default: defaultHubbardConfig.hubbardUValue,
+                                    },
+                                },
+                            };
+                        }),
                     },
                 },
             },
