@@ -124,10 +124,11 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                         enum: this.uniqueElementsWithLabels,
                         default: this.firstElement,
                     },
+                    atomicOrbital: {
+                        type: "string",
+                    },
                     hubbardUValue: {
                         type: "number",
-                        title: "Hubbard U (eV)",
-                        default: defaultHubbardConfig.hubbardUValue,
                     },
                     dependencies: {
                         atomicSpecies: {
@@ -154,6 +155,11 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                                                               1
                                                       ]
                                                     : defaultHubbardConfig.atomicOrbital,
+                                        },
+                                        hubbardUValue: {
+                                            type: "number",
+                                            title: "Hubbard U (eV)",
+                                            default: defaultHubbardConfig.hubbardUValue,
                                         },
                                     },
                                 };
