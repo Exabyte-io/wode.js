@@ -143,21 +143,23 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                                         ? elementWithLabel.slice(0, -1)
                                         : elementWithLabel;
                                     return {
-                                        atomicSpecies: {
-                                            enum: [elementWithLabel],
-                                        },
-                                        atomicOrbital: {
-                                            enum:
-                                                this._getValenceOrbitals(element).length > 0
-                                                    ? this._getValenceOrbitals(element)
-                                                    : this.orbitalList,
-                                            default:
-                                                this._getValenceOrbitals(element).length > 0
-                                                    ? this._getValenceOrbitals(element)[
-                                                          this._getValenceOrbitals(element).length -
-                                                              1
-                                                      ]
-                                                    : defaultHubbardConfig.atomicOrbital,
+                                        properties: {
+                                            atomicSpecies: {
+                                                enum: [elementWithLabel],
+                                            },
+                                            atomicOrbital: {
+                                                enum:
+                                                    this._getValenceOrbitals(element).length > 0
+                                                        ? this._getValenceOrbitals(element)
+                                                        : this.orbitalList,
+                                                default:
+                                                    this._getValenceOrbitals(element).length > 0
+                                                        ? this._getValenceOrbitals(element)[
+                                                              this._getValenceOrbitals(element)
+                                                                  .length - 1
+                                                          ]
+                                                        : defaultHubbardConfig.atomicOrbital,
+                                            },
                                         },
                                     };
                                 }),
