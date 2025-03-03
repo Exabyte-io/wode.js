@@ -74,10 +74,15 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
     }
 
     get defaultData() {
+        const defaultOrbital = this._getValenceOrbitals(this.firstElement);
         return [
             {
                 ...defaultHubbardConfig,
                 atomicSpecies: this.firstElement,
+                atomicOrbital:
+                    defaultOrbital.length > 0
+                        ? defaultOrbital[defaultOrbital.length - 1]
+                        : defaultHubbardConfig.atomicOrbital,
             },
         ];
     }
@@ -99,10 +104,10 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
 
     _getValenceOrbitals = (element) => {
         const pseudos = this.methodData?.pseudo || [];
-        let valenceConfig;
+        let valenceConfig = [];
         pseudos.forEach((data) => {
             if (data.element === element) {
-                valenceConfig = data.valenceConfiguration || [];
+                valenceConfig = data?.valenceConfiguration || [];
             }
         });
         const valenceOrbitals = valenceConfig.map((item) => item.orbitalName.toLowerCase());
@@ -137,6 +142,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                             const element = parseInt(elementWithLabel.slice(-1), 10)
                                 ? elementWithLabel.slice(0, -1)
                                 : elementWithLabel;
+                            const orbitals = this._getValenceOrbitals(element);
                             return {
                                 properties: {
                                     atomicSpecies: {
@@ -145,15 +151,10 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                                     atomicOrbital: {
                                         type: "string",
                                         title: "Atomic orbital",
-                                        enum:
-                                            this._getValenceOrbitals(element).length > 0
-                                                ? this._getValenceOrbitals(element)
-                                                : this.orbitalList,
+                                        enum: orbitals.length > 0 ? orbitals : this.orbitalList,
                                         default:
-                                            this._getValenceOrbitals(element).length > 0
-                                                ? this._getValenceOrbitals(element)[
-                                                      this._getValenceOrbitals(element).length - 1
-                                                  ]
+                                            orbitals.length > 0
+                                                ? orbitals[orbitals.length - 1]
                                                 : defaultHubbardConfig.atomicOrbital,
                                     },
                                     hubbardUValue: {
