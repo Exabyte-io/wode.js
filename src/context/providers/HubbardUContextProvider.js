@@ -134,6 +134,8 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                     },
                     hubbardUValue: {
                         type: "number",
+                        title: "Hubbard U (eV)",
+                        default: defaultHubbardConfig.hubbardUValue,
                     },
                 },
                 dependencies: {
@@ -156,11 +158,6 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                                             orbitals.length > 0
                                                 ? orbitals[orbitals.length - 1]
                                                 : defaultHubbardConfig.atomicOrbital,
-                                    },
-                                    hubbardUValue: {
-                                        type: "number",
-                                        title: "Hubbard U (eV)",
-                                        default: defaultHubbardConfig.hubbardUValue,
                                     },
                                 },
                             };
