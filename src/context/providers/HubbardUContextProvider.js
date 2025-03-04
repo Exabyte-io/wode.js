@@ -10,33 +10,9 @@ import { sortArrayByOrder } from "../../utils";
 
 const defaultHubbardConfig = {
     atomicSpecies: "",
-    atomicOrbital: "2p",
+    atomicOrbital: "3d",
     hubbardUValue: 1.0,
 };
-
-// Madelung's rule
-const orbitalsByStability = [
-    "1s",
-    "2s",
-    "2p",
-    "3s",
-    "3p",
-    "4s",
-    "3d",
-    "4p",
-    "5s",
-    "4d",
-    "5p",
-    "6s",
-    "4f",
-    "5d",
-    "6p",
-    "7s",
-    "5f",
-    "6d",
-    "7p",
-    "8s",
-];
 
 export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).with(
     MaterialContextMixin,
@@ -47,25 +23,28 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
     constructor(config) {
         super(config);
         this.uniqueElements = this.material?.Basis?.uniqueElements || [];
+        // orbitals are sorted according to stability (Madelung's rule)
         this.orbitalList = [
+            "1s",
+            "2s",
             "2p",
             "3s",
             "3p",
-            "3d",
             "4s",
+            "3d",
             "4p",
-            "4d",
-            "4f",
             "5s",
+            "4d",
             "5p",
-            "5d",
-            "5f",
             "6s",
+            "4f",
+            "5d",
             "6p",
-            "6d",
             "7s",
+            "5f",
+            "6d",
             "7p",
-            "7d",
+            "8s",
         ];
         const _elementsWithLabels = this.material?.Basis?.elementsWithLabelsArray || [];
         this.uniqueElementsWithLabels = [...new Set(_elementsWithLabels)];
@@ -74,14 +53,14 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
     }
 
     get defaultData() {
-        const defaultOrbital = this._getValenceOrbitals(this.firstElement);
+        const valenceOrbitals = this._getValenceOrbitals(this.firstElement);
         return [
             {
                 ...defaultHubbardConfig,
                 atomicSpecies: this.firstElement,
                 atomicOrbital:
-                    defaultOrbital.length > 0
-                        ? defaultOrbital[defaultOrbital.length - 1]
+                    valenceOrbitals.length > 0
+                        ? valenceOrbitals[valenceOrbitals.length - 1]
                         : defaultHubbardConfig.atomicOrbital,
             },
         ];
@@ -111,7 +90,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
             }
         });
         const valenceOrbitals = valenceConfig.map((item) => item.orbitalName.toLowerCase());
-        return sortArrayByOrder(valenceOrbitals, orbitalsByStability);
+        return sortArrayByOrder(valenceOrbitals, this.orbitalList);
     };
 
     get jsonSchema() {
@@ -131,6 +110,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                     },
                     atomicOrbital: {
                         type: "string",
+                        title: "Atomic orbital",
                     },
                     hubbardUValue: {
                         type: "number",
@@ -141,9 +121,12 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                 dependencies: {
                     atomicSpecies: {
                         oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
-                            const element = parseInt(elementWithLabel.slice(-1), 10)
-                                ? elementWithLabel.slice(0, -1)
-                                : elementWithLabel;
+                            // exclude single digit label in the end of symbol if present
+                            // 1 is added to the label below to take care of possible label 0
+                            const element =
+                                parseInt(elementWithLabel.slice(-1), 10) + 1
+                                    ? elementWithLabel.slice(0, -1)
+                                    : elementWithLabel;
                             const orbitals = this._getValenceOrbitals(element);
                             return {
                                 properties: {
@@ -151,8 +134,6 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                                         enum: [elementWithLabel],
                                     },
                                     atomicOrbital: {
-                                        type: "string",
-                                        title: "Atomic orbital",
                                         enum: orbitals.length > 0 ? orbitals : this.orbitalList,
                                         default:
                                             orbitals.length > 0
