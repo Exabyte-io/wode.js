@@ -3,16 +3,21 @@ import { HubbardUContextProvider } from "./HubbardUContextProvider";
 const defaultHubbardConfig = {
     paramType: "U",
     atomicSpecies: "",
-    atomicOrbital: "2p",
+    atomicOrbital: "3d",
     value: 1.0,
 };
 
 export class HubbardJContextProvider extends HubbardUContextProvider {
     get defaultData() {
+        const valenceOrbitals = this._getValenceOrbitals(this.firstElement);
         return [
             {
                 ...defaultHubbardConfig,
                 atomicSpecies: this.firstElement,
+                atomicOrbital:
+                    valenceOrbitals.length > 0
+                        ? valenceOrbitals[valenceOrbitals.length - 1]
+                        : defaultHubbardConfig.atomicOrbital,
             },
         ];
     }
@@ -57,13 +62,36 @@ export class HubbardJContextProvider extends HubbardUContextProvider {
                     atomicOrbital: {
                         type: "string",
                         title: "Orbital",
-                        enum: this.orbitalList,
-                        default: defaultHubbardConfig.atomicOrbital,
                     },
                     value: {
                         type: "number",
                         title: "Value (eV)",
                         default: defaultHubbardConfig.value,
+                    },
+                },
+                dependencies: {
+                    atomicSpecies: {
+                        oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
+                            const element =
+                                parseInt(elementWithLabel.slice(-1), 10) + 1
+                                    ? elementWithLabel.slice(0, -1)
+                                    : elementWithLabel;
+                            const orbitals = this._getValenceOrbitals(element);
+                            return {
+                                properties: {
+                                    atomicSpecies: {
+                                        enum: [elementWithLabel],
+                                    },
+                                    atomicOrbital: {
+                                        enum: orbitals.length > 0 ? orbitals : this.orbitalList,
+                                        default:
+                                            orbitals.length > 0
+                                                ? orbitals[orbitals.length - 1]
+                                                : defaultHubbardConfig.atomicOrbital,
+                                    },
+                                },
+                            };
+                        }),
                     },
                 },
             },
