@@ -9,7 +9,7 @@ const defaultHubbardConfig = {
 
 export class HubbardJContextProvider extends HubbardUContextProvider {
     get defaultData() {
-        const valenceOrbitals = this._getValenceOrbitals(this.firstElement);
+        const valenceOrbitals = this.getValenceOrbitals(this.firstElement);
         return [
             {
                 ...defaultHubbardConfig,
@@ -76,7 +76,7 @@ export class HubbardJContextProvider extends HubbardUContextProvider {
                                 parseInt(elementWithLabel.slice(-1), 10) + 1
                                     ? elementWithLabel.slice(0, -1)
                                     : elementWithLabel;
-                            const orbitals = this._getValenceOrbitals(element);
+                            const orbitals = this.getValenceOrbitals(element);
                             return {
                                 properties: {
                                     atomicSpecies: {

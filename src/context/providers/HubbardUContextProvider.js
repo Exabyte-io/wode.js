@@ -53,7 +53,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
     }
 
     get defaultData() {
-        const valenceOrbitals = this._getValenceOrbitals(this.firstElement);
+        const valenceOrbitals = this.getValenceOrbitals(this.firstElement);
         return [
             {
                 ...defaultHubbardConfig,
@@ -81,13 +81,14 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         };
     }
 
-    _getValenceOrbitals = (element) => {
+    getValenceOrbitals = (element) => {
         const pseudos = this.methodData?.pseudo || [];
         let valenceConfig = [];
-        pseudos.forEach((data) => {
+        pseudos.every((data) => {
             if (data.element === element) {
                 valenceConfig = data?.valenceConfiguration || [];
             }
+            return data.element !== element; // break when first match is found
         });
         const valenceOrbitals = valenceConfig.map((item) => item.orbitalName.toLowerCase());
         return sortArrayByOrder(valenceOrbitals, this.orbitalList);
@@ -127,7 +128,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                                 parseInt(elementWithLabel.slice(-1), 10) + 1
                                     ? elementWithLabel.slice(0, -1)
                                     : elementWithLabel;
-                            const orbitals = this._getValenceOrbitals(element);
+                            const orbitals = this.getValenceOrbitals(element);
                             return {
                                 properties: {
                                     atomicSpecies: {

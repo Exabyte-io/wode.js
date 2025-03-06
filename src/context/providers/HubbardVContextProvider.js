@@ -12,8 +12,8 @@ const defaultHubbardConfig = {
 
 export class HubbardVContextProvider extends HubbardUContextProvider {
     get defaultData() {
-        const firstElementOrbitals = this._getValenceOrbitals(this.firstSpecies);
-        const secondElementOrbitals = this._getValenceOrbitals(this.secondSpecies);
+        const firstElementOrbitals = this.getValenceOrbitals(this.firstSpecies);
+        const secondElementOrbitals = this.getValenceOrbitals(this.secondSpecies);
         return [
             {
                 ...defaultHubbardConfig,
@@ -117,7 +117,7 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                                 parseInt(elementWithLabel.slice(-1), 10) + 1
                                     ? elementWithLabel.slice(0, -1)
                                     : elementWithLabel;
-                            const orbitals = this._getValenceOrbitals(element);
+                            const orbitals = this.getValenceOrbitals(element);
                             return {
                                 properties: {
                                     atomicSpecies: {
@@ -140,7 +140,7 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                                 parseInt(elementWithLabel.slice(-1), 10) + 1
                                     ? elementWithLabel.slice(0, -1)
                                     : elementWithLabel;
-                            const orbitals = this._getValenceOrbitals(element);
+                            const orbitals = this.getValenceOrbitals(element);
                             return {
                                 properties: {
                                     atomicSpecies2: {
