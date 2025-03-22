@@ -66,24 +66,20 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
     }
 
     get defaultECUTWFC() {
-        if (["espresso", "qe"].includes(this.application.shortName)) {
-            const [ecutwfc] = this._cutoffsFromPseudos;
+        const [ecutwfc] = this._cutoffsFromPseudos;
 
-            if (ecutwfc > 0) {
-                return ecutwfc;
-            }
+        if (ecutwfc > 0) {
+            return ecutwfc;
         }
 
         return this._cutoffConfigPerApplication.wavefunction || null;
     }
 
     get defaultECUTRHO() {
-        if (["espresso", "qe"].includes(this.application.shortName)) {
-            const [, ecutrho] = this._cutoffsFromPseudos;
+        const [, ecutrho] = this._cutoffsFromPseudos; // destructure and select second item
 
-            if (ecutrho > 0) {
-                return ecutrho;
-            }
+        if (ecutrho > 0) {
+            return ecutrho;
         }
 
         return this._cutoffConfigPerApplication.density || null;
