@@ -94,6 +94,14 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         return sortArrayByOrder(valenceOrbitals, this.orbitalList);
     };
 
+    getElementSymbol = (elementWithLabel) => {
+        // exclude single digit label in the end of symbol if present
+        // 1 is added to the label below to take care of possible label 0
+        return parseInt(elementWithLabel.slice(-1), 10) + 1
+            ? elementWithLabel.slice(0, -1)
+            : elementWithLabel;
+    };
+
     get jsonSchema() {
         return {
             $schema: "http://json-schema.org/draft-07/schema#",
@@ -122,13 +130,9 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                 dependencies: {
                     atomicSpecies: {
                         oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
-                            // exclude single digit label in the end of symbol if present
-                            // 1 is added to the label below to take care of possible label 0
-                            const element =
-                                parseInt(elementWithLabel.slice(-1), 10) + 1
-                                    ? elementWithLabel.slice(0, -1)
-                                    : elementWithLabel;
-                            const orbitals = this.getValenceOrbitals(element);
+                            const orbitals = this.getValenceOrbitals(
+                                this.getElementSymbol(elementWithLabel),
+                            );
                             return {
                                 properties: {
                                     atomicSpecies: {

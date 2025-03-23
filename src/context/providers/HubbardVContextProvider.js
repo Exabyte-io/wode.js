@@ -113,11 +113,9 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                 dependencies: {
                     atomicSpecies: {
                         oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
-                            const element =
-                                parseInt(elementWithLabel.slice(-1), 10) + 1
-                                    ? elementWithLabel.slice(0, -1)
-                                    : elementWithLabel;
-                            const orbitals = this.getValenceOrbitals(element);
+                            const orbitals = this.getValenceOrbitals(
+                                this.getElementSymbol(elementWithLabel),
+                            );
                             return {
                                 properties: {
                                     atomicSpecies: {
@@ -136,11 +134,9 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                     },
                     atomicSpecies2: {
                         oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
-                            const element =
-                                parseInt(elementWithLabel.slice(-1), 10) + 1
-                                    ? elementWithLabel.slice(0, -1)
-                                    : elementWithLabel;
-                            const orbitals = this.getValenceOrbitals(element);
+                            const orbitals = this.getValenceOrbitals(
+                                this.getElementSymbol(elementWithLabel),
+                            );
                             return {
                                 properties: {
                                     atomicSpecies2: {
