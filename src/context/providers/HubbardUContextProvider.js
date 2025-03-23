@@ -24,7 +24,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         super(config);
         this.uniqueElements = this.material?.Basis?.uniqueElements || [];
         // orbitals are sorted according to stability (Madelung's rule)
-        this.orbitalList = [
+        this.orbitalListByStability = [
             "1s",
             "2s",
             "2p",
@@ -91,7 +91,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
             return data.element !== element; // break when first match is found
         });
         const valenceOrbitals = valenceConfig.map((item) => item.orbitalName.toLowerCase());
-        return sortArrayByOrder(valenceOrbitals, this.orbitalList);
+        return sortArrayByOrder(valenceOrbitals, this.orbitalListByStability);
     };
 
     getElementSymbol = (elementWithLabel) => {
@@ -139,7 +139,10 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                                         enum: [elementWithLabel],
                                     },
                                     atomicOrbital: {
-                                        enum: orbitals.length > 0 ? orbitals : this.orbitalList,
+                                        enum:
+                                            orbitals.length > 0
+                                                ? orbitals
+                                                : this.orbitalListByStability,
                                         default:
                                             orbitals.length > 0
                                                 ? orbitals[orbitals.length - 1]

@@ -81,7 +81,10 @@ export class HubbardJContextProvider extends HubbardUContextProvider {
                                         enum: [elementWithLabel],
                                     },
                                     atomicOrbital: {
-                                        enum: orbitals.length > 0 ? orbitals : this.orbitalList,
+                                        enum:
+                                            orbitals.length > 0
+                                                ? orbitals
+                                                : this.orbitalListByStability,
                                         default:
                                             orbitals.length > 0
                                                 ? orbitals[orbitals.length - 1]
