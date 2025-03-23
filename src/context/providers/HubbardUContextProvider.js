@@ -102,6 +102,28 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
             : elementWithLabel;
     };
 
+    orbitalDependencyArray = (elementList, atomicSpecies, atomicOrbital) => {
+        return {
+            oneOf: elementList.map((elementWithLabel) => {
+                const orbitals = this.getValenceOrbitals(this.getElementSymbol(elementWithLabel));
+                return {
+                    properties: {
+                        [atomicSpecies]: {
+                            enum: [elementWithLabel],
+                        },
+                        [atomicOrbital]: {
+                            enum: orbitals.length > 0 ? orbitals : this.orbitalListByStability,
+                            default:
+                                orbitals.length > 0
+                                    ? orbitals[orbitals.length - 1]
+                                    : defaultHubbardConfig.atomicOrbital,
+                        },
+                    },
+                };
+            }),
+        };
+    };
+
     get jsonSchema() {
         return {
             $schema: "http://json-schema.org/draft-07/schema#",
@@ -128,30 +150,11 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                     },
                 },
                 dependencies: {
-                    atomicSpecies: {
-                        oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
-                            const orbitals = this.getValenceOrbitals(
-                                this.getElementSymbol(elementWithLabel),
-                            );
-                            return {
-                                properties: {
-                                    atomicSpecies: {
-                                        enum: [elementWithLabel],
-                                    },
-                                    atomicOrbital: {
-                                        enum:
-                                            orbitals.length > 0
-                                                ? orbitals
-                                                : this.orbitalListByStability,
-                                        default:
-                                            orbitals.length > 0
-                                                ? orbitals[orbitals.length - 1]
-                                                : defaultHubbardConfig.atomicOrbital,
-                                    },
-                                },
-                            };
-                        }),
-                    },
+                    atomicSpecies: this.orbitalDependencyArray(
+                        this.uniqueElementsWithLabels,
+                        "atomicSpecies",
+                        "atomicOrbital",
+                    ),
                 },
             },
         };

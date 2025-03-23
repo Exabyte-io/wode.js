@@ -70,30 +70,11 @@ export class HubbardJContextProvider extends HubbardUContextProvider {
                     },
                 },
                 dependencies: {
-                    atomicSpecies: {
-                        oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
-                            const orbitals = this.getValenceOrbitals(
-                                this.getElementSymbol(elementWithLabel),
-                            );
-                            return {
-                                properties: {
-                                    atomicSpecies: {
-                                        enum: [elementWithLabel],
-                                    },
-                                    atomicOrbital: {
-                                        enum:
-                                            orbitals.length > 0
-                                                ? orbitals
-                                                : this.orbitalListByStability,
-                                        default:
-                                            orbitals.length > 0
-                                                ? orbitals[orbitals.length - 1]
-                                                : defaultHubbardConfig.atomicOrbital,
-                                    },
-                                },
-                            };
-                        }),
-                    },
+                    atomicSpecies: this.orbitalDependencyArray(
+                        this.uniqueElementsWithLabels,
+                        "atomicSpecies",
+                        "atomicOrbital",
+                    ),
                 },
             },
             minItems: 1,

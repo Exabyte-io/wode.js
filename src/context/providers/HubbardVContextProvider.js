@@ -111,54 +111,16 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                     },
                 },
                 dependencies: {
-                    atomicSpecies: {
-                        oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
-                            const orbitals = this.getValenceOrbitals(
-                                this.getElementSymbol(elementWithLabel),
-                            );
-                            return {
-                                properties: {
-                                    atomicSpecies: {
-                                        enum: [elementWithLabel],
-                                    },
-                                    atomicOrbital: {
-                                        enum:
-                                            orbitals.length > 0
-                                                ? orbitals
-                                                : this.orbitalListByStability,
-                                        default:
-                                            orbitals.length > 0
-                                                ? orbitals[orbitals.length - 1]
-                                                : defaultHubbardConfig.atomicOrbital,
-                                    },
-                                },
-                            };
-                        }),
-                    },
-                    atomicSpecies2: {
-                        oneOf: this.uniqueElementsWithLabels.map((elementWithLabel) => {
-                            const orbitals = this.getValenceOrbitals(
-                                this.getElementSymbol(elementWithLabel),
-                            );
-                            return {
-                                properties: {
-                                    atomicSpecies2: {
-                                        enum: [elementWithLabel],
-                                    },
-                                    atomicOrbital2: {
-                                        enum:
-                                            orbitals.length > 0
-                                                ? orbitals
-                                                : this.orbitalListByStability,
-                                        default:
-                                            orbitals.length > 0
-                                                ? orbitals[orbitals.length - 1]
-                                                : defaultHubbardConfig.atomicOrbital2,
-                                    },
-                                },
-                            };
-                        }),
-                    },
+                    atomicSpecies: this.orbitalDependencyArray(
+                        this.uniqueElementsWithLabels,
+                        "atomicSpecies",
+                        "atomicOrbital",
+                    ),
+                    atomicSpecies2: this.orbitalDependencyArray(
+                        this.uniqueElementsWithLabels,
+                        "atomicSpecies2",
+                        "atomicOrbital2",
+                    ),
                 },
             },
             minItems: 1,
