@@ -53,15 +53,11 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
     }
 
     get defaultData() {
-        const valenceOrbitals = this.getValenceOrbitals(this.firstElement);
         return [
             {
                 ...defaultHubbardConfig,
                 atomicSpecies: this.firstElement,
-                atomicOrbital:
-                    valenceOrbitals.length > 0
-                        ? valenceOrbitals[valenceOrbitals.length - 1]
-                        : defaultHubbardConfig.atomicOrbital,
+                atomicOrbital: this.getOutermostOrbital(this.getValenceOrbitals(this.firstElement)),
             },
         ];
     }
@@ -113,15 +109,16 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
                         },
                         [atomicOrbital]: {
                             enum: orbitals.length > 0 ? orbitals : this.orbitalListByStability,
-                            default:
-                                orbitals.length > 0
-                                    ? orbitals[orbitals.length - 1]
-                                    : defaultHubbardConfig.atomicOrbital,
+                            default: this.getOutermostOrbital(orbitals),
                         },
                     },
                 };
             }),
         };
+    };
+
+    getOutermostOrbital = (orbitals, defaultOrbital = defaultHubbardConfig.atomicOrbital) => {
+        return orbitals.length > 0 ? orbitals[orbitals.length - 1] : defaultOrbital;
     };
 
     get jsonSchema() {

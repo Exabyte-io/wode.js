@@ -9,15 +9,11 @@ const defaultHubbardConfig = {
 
 export class HubbardJContextProvider extends HubbardUContextProvider {
     get defaultData() {
-        const valenceOrbitals = this.getValenceOrbitals(this.firstElement);
         return [
             {
                 ...defaultHubbardConfig,
                 atomicSpecies: this.firstElement,
-                atomicOrbital:
-                    valenceOrbitals.length > 0
-                        ? valenceOrbitals[valenceOrbitals.length - 1]
-                        : defaultHubbardConfig.atomicOrbital,
+                atomicOrbital: this.getOutermostOrbital(this.getValenceOrbitals(this.firstElement)),
             },
         ];
     }
