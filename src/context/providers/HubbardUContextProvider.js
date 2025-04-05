@@ -94,7 +94,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         return {
             oneOf: elementList.map((elementWithLabel) => {
                 const orbitals = this.getValenceOrbitals(
-                    this.Material.Basis.stripLabelToGetElementSymbol(elementWithLabel),
+                    Made.Basis.stripLabelToGetElementSymbol(elementWithLabel),
                 );
                 return {
                     properties: {
