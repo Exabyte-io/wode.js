@@ -90,18 +90,12 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         return sortArrayByOrder(valenceOrbitals, this.orbitalListByStability);
     };
 
-    getElementSymbol = (elementWithLabel) => {
-        // exclude single digit label in the end of symbol if present
-        // 1 is added to the label below to take care of possible label 0
-        return parseInt(elementWithLabel.slice(-1), 10) + 1
-            ? elementWithLabel.slice(0, -1)
-            : elementWithLabel;
-    };
-
     orbitalDependencyArray = (elementList, atomicSpecies, atomicOrbital) => {
         return {
             oneOf: elementList.map((elementWithLabel) => {
-                const orbitals = this.getValenceOrbitals(this.getElementSymbol(elementWithLabel));
+                const orbitals = this.getValenceOrbitals(
+                    this.material.Basis.stripLabelToGetElementSymbol(elementWithLabel),
+                );
                 return {
                     properties: {
                         [atomicSpecies]: {
