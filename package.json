@@ -53,7 +53,7 @@
         "@exabyte-io/mode.js": "2024.4.28-0",
         "@mat3ra/code": "2024.3.25-3",
         "@mat3ra/esse": "2024.4.19-1",
-        "@mat3ra/made": "2024.3.26-0",
+        "@mat3ra/made": "git+https://github.com/Exabyte-io/made.git#7cfa418b728523c2b16e178324534516a0c9d48c",
         "chai": "^4.3.4",
         "eslint": "7.32.0",
         "eslint-config-airbnb": "19.0.2",
