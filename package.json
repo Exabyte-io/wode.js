@@ -52,7 +52,7 @@
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2024.3.26-0",
         "@exabyte-io/mode.js": "2024.4.28-0",
-        "@mat3ra/code": "2024.3.25-3",
+        "@mat3ra/code": "git+https://github.com/Exabyte-io/code.git#a6e690c8ff5f62d681fb35d05b78eeacdeed631d",
         "@mat3ra/esse": "2024.4.19-1",
         "@mat3ra/made": "git+https://github.com/Exabyte-io/made.git#7cfa418b728523c2b16e178324534516a0c9d48c",
         "chai": "^4.3.4",

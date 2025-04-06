@@ -19,9 +19,11 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                 atomicSpecies2: this.secondSpecies,
                 siteIndex2:
                     this.uniqueElementsWithLabels?.length > 1 ? 2 : defaultHubbardConfig.siteIndex2,
-                atomicOrbital: this.getOutermostOrbital(this.getValenceOrbitals(this.firstSpecies)),
+                atomicOrbital: this.getOutermostOrbital(
+                    this.getValenceOrbitalsByElement(this.firstSpecies),
+                ),
                 atomicOrbital2: this.getOutermostOrbital(
-                    this.getValenceOrbitals(this.secondSpecies),
+                    this.getValenceOrbitalsByElement(this.secondSpecies),
                     defaultHubbardConfig.atomicOrbital2,
                 ),
             },

@@ -56,7 +56,9 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
             {
                 ...defaultHubbardConfig,
                 atomicSpecies: this.firstElement,
-                atomicOrbital: this.getOutermostOrbital(this.getValenceOrbitals(this.firstElement)),
+                atomicOrbital: this.getOutermostOrbital(
+                    this.getValenceOrbitalsByElement(this.firstElement),
+                ),
             },
         ];
     }
@@ -76,23 +78,23 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         };
     }
 
-    getValenceOrbitals = (element) => {
-        const pseudos = this.methodData?.pseudo || [];
-        let valenceConfig = [];
-        pseudos.every((data) => {
-            if (data.element === element) {
-                valenceConfig = data?.valenceConfiguration || [];
+    getValenceOrbitalsByElement = (element) => {
+        const valenceOrbitals = this.methodData?.valenceOrbitals || [];
+        let orbitals = [];
+        valenceOrbitals.every((item) => {
+            if (item.element === element) {
+                orbitals = item?.valenceConfiguration || [];
             }
-            return data.element !== element; // break when first match is found
+            return item.element !== element; // break when first match is found
         });
-        const valenceOrbitals = valenceConfig.map((item) => item.orbitalName.toLowerCase());
-        return Utils.array.sortArrayByOrder(valenceOrbitals, this.orbitalListByStability);
+
+        return Utils.array.sortArrayByOrder(orbitals, this.orbitalListByStability);
     };
 
     orbitalDependencyArray = (elementList, atomicSpecies, atomicOrbital) => {
         return {
             oneOf: elementList.map((elementWithLabel) => {
-                const orbitals = this.getValenceOrbitals(
+                const orbitals = this.getValenceOrbitalsByElementByElement(
                     Made.Basis.stripLabelToGetElementSymbol(elementWithLabel),
                 );
                 return {

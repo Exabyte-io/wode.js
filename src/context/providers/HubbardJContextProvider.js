@@ -13,7 +13,9 @@ export class HubbardJContextProvider extends HubbardUContextProvider {
             {
                 ...defaultHubbardConfig,
                 atomicSpecies: this.firstElement,
-                atomicOrbital: this.getOutermostOrbital(this.getValenceOrbitals(this.firstElement)),
+                atomicOrbital: this.getOutermostOrbital(
+                    this.getValenceOrbitalsByElement(this.firstElement),
+                ),
             },
         ];
     }
