@@ -4,9 +4,8 @@ import {
     MethodDataContextMixin,
 } from "@mat3ra/code/dist/js/context";
 import { Made } from "@mat3ra/made";
+import { Utils } from "@mat3ra/utils";
 import { mix } from "mixwith";
-
-import { sortArrayByOrder } from "../../utils";
 
 const defaultHubbardConfig = {
     atomicSpecies: "",
@@ -87,7 +86,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
             return data.element !== element; // break when first match is found
         });
         const valenceOrbitals = valenceConfig.map((item) => item.orbitalName.toLowerCase());
-        return sortArrayByOrder(valenceOrbitals, this.orbitalListByStability);
+        return Utils.array.sortArrayByOrder(valenceOrbitals, this.orbitalListByStability);
     };
 
     orbitalDependencyArray = (elementList, atomicSpecies, atomicOrbital) => {

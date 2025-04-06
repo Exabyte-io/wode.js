@@ -39,6 +39,7 @@
         "@babel/preset-react": "7.16.7",
         "@babel/register": "^7.16.0",
         "@babel/runtime-corejs3": "7.16.8",
+        "@mat3ra/utils": "git+https://github.com/Exabyte-io/utils.git#33b5f3822cbfec5c9f29242c27b7140961fa8d6f",
         "js-yaml": "^4.1.0",
         "lodash": "^4.17.21",
         "mixwith": "^0.1.1",
