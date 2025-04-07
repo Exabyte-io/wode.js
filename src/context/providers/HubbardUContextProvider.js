@@ -79,7 +79,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
     }
 
     getValenceOrbitalsByElement = (element) => {
-        const valenceOrbitals = this.methodData?.valenceOrbitals || [];
+        const valenceOrbitals = this.valenceOrbitals || [];
         let orbitals = [];
         valenceOrbitals.every((item) => {
             if (item.element === element) {
