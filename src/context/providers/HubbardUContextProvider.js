@@ -94,7 +94,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
     orbitalDependencyArray = (elementList, atomicSpecies, atomicOrbital) => {
         return {
             oneOf: elementList.map((elementWithLabel) => {
-                const orbitals = this.this.getValenceOrbitalsByElement(
+                const orbitals = this.getValenceOrbitalsByElement(
                     Made.Basis.stripLabelToGetElementSymbol(elementWithLabel),
                 );
                 return {
