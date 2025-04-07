@@ -83,7 +83,7 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         let orbitals = [];
         valenceOrbitals.every((item) => {
             if (item.element === element) {
-                orbitals = item?.valenceConfiguration || [];
+                orbitals = item?.valenceOrbitals || [];
             }
             return item.element !== element; // break when first match is found
         });
