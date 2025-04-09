@@ -3,7 +3,7 @@ import { HubbardUContextProvider } from "./HubbardUContextProvider";
 const defaultHubbardConfig = {
     paramType: "U",
     atomicSpecies: "",
-    atomicOrbital: "2p",
+    atomicOrbital: "3d",
     value: 1.0,
 };
 
@@ -13,6 +13,9 @@ export class HubbardJContextProvider extends HubbardUContextProvider {
             {
                 ...defaultHubbardConfig,
                 atomicSpecies: this.firstElement,
+                atomicOrbital: this.getOutermostOrbital(
+                    this.getValenceOrbitalsByElement(this.firstElement),
+                ),
             },
         ];
     }
@@ -57,14 +60,19 @@ export class HubbardJContextProvider extends HubbardUContextProvider {
                     atomicOrbital: {
                         type: "string",
                         title: "Orbital",
-                        enum: this.orbitalList,
-                        default: defaultHubbardConfig.atomicOrbital,
                     },
                     value: {
                         type: "number",
                         title: "Value (eV)",
                         default: defaultHubbardConfig.value,
                     },
+                },
+                dependencies: {
+                    atomicSpecies: this.orbitalDependencyArray(
+                        this.uniqueElementsWithLabels,
+                        "atomicSpecies",
+                        "atomicOrbital",
+                    ),
                 },
             },
             minItems: 1,

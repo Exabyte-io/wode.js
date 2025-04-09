@@ -2,9 +2,9 @@ import { HubbardUContextProvider } from "./HubbardUContextProvider";
 
 const defaultHubbardConfig = {
     atomicSpecies: "",
-    atomicOrbital: "2p",
+    atomicOrbital: "3d",
     atomicSpecies2: "",
-    atomicOrbital2: "2p",
+    atomicOrbital2: "3d",
     siteIndex: 1,
     siteIndex2: 1,
     hubbardVValue: 1.0,
@@ -19,6 +19,13 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                 atomicSpecies2: this.secondSpecies,
                 siteIndex2:
                     this.uniqueElementsWithLabels?.length > 1 ? 2 : defaultHubbardConfig.siteIndex2,
+                atomicOrbital: this.getOutermostOrbital(
+                    this.getValenceOrbitalsByElement(this.firstSpecies),
+                ),
+                atomicOrbital2: this.getOutermostOrbital(
+                    this.getValenceOrbitalsByElement(this.secondSpecies),
+                    defaultHubbardConfig.atomicOrbital2,
+                ),
             },
         ];
     }
@@ -75,8 +82,6 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                     atomicOrbital: {
                         type: "string",
                         title: "Orbital 1",
-                        enum: this.orbitalList,
-                        default: defaultHubbardConfig.atomicOrbital,
                     },
                     atomicSpecies2: {
                         type: "string",
@@ -95,14 +100,24 @@ export class HubbardVContextProvider extends HubbardUContextProvider {
                     atomicOrbital2: {
                         type: "string",
                         title: "Orbital 2",
-                        enum: this.orbitalList,
-                        default: defaultHubbardConfig.atomicOrbital,
                     },
                     hubbardVValue: {
                         type: "number",
                         title: "V (eV)",
                         default: defaultHubbardConfig.hubbardVValue,
                     },
+                },
+                dependencies: {
+                    atomicSpecies: this.orbitalDependencyArray(
+                        this.uniqueElementsWithLabels,
+                        "atomicSpecies",
+                        "atomicOrbital",
+                    ),
+                    atomicSpecies2: this.orbitalDependencyArray(
+                        this.uniqueElementsWithLabels,
+                        "atomicSpecies2",
+                        "atomicOrbital2",
+                    ),
                 },
             },
             minItems: 1,
