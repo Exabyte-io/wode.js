@@ -3,11 +3,15 @@ import { ApplicationContextMixin, ContextProvider } from "@mat3ra/code/dist/js/c
 import { mix } from "mixwith";
 
 const cutoffConfig = {
-    vasp: {}, // assuming default cutoffs for VASP
+    vasp: {
+        // assuming default cutoffs for VASP as specified in POTCAR
+        cutoffUnit: "eV",
+    },
     espresso: {
         // assuming the default GBRV set of pseudopotentials is used
         wavefunction: 40,
         density: 200,
+        cutoffUnit: "Ry",
     },
 };
 
@@ -44,11 +48,14 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
     }
 
     get jsonSchema() {
+        const descriptionText = `Planewave cutoff parameters for electronic \
+            wavefunctions and density. Cutoffs are expressed in \
+            ${this._cutoffConfigPerApplication.cutoffUnit} for \
+            ${this.application.name}.`;
         return {
             $schema: "http://json-schema.org/draft-07/schema#",
             title: " ",
-            description:
-                "Planewave cutoff parameters for electronic wavefunctions and density. Units are specific to simulation engine.",
+            description: descriptionText,
             type: "object",
             properties: {
                 wavefunction: {
