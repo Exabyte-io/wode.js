@@ -47,7 +47,7 @@
     },
     "devDependencies": {
         "@exabyte-io/ade.js": "2024.9.8-1",
-        "@exabyte-io/application-flavors.js": "git+https://git@github.com/Exabyte-io/application-flavors.git#epic/SOF-7450",
+        "@exabyte-io/application-flavors.js": "git+https://git@github.com/Exabyte-io/application-flavors.git#ad3c61b06b673facf01c04b148d1bb8c2e8e0383",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2024.3.26-0",
         "@exabyte-io/mode.js": "2024.4.28-0",
