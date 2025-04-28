@@ -28,7 +28,7 @@ jobs:
       - name: Run Yaml linter
         uses: ./actions/yaml/lint
         with:
-          python-version: 3.8
+          python-version: 3.10.13
           targets: ./assets
 
   run-js-tests:
@@ -37,8 +37,8 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 14.x
           - 20.x
+          - 22.x
 
     steps:
       - name: Checkout this repository
