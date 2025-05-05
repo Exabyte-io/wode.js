@@ -46,14 +46,14 @@
         "underscore.string": "^3.3.4"
     },
     "devDependencies": {
-        "@exabyte-io/ade.js": "2024.9.8-1",
+        "@exabyte-io/ade.js": "2025.5.5-0",
         "@exabyte-io/application-flavors.js": "2024.9.8-1",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2024.3.26-0",
         "@exabyte-io/mode.js": "2024.4.28-0",
-        "@mat3ra/code": "2024.3.25-3",
-        "@mat3ra/esse": "2024.4.19-1",
-        "@mat3ra/made": "2024.3.26-0",
+        "@mat3ra/code": "2025.4.27-0",
+        "@mat3ra/esse": "2025.4.26-0",
+        "@mat3ra/made": "2025.4.30-0",
         "chai": "^4.3.4",
         "eslint": "7.32.0",
         "eslint-config-airbnb": "19.0.2",
