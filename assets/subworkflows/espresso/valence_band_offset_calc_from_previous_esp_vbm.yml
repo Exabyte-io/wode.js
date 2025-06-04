@@ -4,7 +4,7 @@
 # VBM_LEFT, VBM_RIGHT, AVG_ESP_LEFT, AVG_ESP_RIGHT, AVG_ESP_INTERFACE
 application:
   name: python
-  version: 3.8.6
+  version: 3.10.13
 method:
   name: UnknownMethod
 model:
