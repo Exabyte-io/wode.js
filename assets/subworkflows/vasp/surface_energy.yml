@@ -11,8 +11,8 @@ name: Surface Energy
 units:
   - config:
       execName: vasp
-      flavorName: vasp
-      name: vasp
+      flavorName: vasp_symprec
+      name: vasp_symprec
     functions:
       head: true
     type: executionBuilder
