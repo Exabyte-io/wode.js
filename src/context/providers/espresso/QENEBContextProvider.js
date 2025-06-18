@@ -1,41 +1,14 @@
-import { jobContextMixin } from "@mat3ra/code/dist/js/context/JobContextMixin";
-import {
-    // type MethodDataContextMixinType,
-    methodDataContextMixin,
-} from "@mat3ra/code/dist/js/context/MethodDataContextMixin";
-// import type { ContextProviderConfig } from "@mat3ra/code/dist/js/context/provider";
-// import type { InMemoryEntity } from "@mat3ra/code/dist/js/entity";
-// import type { OrderedInMemoryEntityInSet } from "@mat3ra/code/dist/js/entity/set/ordered/OrderedInMemoryEntityInSetMixin";
-// import type { Constructor } from "@mat3ra/code/dist/js/utils/types";
 import { Made } from "@mat3ra/made";
-// import type { MaterialMixin } from "@mat3ra/made/dist/js/materialMixin";
 import lodash from "lodash";
 
-// import type { JobContextMixinType } from "../../mixins/JobContextMixin";
-// import type { MaterialContextMixinType } from "../../mixins/MaterialContextMixin";
+import { jobContextMixin } from "../../mixins/JobContextMixin";
 import { materialContextMixin } from "../../mixins/MaterialContextMixin";
-// import type { MaterialsContextMixinType } from "../../mixins/MaterialsContextMixin";
 import { materialsContextMixin } from "../../mixins/MaterialsContextMixin";
-import {
-    // type MaterialsSetContextMixinType,
-    materialsSetContextMixin,
-} from "../../mixins/MaterialsSetContextMixin";
-import {
-    // type WorkflowContextMixinType,
-    workflowContextMixin,
-} from "../../mixins/WorkflowContextMixin";
+import { materialsSetContextMixin } from "../../mixins/MaterialsSetContextMixin";
+import { methodDataContextMixin } from "../../mixins/MethodDataContextMixin";
+import { workflowContextMixin } from "../../mixins/WorkflowContextMixin";
 import ExecutableContextProvider from "../ExecutableContextProvider";
 import QEPWXContextProvider from "./QEPWXContextProvider";
-
-// export type Base = typeof ExecutableContextProvider &
-//     Constructor<MaterialContextMixinType> &
-//     Constructor<MaterialsContextMixinType> &
-//     Constructor<MethodDataContextMixinType> &
-//     Constructor<WorkflowContextMixinType> &
-//     Constructor<JobContextMixinType> &
-//     Constructor<MaterialsSetContextMixinType>;
-
-// export type Material = MaterialMixin & InMemoryEntity & OrderedInMemoryEntityInSet;
 
 export default class QENEBContextProvider extends ExecutableContextProvider {
     static Material = Made.Material;

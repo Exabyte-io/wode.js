@@ -1,30 +1,4 @@
-// import type { ContextProvider } from "@mat3ra/code/dist/js/context";
-// import type { InMemoryEntity } from "@mat3ra/code/dist/js/entity";
-// import type { OrderedInMemoryEntityInSet } from "@mat3ra/code/dist/js/entity/set/ordered/OrderedInMemoryEntityInSetMixin";
-// import type { Constructor } from "@mat3ra/code/dist/js/utils/types";
-// import type { MaterialMixin } from "@mat3ra/made/dist/js/materialMixin";
-// import type { ApplicationMixin } from "src/js/applicationMixin";
-
-// import Application from "../../application";
-
-// export type MaterialContextMixinType = {
-//     assertMaterial: () => void;
-//     isEditedIsSetToFalseOnMaterialUpdate?: boolean;
-//     updateMaterialHash: () => void;
-//     isMaterialCreatedDefault: boolean;
-//     isMaterialUpdated: boolean;
-//     material: MaterialMixin & InMemoryEntity & OrderedInMemoryEntityInSet;
-//     extraData?: {
-//         materialHash: string;
-//     };
-//     initMaterialContextMixin: () => void;
-//     _application: ApplicationMixin;
-// };
-
-export function materialContextMixin(
-    // item: ContextProvider & { _material?: MaterialMixin & InMemoryEntity },
-    item,
-) {
+export function materialContextMixin(item) {
     const properties = {
         _material: undefined,
 
@@ -61,7 +35,7 @@ export function materialContextMixin(
             }
             this.updateMaterialHash();
         },
-    }; //  as MaterialContextMixinType & typeof item
+    };
 
     Object.defineProperties(item, Object.getOwnPropertyDescriptors(properties));
 }

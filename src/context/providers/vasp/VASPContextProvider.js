@@ -1,28 +1,11 @@
-// import type { MaterialsContextMixinType } from "../../mixins/MaterialsContextMixin";
-// import type { WorkflowContextMixinType } from "../../mixins/WorkflowContextMixin";
-// import type { Material } from "../espresso/QENEBContextProvider";
-import { jobContextMixin } from "@mat3ra/code/dist/js/context/JobContextMixin";
-import { materialsContextMixin } from "@mat3ra/code/dist/js/context/MaterialsContextMixin";
-// import type { MethodDataContextMixinType } from "@mat3ra/code/dist/js/context/MethodDataContextMixin";
-import { methodDataContextMixin } from "@mat3ra/code/dist/js/context/MethodDataContextMixin";
-// import type { ContextProviderConfig } from "@mat3ra/code/dist/js/context/provider";
-import { workflowContextMixin } from "@mat3ra/code/dist/js/context/WorkflowContextMixin";
-// import type { Constructor } from "@mat3ra/code/dist/js/utils/types";
 import { Made } from "@mat3ra/made";
 
-// import type { JobContextMixinType } from "../../mixins/JobContextMixin";
-import {
-    // type MaterialContextMixinType,
-    materialContextMixin,
-} from "../../mixins/MaterialContextMixin";
+import { jobContextMixin } from "../../mixins/JobContextMixin";
+import { materialContextMixin } from "../../mixins/MaterialContextMixin";
+import { materialsContextMixin } from "../../mixins/MaterialsContextMixin";
+import { methodDataContextMixin } from "../../mixins/MethodDataContextMixin";
+import { workflowContextMixin } from "../../mixins/WorkflowContextMixin";
 import ExecutableContextProvider from "../ExecutableContextProvider";
-
-// export type Base = typeof ExecutableContextProvider &
-//     Constructor<MaterialContextMixinType> &
-//     Constructor<MaterialsContextMixinType> &
-//     Constructor<MethodDataContextMixinType> &
-//     Constructor<WorkflowContextMixinType> &
-//     Constructor<JobContextMixinType>;
 
 export default class VASPContextProvider extends ExecutableContextProvider {
     static Material = Made.Material;

@@ -3,7 +3,6 @@ export function applicationContextMixin(item) {
         _application: undefined,
 
         initApplicationContextMixin() {
-            // @ts-ignore
             if (!this.constructor.Application) {
                 throw Error("ApplicationContextMixin: Application is undefined");
             }
