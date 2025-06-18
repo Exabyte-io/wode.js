@@ -1,12 +1,16 @@
-import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@mat3ra/code/dist/js/context";
+import { JSONSchemaFormDataProvider } from "@mat3ra/code/dist/js/context";
 import { deepClone } from "@mat3ra/code/dist/js/utils";
 import { Made } from "@mat3ra/made";
-import { mix } from "mixwith";
 
-export class BoundaryConditionsFormDataProvider extends mix(JSONSchemaFormDataProvider).with(
-    MaterialContextMixin,
-) {
+import { materialContextMixin } from "../mixins/MaterialContextMixin";
+
+export class BoundaryConditionsFormDataProvider extends JSONSchemaFormDataProvider {
     static Material = Made.Material;
+
+    constructor(config) {
+        super(config);
+        this.initMaterialContextMixin();
+    }
 
     get boundaryConditions() {
         return this.material.metadata.boundaryConditions || {};
@@ -74,3 +78,5 @@ export class BoundaryConditionsFormDataProvider extends mix(JSONSchemaFormDataPr
         };
     }
 }
+
+materialContextMixin(BoundaryConditionsFormDataProvider.prototype);

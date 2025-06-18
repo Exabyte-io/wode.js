@@ -6,6 +6,6 @@ import { ContextProviderRegistry } from "./context/registry";
 // Template has all context providers available
 // to it when creating workflows. It is then re-exported
 // from WoDe for use downstream.
-Template.providerRegistry = ContextProviderRegistry;
+Template.setProviderRegistry(ContextProviderRegistry);
 
 export { Template };

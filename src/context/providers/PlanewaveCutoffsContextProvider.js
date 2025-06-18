@@ -1,6 +1,7 @@
 import { Application } from "@exabyte-io/ade.js";
-import { ApplicationContextMixin, ContextProvider } from "@mat3ra/code/dist/js/context";
-import { mix } from "mixwith";
+import { ContextProvider } from "@mat3ra/code/dist/js/context";
+
+import { applicationContextMixin } from "../mixins/ApplicationContextMixin";
 
 const cutoffConfig = {
     vasp: {}, // assuming default cutoffs for VASP
@@ -11,10 +12,13 @@ const cutoffConfig = {
     },
 };
 
-export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
-    ApplicationContextMixin,
-) {
+export class PlanewaveCutoffsContextProvider extends ContextProvider {
     static Application = Application;
+
+    constructor(config) {
+        super(config);
+        this.initApplicationContextMixin();
+    }
 
     // eslint-disable-next-line class-methods-use-this
     get uiSchema() {
@@ -63,3 +67,5 @@ export class PlanewaveCutoffsContextProvider extends mix(ContextProvider).with(
         };
     }
 }
+
+applicationContextMixin(PlanewaveCutoffsContextProvider.prototype);

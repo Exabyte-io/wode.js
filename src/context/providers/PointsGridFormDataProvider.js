@@ -1,20 +1,22 @@
 import { units as UNITS } from "@mat3ra/code/dist/js/constants";
-import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@mat3ra/code/dist/js/context";
+import { JSONSchemaFormDataProvider } from "@mat3ra/code/dist/js/context";
 import { math as codeJSMath } from "@mat3ra/code/dist/js/math";
 import { Made } from "@mat3ra/made";
 import lodash from "lodash";
-import { mix } from "mixwith";
+
+import { materialContextMixin } from "../mixins/MaterialContextMixin";
+
 // TODO : pass appSettings to use defaultKPPRA
 
-export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).with(
-    MaterialContextMixin,
-) {
+export class PointsGridFormDataProvider extends JSONSchemaFormDataProvider {
     static Material = Made.Material;
 
     static _defaultKPPRA = 5;
 
     constructor(config) {
         super(config);
+        this.initMaterialContextMixin();
+
         this._divisor = config.divisor || 1; // KPPRA will be divided by this number
         this.reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
 
@@ -284,3 +286,5 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         return data;
     }
 }
+
+materialContextMixin(PointsGridFormDataProvider.prototype);

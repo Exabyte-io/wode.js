@@ -1,4 +1,9 @@
 import context from "./context";
+import QENEBContextProvider from "./providers/espresso/QENEBContextProvider";
+import QEPWXContextProvider from "./providers/espresso/QEPWXContextProvider";
+import NWChemTotalEnergyContextProvider from "./providers/nwchem/NWChemTotalEnergyContextProvider";
+import VASPContextProvider from "./providers/vasp/VASPContextProvider";
+import VASPNEBContextProvider from "./providers/vasp/VASPNEBContextProvider";
 
 const {
     BoundaryConditionsFormDataProvider,
@@ -111,5 +116,25 @@ export const wodeProviders = {
     NonCollinearMagnetizationDataManager: {
         providerCls: NonCollinearMagnetizationContextProvider,
         config: _makeImportant({ name: "nonCollinearMagnetization" }),
+    },
+    QEPWXInputDataManager: {
+        providerCls: QEPWXContextProvider,
+        config: { name: "input" },
+    },
+    QENEBInputDataManager: {
+        providerCls: QENEBContextProvider,
+        config: { name: "input" },
+    },
+    VASPInputDataManager: {
+        providerCls: VASPContextProvider,
+        config: { name: "input" },
+    },
+    VASPNEBInputDataManager: {
+        providerCls: VASPNEBContextProvider,
+        config: { name: "input" },
+    },
+    NWChemInputDataManager: {
+        providerCls: NWChemTotalEnergyContextProvider,
+        config: { name: "input" },
     },
 };

@@ -1,6 +1,7 @@
-import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@mat3ra/code/dist/js/context";
+import { JSONSchemaFormDataProvider } from "@mat3ra/code/dist/js/context";
 import { Made } from "@mat3ra/made";
-import { mix } from "mixwith";
+
+import { materialContextMixin } from "../mixins/MaterialContextMixin";
 
 const defaultHubbardConfig = {
     atomicSpecies: "",
@@ -8,13 +9,14 @@ const defaultHubbardConfig = {
     hubbardUValue: 1.0,
 };
 
-export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).with(
-    MaterialContextMixin,
-) {
+export class HubbardUContextProvider extends JSONSchemaFormDataProvider {
     static Material = Made.Material;
 
     constructor(config) {
         super(config);
+
+        this.initMaterialContextMixin();
+
         this.uniqueElements = this.material?.Basis?.uniqueElements || [];
         this.orbitalList = [
             "2p",
@@ -97,3 +99,5 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         };
     }
 }
+
+materialContextMixin(HubbardUContextProvider.prototype);
