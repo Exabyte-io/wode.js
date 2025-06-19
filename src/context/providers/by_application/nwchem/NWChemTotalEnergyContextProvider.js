@@ -1,5 +1,4 @@
 import { PERIODIC_TABLE } from "@exabyte-io/periodic-table.js";
-import { Made } from "@mat3ra/made";
 import lodash from "lodash";
 import _ from "underscore";
 import s from "underscore.string";
@@ -11,8 +10,6 @@ import { workflowContextMixin } from "../../../mixins/WorkflowContextMixin";
 import ExecutableContextProvider from "../ExecutableContextProvider";
 
 export default class NWChemTotalEnergyContextProvider extends ExecutableContextProvider {
-    static Material = Made.Material;
-
     _material = undefined;
 
     constructor(config) {

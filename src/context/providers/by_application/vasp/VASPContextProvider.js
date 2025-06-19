@@ -1,5 +1,3 @@
-import { Made } from "@mat3ra/made";
-
 import { jobContextMixin } from "../../../mixins/JobContextMixin";
 import { materialContextMixin } from "../../../mixins/MaterialContextMixin";
 import { materialsContextMixin } from "../../../mixins/MaterialsContextMixin";
@@ -8,8 +6,6 @@ import { workflowContextMixin } from "../../../mixins/WorkflowContextMixin";
 import ExecutableContextProvider from "../ExecutableContextProvider";
 
 export default class VASPContextProvider extends ExecutableContextProvider {
-    static Material = Made.Material;
-
     _material = undefined;
 
     _materials = [];

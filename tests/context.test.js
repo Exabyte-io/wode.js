@@ -4,6 +4,7 @@ import { expect } from "chai";
 
 import { applicationContextMixin } from "../src/context/mixins/ApplicationContextMixin";
 import { materialContextMixin } from "../src/context/mixins/MaterialContextMixin";
+import { contextProvidersGlobalSettings } from "../src/context/providers/settings";
 
 class MockMaterial {
     static createDefault() {
@@ -30,12 +31,6 @@ class SpecificMockApplication {
 }
 
 class ProviderEntity extends ContextProvider {
-    static Material = MockMaterial;
-
-    static Application = MockApplication;
-
-    static setting = 10;
-
     constructor(config) {
         super(config);
         this.initApplicationContextMixin();
@@ -46,70 +41,29 @@ class ProviderEntity extends ContextProvider {
 applicationContextMixin(ProviderEntity.prototype);
 materialContextMixin(ProviderEntity.prototype);
 
-class DerivedProviderEntity extends ProviderEntity {
-    static Material = SpecificMockMaterial;
-
-    static Application = SpecificMockApplication;
-}
-
-class ApplicationContextProvider extends ContextProvider {
-    static Application = SpecificMockApplication;
-
-    constructor(config) {
-        super(config);
-        this.initApplicationContextMixin();
-    }
-}
-
-applicationContextMixin(ApplicationContextProvider.prototype);
+class DerivedProviderEntity extends ProviderEntity {}
 
 describe("Material & Application ContextMixin", () => {
     const config = { name: "test" };
 
+    after(() => {
+        contextProvidersGlobalSettings.resetDefaults();
+    });
+
     it("uses static entity class", () => {
+        contextProvidersGlobalSettings.setMaterial(MockMaterial);
+        contextProvidersGlobalSettings.setApplication(MockApplication);
+
         const provider = new ProviderEntity(config);
         expect(provider.material).to.be.equal("defaultMockMaterial");
         expect(provider.application).to.be.equal("defaultMockApplication");
     });
 
     it("uses static entity class from derived class", () => {
+        contextProvidersGlobalSettings.setMaterial(SpecificMockMaterial);
+        contextProvidersGlobalSettings.setApplication(SpecificMockApplication);
         const provider = new DerivedProviderEntity(config);
         expect(provider.material).to.be.equal("defaultSpecificMockMaterial");
         expect(provider.application).to.be.equal("defaultSpecificMockApplication");
     });
 });
-
-// describe("ContextProviderRegistryContainer", () => {
-//     const classConfigObj = {
-//         DataManager: {
-//             providerCls: ProviderEntity,
-//             config: { name: "example1", domain: "important" },
-//         },
-//         ApplicationDataManager: {
-//             providerCls: ApplicationContextProvider,
-//             config: { name: "example2", domain: "important" },
-//         },
-//     };
-
-//     const defaultSettings = {
-//         ProviderEntity: {
-//             setting: 100,
-//         },
-//     };
-
-//     it("can be created and patched", () => {
-//         const registry = createAndPatchRegistry(
-//             classConfigObj,
-//             { Material: SpecificMockMaterial },
-//             defaultSettings,
-//         );
-
-//         const _dataProvider = registry.findProviderInstanceByName("DataManager");
-//         const dataProvider = new _dataProvider.constructor(_dataProvider.config);
-//         const _appProvider = registry.findProviderInstanceByName("ApplicationDataManager");
-//         const appProvider = new _appProvider.constructor(_appProvider.config);
-//         expect(_dataProvider.constructor.setting).to.be.equal(100);
-//         expect(dataProvider.material).to.be.equal("defaultSpecificMockMaterial");
-//         expect(appProvider.application).to.be.equal("defaultSpecificMockApplication");
-//     });
-// });

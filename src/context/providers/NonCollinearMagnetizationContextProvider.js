@@ -1,12 +1,9 @@
 import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
-import { Made } from "@mat3ra/made";
 import lodash from "lodash";
 
 import { materialContextMixin } from "../mixins/MaterialContextMixin";
 
 export class NonCollinearMagnetizationContextProvider extends JSONSchemaFormDataProvider {
-    static Material = Made.Material;
-
     constructor(config) {
         super(config);
         this.initMaterialContextMixin();

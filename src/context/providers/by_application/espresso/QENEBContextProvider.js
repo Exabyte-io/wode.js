@@ -1,4 +1,3 @@
-import { Made } from "@mat3ra/made";
 import lodash from "lodash";
 
 import { jobContextMixin } from "../../../mixins/JobContextMixin";
@@ -11,8 +10,6 @@ import ExecutableContextProvider from "../ExecutableContextProvider";
 import QEPWXContextProvider from "./QEPWXContextProvider";
 
 export default class QENEBContextProvider extends ExecutableContextProvider {
-    static Material = Made.Material;
-
     _material = undefined;
 
     _materials = [];

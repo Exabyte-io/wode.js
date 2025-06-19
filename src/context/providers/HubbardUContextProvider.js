@@ -1,5 +1,4 @@
 import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
-import { Made } from "@mat3ra/made";
 
 import { materialContextMixin } from "../mixins/MaterialContextMixin";
 
@@ -10,8 +9,6 @@ const defaultHubbardConfig = {
 };
 
 export class HubbardUContextProvider extends JSONSchemaFormDataProvider {
-    static Material = Made.Material;
-
     constructor(config) {
         super(config);
 

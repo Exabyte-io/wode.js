@@ -5,8 +5,6 @@ import { Made } from "@mat3ra/made";
 import { materialContextMixin } from "../mixins/MaterialContextMixin";
 
 export class BoundaryConditionsFormDataProvider extends JSONSchemaFormDataProvider {
-    static Material = Made.Material;
-
     constructor(config) {
         super(config);
         this.initMaterialContextMixin();

@@ -1,3 +1,5 @@
+import { contextProvidersGlobalSettings } from "../providers/settings";
+
 export function materialsContextMixin(item) {
     const properties = {
         get materials() {
@@ -5,13 +7,10 @@ export function materialsContextMixin(item) {
         },
         initMaterialsContextMixin() {
             const materials = this.config.context?.materials;
-            if (!this.constructor.Material) {
-                throw Error("MaterialsContextMixin: Material is undefined");
-            }
             this._materials =
                 materials && materials.length
                     ? materials
-                    : [this.constructor.Material.createDefault()];
+                    : [contextProvidersGlobalSettings.Material.createDefault()];
         },
     };
 

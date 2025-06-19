@@ -1,4 +1,3 @@
-import { Application } from "@exabyte-io/ade.js";
 import ContextProvider from "@exabyte-io/ade.js/dist/js/context/ContextProvider";
 
 import { applicationContextMixin } from "../mixins/ApplicationContextMixin";
@@ -13,8 +12,6 @@ const cutoffConfig = {
 };
 
 export class PlanewaveCutoffsContextProvider extends ContextProvider {
-    static Application = Application;
-
     constructor(config) {
         super(config);
         this.initApplicationContextMixin();

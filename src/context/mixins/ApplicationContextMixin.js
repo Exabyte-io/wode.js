@@ -1,14 +1,13 @@
+import { contextProvidersGlobalSettings } from "../providers/settings";
+
 export function applicationContextMixin(item) {
     const properties = {
         _application: undefined,
 
         initApplicationContextMixin() {
-            if (!this.constructor.Application) {
-                throw Error("ApplicationContextMixin: Application is undefined");
-            }
             this._application =
                 (this.config.context && this.config.context.application) ||
-                this.constructor.Application.createDefault();
+                contextProvidersGlobalSettings.Application.createDefault();
         },
 
         get application() {
