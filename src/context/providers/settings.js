@@ -1,7 +1,7 @@
 import { Application } from "@exabyte-io/ade.js";
 import { Made } from "@mat3ra/made";
 
-class ContextProvidersGlobalSettings {
+class GlobalSettings {
     "PointsGridFormDataProvider.defaultKPPRA" = 5;
 
     Material = Made.Material;
@@ -35,4 +35,4 @@ class ContextProvidersGlobalSettings {
     }
 }
 
-export const contextProvidersGlobalSettings = new ContextProvidersGlobalSettings();
+export const globalSettings = new GlobalSettings();

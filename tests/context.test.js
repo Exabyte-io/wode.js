@@ -4,7 +4,7 @@ import { expect } from "chai";
 
 import { applicationContextMixin } from "../src/context/mixins/ApplicationContextMixin";
 import { materialContextMixin } from "../src/context/mixins/MaterialContextMixin";
-import { contextProvidersGlobalSettings } from "../src/context/providers/settings";
+import { globalSettings } from "../src/context/providers/settings";
 
 class MockMaterial {
     static createDefault() {
@@ -47,12 +47,12 @@ describe("Material & Application ContextMixin", () => {
     const config = { name: "test" };
 
     after(() => {
-        contextProvidersGlobalSettings.resetDefaults();
+        globalSettings.resetDefaults();
     });
 
     it("uses static entity class", () => {
-        contextProvidersGlobalSettings.setMaterial(MockMaterial);
-        contextProvidersGlobalSettings.setApplication(MockApplication);
+        globalSettings.setMaterial(MockMaterial);
+        globalSettings.setApplication(MockApplication);
 
         const provider = new ProviderEntity(config);
         expect(provider.material).to.be.equal("defaultMockMaterial");
@@ -60,8 +60,8 @@ describe("Material & Application ContextMixin", () => {
     });
 
     it("uses static entity class from derived class", () => {
-        contextProvidersGlobalSettings.setMaterial(SpecificMockMaterial);
-        contextProvidersGlobalSettings.setApplication(SpecificMockApplication);
+        globalSettings.setMaterial(SpecificMockMaterial);
+        globalSettings.setApplication(SpecificMockApplication);
         const provider = new DerivedProviderEntity(config);
         expect(provider.material).to.be.equal("defaultSpecificMockMaterial");
         expect(provider.application).to.be.equal("defaultSpecificMockApplication");

@@ -1,4 +1,4 @@
-import { contextProvidersGlobalSettings } from "../providers/settings";
+import { globalSettings } from "../providers/settings";
 
 export function materialsContextMixin(item) {
     const properties = {
@@ -10,7 +10,7 @@ export function materialsContextMixin(item) {
             this._materials =
                 materials && materials.length
                     ? materials
-                    : [contextProvidersGlobalSettings.Material.createDefault()];
+                    : [globalSettings.Material.createDefault()];
         },
     };
 

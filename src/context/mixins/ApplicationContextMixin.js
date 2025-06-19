@@ -1,4 +1,4 @@
-import { contextProvidersGlobalSettings } from "../providers/settings";
+import { globalSettings } from "../providers/settings";
 
 export function applicationContextMixin(item) {
     const properties = {
@@ -7,7 +7,7 @@ export function applicationContextMixin(item) {
         initApplicationContextMixin() {
             this._application =
                 (this.config.context && this.config.context.application) ||
-                contextProvidersGlobalSettings.Application.createDefault();
+                globalSettings.Application.createDefault();
         },
 
         get application() {

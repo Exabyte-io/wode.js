@@ -5,7 +5,7 @@ import { Made } from "@mat3ra/made";
 import lodash from "lodash";
 
 import { materialContextMixin } from "../mixins/MaterialContextMixin";
-import { contextProvidersGlobalSettings } from "./settings";
+import { globalSettings } from "./settings";
 
 export class PointsGridFormDataProvider extends JSONSchemaFormDataProvider {
     constructor(config) {
@@ -50,7 +50,7 @@ export class PointsGridFormDataProvider extends JSONSchemaFormDataProvider {
     _getDefaultGridMetricValue(metric) {
         switch (metric) {
             case "KPPRA":
-                return Math.floor(contextProvidersGlobalSettings.defaultKPPRA / this._divisor);
+                return Math.floor(globalSettings.defaultKPPRA / this._divisor);
             case "spacing":
                 return 0.3;
             default:
