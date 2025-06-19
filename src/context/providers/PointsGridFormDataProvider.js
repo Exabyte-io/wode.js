@@ -1,5 +1,5 @@
+import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
 import { units as UNITS } from "@mat3ra/code/dist/js/constants";
-import { JSONSchemaFormDataProvider } from "@mat3ra/code/dist/js/context";
 import { math as codeJSMath } from "@mat3ra/code/dist/js/math";
 import { Made } from "@mat3ra/made";
 import lodash from "lodash";

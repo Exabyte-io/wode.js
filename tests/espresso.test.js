@@ -2,7 +2,7 @@ import { Constraint } from "@mat3ra/made/dist/js/constraints/constraints";
 import { Material } from "@mat3ra/made/dist/js/material";
 import { expect } from "chai";
 
-import QEPWXContextProvider from "../src/context/providers/espresso/QEPWXContextProvider";
+import QEPWXContextProvider from "../src/context/providers/by_application/espresso/QEPWXContextProvider";
 
 describe("QEPWXContextProvider.atomicPositionsWithConstraints", () => {
     const expectedOutput = `Si     0.000000000    0.000000000    0.000000000 1 0 1

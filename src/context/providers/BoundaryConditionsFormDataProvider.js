@@ -1,4 +1,4 @@
-import { JSONSchemaFormDataProvider } from "@mat3ra/code/dist/js/context";
+import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
 import { deepClone } from "@mat3ra/code/dist/js/utils";
 import { Made } from "@mat3ra/made";
 

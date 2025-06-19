@@ -1,12 +1,12 @@
 import { Made } from "@mat3ra/made";
 import lodash from "lodash";
 
-import { jobContextMixin } from "../../mixins/JobContextMixin";
-import { materialContextMixin } from "../../mixins/MaterialContextMixin";
-import { materialsContextMixin } from "../../mixins/MaterialsContextMixin";
-import { materialsSetContextMixin } from "../../mixins/MaterialsSetContextMixin";
-import { methodDataContextMixin } from "../../mixins/MethodDataContextMixin";
-import { workflowContextMixin } from "../../mixins/WorkflowContextMixin";
+import { jobContextMixin } from "../../../mixins/JobContextMixin";
+import { materialContextMixin } from "../../../mixins/MaterialContextMixin";
+import { materialsContextMixin } from "../../../mixins/MaterialsContextMixin";
+import { materialsSetContextMixin } from "../../../mixins/MaterialsSetContextMixin";
+import { methodDataContextMixin } from "../../../mixins/MethodDataContextMixin";
+import { workflowContextMixin } from "../../../mixins/WorkflowContextMixin";
 import ExecutableContextProvider from "../ExecutableContextProvider";
 import QEPWXContextProvider from "./QEPWXContextProvider";
 

@@ -4,10 +4,10 @@ import lodash from "lodash";
 import _ from "underscore";
 import s from "underscore.string";
 
-import { jobContextMixin } from "../../mixins/JobContextMixin";
-import { materialContextMixin } from "../../mixins/MaterialContextMixin";
-import { methodDataContextMixin } from "../../mixins/MethodDataContextMixin";
-import { workflowContextMixin } from "../../mixins/WorkflowContextMixin";
+import { jobContextMixin } from "../../../mixins/JobContextMixin";
+import { materialContextMixin } from "../../../mixins/MaterialContextMixin";
+import { methodDataContextMixin } from "../../../mixins/MethodDataContextMixin";
+import { workflowContextMixin } from "../../../mixins/WorkflowContextMixin";
 import ExecutableContextProvider from "../ExecutableContextProvider";
 
 export default class NWChemTotalEnergyContextProvider extends ExecutableContextProvider {

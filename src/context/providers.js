@@ -1,9 +1,4 @@
 import context from "./context";
-import QENEBContextProvider from "./providers/espresso/QENEBContextProvider";
-import QEPWXContextProvider from "./providers/espresso/QEPWXContextProvider";
-import NWChemTotalEnergyContextProvider from "./providers/nwchem/NWChemTotalEnergyContextProvider";
-import VASPContextProvider from "./providers/vasp/VASPContextProvider";
-import VASPNEBContextProvider from "./providers/vasp/VASPNEBContextProvider";
 
 const {
     BoundaryConditionsFormDataProvider,
@@ -22,6 +17,11 @@ const {
     IonDynamicsContextProvider,
     CollinearMagnetizationContextProvider,
     NonCollinearMagnetizationContextProvider,
+    VASPContextProvider,
+    VASPNEBContextProvider,
+    QEPWXContextProvider,
+    QENEBContextProvider,
+    NWChemTotalEnergyContextProvider,
 } = context;
 
 const CONTEXT_DOMAINS = {

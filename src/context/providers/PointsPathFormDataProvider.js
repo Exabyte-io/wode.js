@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 /* eslint react/prop-types: 0 */
 import { Application } from "@exabyte-io/ade.js";
-import { JSONSchemaFormDataProvider } from "@mat3ra/code/dist/js/context";
+import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
 import { math as codeJSMath } from "@mat3ra/code/dist/js/math";
 import { Made } from "@mat3ra/made";
 import s from "underscore.string";
