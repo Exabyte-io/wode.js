@@ -25,7 +25,17 @@ export default class NWChemTotalEnergyContextProvider extends ExecutableContextP
     }
 
     get atomicPositions() {
-        return this.material.Basis.getAtomicPositionsWithConstraintsAsStrings();
+        const originalIsInCrystalUnits = this.material.Basis.isInCrystalUnits;
+
+        this.material.Basis.toCartesian();
+
+        const atomicPositions = this.material.Basis.getAtomicPositionsWithConstraintsAsStrings();
+
+        if (originalIsInCrystalUnits) {
+            this.material.Basis.toCrystal();
+        }
+
+        return atomicPositions;
     }
 
     get atomSymbols() {
