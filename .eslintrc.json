@@ -1,4 +1,21 @@
 {
-    "extends": ["@exabyte-io/eslint-config"]
+    "extends": [
+        "@exabyte-io/eslint-config"
+    ],
+    "ignorePatterns": [
+        "dist/",
+        "src/workflows/workflows.js"
+    ],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        }
+    }
 }
-

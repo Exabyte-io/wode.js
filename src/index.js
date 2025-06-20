@@ -1,4 +1,3 @@
-import { ContextProviderRegistry } from "./context/registry";
 import { UNIT_STATUSES, UNIT_TYPES } from "./enums";
 import { createSubworkflowByName, Subworkflow } from "./subworkflows";
 import { builders } from "./units/builders";
@@ -12,7 +11,6 @@ export {
     createSubworkflowByName,
     UnitFactory,
     builders,
-    ContextProviderRegistry,
     UNIT_TYPES,
     UNIT_STATUSES,
 };
