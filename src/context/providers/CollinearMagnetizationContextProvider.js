@@ -1,15 +1,14 @@
-import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@mat3ra/code/dist/js/context";
-import { Made } from "@mat3ra/made";
+import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
 import lodash from "lodash";
-import { mix } from "mixwith";
 
-export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDataProvider).with(
-    MaterialContextMixin,
-) {
-    static Material = Made.Material;
+import { materialContextMixin } from "../mixins/MaterialContextMixin";
 
+export class CollinearMagnetizationContextProvider extends JSONSchemaFormDataProvider {
     constructor(config) {
         super(config);
+
+        this.initMaterialContextMixin();
+
         this.firstElement =
             this.uniqueElementsWithLabels?.length > 0 ? this.uniqueElementsWithLabels[0] : "";
         this.isTotalMagnetization = lodash.get(this.data, "isTotalMagnetization", false);
@@ -114,3 +113,5 @@ export class CollinearMagnetizationContextProvider extends mix(JSONSchemaFormDat
         };
     }
 }
+
+materialContextMixin(CollinearMagnetizationContextProvider.prototype);

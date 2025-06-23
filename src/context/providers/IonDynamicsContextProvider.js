@@ -1,4 +1,4 @@
-import { JSONSchemaFormDataProvider } from "@mat3ra/code/dist/js/context";
+import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
 
 const defaultMDConfig = {
     numberOfSteps: 100,

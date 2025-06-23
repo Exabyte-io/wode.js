@@ -1,20 +1,17 @@
+import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
 import { units as UNITS } from "@mat3ra/code/dist/js/constants";
-import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@mat3ra/code/dist/js/context";
 import { math as codeJSMath } from "@mat3ra/code/dist/js/math";
 import { Made } from "@mat3ra/made";
 import lodash from "lodash";
-import { mix } from "mixwith";
-// TODO : pass appSettings to use defaultKPPRA
 
-export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).with(
-    MaterialContextMixin,
-) {
-    static Material = Made.Material;
+import { materialContextMixin } from "../mixins/MaterialContextMixin";
+import { globalSettings } from "./settings";
 
-    static _defaultKPPRA = 5;
-
+export class PointsGridFormDataProvider extends JSONSchemaFormDataProvider {
     constructor(config) {
         super(config);
+        this.initMaterialContextMixin();
+
         this._divisor = config.divisor || 1; // KPPRA will be divided by this number
         this.reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
 
@@ -53,7 +50,7 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
     _getDefaultGridMetricValue(metric) {
         switch (metric) {
             case "KPPRA":
-                return Math.floor(PointsGridFormDataProvider._defaultKPPRA / this._divisor);
+                return Math.floor(globalSettings.defaultKPPRA / this._divisor);
             case "spacing":
                 return 0.3;
             default:
@@ -284,3 +281,5 @@ export class PointsGridFormDataProvider extends mix(JSONSchemaFormDataProvider).
         return data;
     }
 }
+
+materialContextMixin(PointsGridFormDataProvider.prototype);
