@@ -1,4 +1,5 @@
 import { Application, Template } from "@exabyte-io/ade.js";
+import AdeFactory from "@exabyte-io/ade.js/dist/js/AdeFactory";
 import { HashedInputArrayMixin } from "@mat3ra/code/dist/js/entity";
 import { removeTimestampableKeysFromConfig } from "@mat3ra/code/dist/js/utils";
 import { mix } from "mixwith";
@@ -23,9 +24,9 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     ];
 
     _initApplication(config) {
-        this._application = this.constructor.Application.create(config.application);
-        this._executable = this._application.getExecutableByConfig(config.executable);
-        this._flavor = this._executable.getFlavorByConfig(config.flavor);
+        this._application = AdeFactory.createApplication(config.application);
+        this._executable = AdeFactory.getExecutableByConfig(this._application, config.executable);
+        this._flavor = AdeFactory.getFlavorByConfig(this._executable, config.flavor);
         this._templates = this._flavor ? this._flavor.inputAsTemplates : [];
     }
 
