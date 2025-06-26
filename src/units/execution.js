@@ -129,7 +129,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     get input() {
         return (
             this.prop("input") ||
-            this.flavor.getInputAsRenderedTemplates(this.getCombinedContext()) ||
+            AdeFactory.getInputAsRenderedTemplates(this.flavor, this.getCombinedContext()) ||
             []
         );
     }
