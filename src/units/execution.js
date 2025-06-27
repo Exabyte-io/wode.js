@@ -25,7 +25,10 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
 
     _initApplication(config) {
         this._application = AdeFactory.createApplication(config.application);
-        this._executable = AdeFactory.getExecutableByConfig(this._application, config.executable);
+        this._executable = AdeFactory.getExecutableByConfig(
+            this._application.name,
+            config.executable,
+        );
         this._flavor = AdeFactory.getFlavorByConfig(this._executable, config.flavor);
         this._templates = this._flavor ? this._flavor.inputAsTemplates : [];
     }
