@@ -64,6 +64,13 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         );
     }
 
+    /**
+     * @override this method to provide custom input as templates
+     */
+    _getInputAsTemplates() {
+        return AdeFactory.getInputAsTemplates(this.flavor);
+    }
+
     _initRuntimeItems(keys, config) {
         this._initApplication(config);
         super._initRuntimeItems(keys);
@@ -107,7 +114,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         this._flavor = flavor;
         this.setRuntimeItemsToDefaultValues();
         this.setProp("flavor", flavor.toJSON());
-        this.setTemplates(this.flavor.inputAsTemplates);
+        this.setTemplates(this._getInputAsTemplates());
     }
 
     setTemplates(templates) {
