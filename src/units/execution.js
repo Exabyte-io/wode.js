@@ -23,6 +23,9 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         "hasRelaxation",
     ];
 
+    /**
+     * @override this method to provide entities from other sources
+     */
     _initApplication(config) {
         this._application = AdeFactory.createApplication(config.application);
         this._executable = AdeFactory.getExecutableByConfig(
@@ -31,6 +34,20 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         );
         this._flavor = AdeFactory.getFlavorByConfig(this._executable, config.flavor);
         this._templates = this._flavor ? this._flavor.inputAsTemplates : [];
+    }
+
+    /**
+     * @override this method to provide default executable from other source
+     */
+    _getDefaultExecutable() {
+        return AdeFactory.getExecutableByName(this.application.name);
+    }
+
+    /**
+     * @override this method to provide default flavor from other source
+     */
+    _getDefaultFlavor() {
+        return AdeFactory.getFlavorByName(this.executable.name);
     }
 
     _initRuntimeItems(keys, config) {
@@ -66,14 +83,14 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         this._application = application;
         this.setProp("application", application.toJSON());
         if (!omitSettingExecutable) {
-            this.setExecutable(this.application.defaultExecutable);
+            this.setExecutable(this._getDefaultExecutable());
         }
     }
 
     setExecutable(executable) {
         this._executable = executable;
         this.setProp("executable", executable.toJSON());
-        this.setFlavor(this.executable.defaultFlavor);
+        this.setFlavor(this._getDefaultFlavor());
     }
 
     setFlavor(flavor) {
