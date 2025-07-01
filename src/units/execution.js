@@ -1,4 +1,4 @@
-import { Application, Template } from "@exabyte-io/ade.js";
+import { Template } from "@exabyte-io/ade.js";
 import AdeFactory from "@exabyte-io/ade.js/dist/js/AdeFactory";
 import { HashedInputArrayMixin } from "@mat3ra/code/dist/js/entity";
 import { removeTimestampableKeysFromConfig } from "@mat3ra/code/dist/js/utils";
@@ -8,10 +8,6 @@ import _ from "underscore";
 import { BaseUnit } from "./base";
 
 export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
-    static Application = Application;
-
-    static Template = Template;
-
     // keys to be omitted during toJSON
     static omitKeys = [
         "job",
@@ -50,6 +46,24 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         return AdeFactory.getFlavorByName(this.executable.name);
     }
 
+    /**
+     * @override this method to provide custom templates
+     */
+    _getTemplatesFromInput() {
+        return this.getInput().map((i) => new Template(i));
+    }
+
+    /**
+     * @override this method to provide custom input from other sources
+     */
+    _getInput() {
+        return (
+            this.input ||
+            AdeFactory.getInputAsRenderedTemplates(this.flavor, this.getCombinedContext()) ||
+            []
+        );
+    }
+
     _initRuntimeItems(keys, config) {
         this._initApplication(config);
         super._initRuntimeItems(keys);
@@ -73,10 +87,6 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
 
     get templates() {
         return this._templates;
-    }
-
-    get templatesFromInput() {
-        return this.input.map((i) => new this.constructor.Template(i));
     }
 
     setApplication(application, omitSettingExecutable = false) {
@@ -147,11 +157,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     }
 
     get input() {
-        return (
-            this.prop("input") ||
-            AdeFactory.getInputAsRenderedTemplates(this.flavor, this.getCombinedContext()) ||
-            []
-        );
+        return this.prop("input");
     }
 
     get renderingContext() {
@@ -188,7 +194,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         const newRenderingContext = {};
         const renderingContext = { ...this.context, ...context };
         this.updateContext(renderingContext); // update in-memory context to properly render templates from input below
-        (fromTemplates ? this.templates : this.templatesFromInput).forEach((t) => {
+        (fromTemplates ? this.templates : this._getTemplatesFromInput()).forEach((t) => {
             newInput.push(t.getRenderedJSON(renderingContext));
             Object.assign(
                 newRenderingContext,
@@ -225,7 +231,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
             ...super.toJSON(),
             executable: this.executable.toJSON(),
             flavor: this.flavor.toJSON(),
-            input: this.input,
+            input: this._getInput(),
             // keys below are not propagated to the parent class on initialization of a new unit unless explicitly given
             name: this.name,
             // TODO: figure out the problem with storing context below
