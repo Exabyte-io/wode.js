@@ -1,13 +1,16 @@
 import { Template } from "@exabyte-io/ade.js";
 import AdeFactory from "@exabyte-io/ade.js/dist/js/AdeFactory";
-import { HashedInputArrayMixin } from "@mat3ra/code/dist/js/entity";
-import { removeTimestampableKeysFromConfig } from "@mat3ra/code/dist/js/utils";
-import { mix } from "mixwith";
+import {
+    calculateHashFromObject,
+    removeCommentsFromSourceCode,
+    removeEmptyLinesFromString,
+    removeTimestampableKeysFromConfig,
+} from "@mat3ra/code/dist/js/utils";
 import _ from "underscore";
 
 import { BaseUnit } from "./base";
 
-export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
+export class ExecutionUnit extends BaseUnit {
     // keys to be omitted during toJSON
     static omitKeys = [
         "job",
@@ -74,6 +77,16 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     _initRuntimeItems(keys, config) {
         this._initApplication(config);
         super._initRuntimeItems(keys);
+    }
+
+    /*
+     * @summary expects an array with elements containing field [{content: "..."}]
+     */
+    get hashFromArrayInputContent() {
+        const objectForHashing = this._getInput().map((i) => {
+            return removeEmptyLinesFromString(removeCommentsFromSourceCode(i.content));
+        });
+        return calculateHashFromObject(objectForHashing);
     }
 
     get name() {
