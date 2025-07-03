@@ -24,7 +24,7 @@ export class ExecutionUnitConfigBuilder extends UnitConfigBuilder {
 
     initialize(application, execName, flavorName) {
         this.application = application;
-        this.executable = this._createExecutable(this.application.name, execName);
+        this.executable = this._createExecutable(this.application, execName);
         this.flavor = this._createFlavor(this.executable, flavorName);
     }
 
@@ -42,8 +42,8 @@ export class ExecutionUnitConfigBuilder extends UnitConfigBuilder {
      * @param {Object} config - Configuration object for the executable
      * @returns {Executable} The created executable instance
      */
-    _createExecutable(applicationName, execName) {
-        return AdeFactory.getExecutableByName(applicationName, execName);
+    _createExecutable(application, execName) {
+        return AdeFactory.getExecutableByName(application.name, execName);
     }
 
     /**
