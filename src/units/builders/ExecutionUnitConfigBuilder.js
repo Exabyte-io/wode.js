@@ -39,7 +39,8 @@ export class ExecutionUnitConfigBuilder extends UnitConfigBuilder {
 
     /**
      * Creates an executable instance. This method is intended to be overridden in subclasses.
-     * @param {Object} config - Configuration object for the executable
+     * @param {Application} application - The application object
+     * @param {string} execName - The name of the executable
      * @returns {Executable} The created executable instance
      */
     _createExecutable(application, execName) {
@@ -48,7 +49,8 @@ export class ExecutionUnitConfigBuilder extends UnitConfigBuilder {
 
     /**
      * Creates a flavor instance. This method is intended to be overridden in subclasses.
-     * @param {Object} config - Configuration object for the flavor
+     * @param {Executable} executable - The executable object
+     * @param {string} flavorName - The name of the flavor
      * @returns {Flavor} The created flavor instance
      */
     _createFlavor(executable, flavorName) {
