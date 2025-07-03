@@ -34,4 +34,14 @@ describe("workflow property", () => {
         // eslint-disable-next-line no-unused-expressions
         expect(mmWorkflow.isMultiMaterial).to.be.true;
     });
+
+    // it("properties are not empty", () => {
+    //     // Nudged Elastic Band is multi-material
+    //     const workflow = createWorkflow({
+    //         appName: "espresso",
+    //         workflowData: allWorkflowData.workflows.espresso.total_energy,
+    //     });
+
+    //     console.log(JSON.stringify(workflow.toJSON(), null, 2));
+    // });
 });

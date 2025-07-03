@@ -91,7 +91,7 @@ function createTopLevel({ subworkflowData, applicationCls, modelFactoryCls, meth
  * @param unitFactoryCls {*} workflow unit class factory
  * @returns {*|{head: boolean, preProcessors: [], postProcessors: [], name: *, flowchartId: *, type: *, results: [], monitors: []}}
  */
-function createUnit({ config, application, unitBuilders, unitFactoryCls }) {
+export function createUnit({ config, application, unitBuilders, unitFactoryCls }) {
     const { type, config: unitConfig } = config;
     if (type === "executionBuilder") {
         const { name, execName, flavorName, flowchartId } = unitConfig;
