@@ -43,11 +43,12 @@
         "lodash": "^4.17.21",
         "mixwith": "^0.1.1",
         "underscore": "^1.13.3",
-        "underscore.string": "^3.3.4"
+        "underscore.string": "^3.3.4",
+        "v20": "^0.1.0"
     },
     "devDependencies": {
         "@exabyte-io/ade.js": "2025.5.5-0",
-        "@exabyte-io/application-flavors.js": "2025.5.10-0",
+        "@exabyte-io/application-flavors.js": "git+https://git@github.com/Exabyte-io/application-flavors.git#e865d87c600163ad5192ce2cd9303f8de6a84d86",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/ide.js": "2024.3.26-0",
         "@exabyte-io/mode.js": "2024.4.28-0",
@@ -80,7 +81,7 @@
         "@mat3ra/made": "*"
     },
     "engines": {
-        "node": ">=14.0.0"
+        "node": ">=20.0.0"
     },
     "lint-staged": {
         "*.js": "eslint --cache --fix",
