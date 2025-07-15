@@ -1,4 +1,4 @@
-import { Application } from "@exabyte-io/ade.js";
+import ApplicationRegistry from "@exabyte-io/ade.js/dist/js/ApplicationRegistry";
 import {
     default_methods as MethodConfigs,
     default_models as ModelConfigs,
@@ -13,17 +13,6 @@ import { applyConfig } from "../utils";
 import { workflowData as allWorkflowData } from "../workflows/workflows";
 import { dynamicSubworkflowsByApp, getSurfaceEnergySubworkflowUnits } from "./dynamic";
 import { Subworkflow } from "./subworkflow";
-
-/**
- * @summary Thin wrapper around Application.createFromStored for extensibility
- * @param config {Object} application config
- * @param applicationCls {any} application class
- * @returns {Application} the application
- */
-function createApplication({ config, applicationCls }) {
-    const { name, version, build = "Default" } = config;
-    return applicationCls.create({ name, version, build });
-}
 
 // NOTE: DFTModel => DFTModelConfig, configs should have the same name as the model/method class + "Config" at the end
 function _getConfigFromModelOrMethodName(name, kind) {
@@ -63,14 +52,14 @@ function createMethod({ config, methodFactoryCls }) {
 /**
  * @summary Create top-level objects used in subworkflow initialization
  * @param subworkflowData {Object} subworkflow data
- * @param applicationCls {any} application class
+ * @param AppRegistry
  * @param modelFactoryCls {any} model factory class
  * @param methodFactoryCls {any} method factory class
  * @returns {{application: *, method: *, model: (DFTModel|Model), setSearchText: String|null}}
  */
-function createTopLevel({ subworkflowData, applicationCls, modelFactoryCls, methodFactoryCls }) {
+function createTopLevel({ subworkflowData, modelFactoryCls, methodFactoryCls, AppRegistry }) {
     const { application: appConfig, model: modelConfig, method: methodConfig } = subworkflowData;
-    const application = createApplication({ config: appConfig, applicationCls });
+    const application = AppRegistry.createApplication(appConfig);
     const model = createModel({ config: modelConfig, modelFactoryCls });
     const { method, setSearchText } = createMethod({ config: methodConfig, methodFactoryCls });
     return {
@@ -91,7 +80,7 @@ function createTopLevel({ subworkflowData, applicationCls, modelFactoryCls, meth
  * @param unitFactoryCls {*} workflow unit class factory
  * @returns {*|{head: boolean, preProcessors: [], postProcessors: [], name: *, flowchartId: *, type: *, results: [], monitors: []}}
  */
-function createUnit({ config, application, unitBuilders, unitFactoryCls }) {
+export function createUnit({ config, application, unitBuilders, unitFactoryCls }) {
     const { type, config: unitConfig } = config;
     if (type === "executionBuilder") {
         const { name, execName, flavorName, flowchartId } = unitConfig;
@@ -143,7 +132,7 @@ function createDynamicUnits({
 
 function createSubworkflow({
     subworkflowData,
-    applicationCls = Application,
+    AppRegistry = ApplicationRegistry,
     modelFactoryCls = ModelFactory,
     methodFactoryCls = MethodFactory,
     subworkflowCls = Subworkflow,
@@ -152,7 +141,7 @@ function createSubworkflow({
 }) {
     const { application, model, method, setSearchText } = createTopLevel({
         subworkflowData,
-        applicationCls,
+        AppRegistry,
         modelFactoryCls,
         methodFactoryCls,
     });

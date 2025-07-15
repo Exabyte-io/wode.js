@@ -1,11 +1,12 @@
-import { Application } from "@exabyte-io/ade.js";
-import { ApplicationContextMixin, ContextProvider } from "@mat3ra/code/dist/js/context";
-import { mix } from "mixwith";
+import ContextProvider from "@exabyte-io/ade.js/dist/js/context/ContextProvider";
 
-export class MLTrainTestSplitContextProvider extends mix(ContextProvider).with(
-    ApplicationContextMixin,
-) {
-    static Application = Application;
+import { applicationContextMixin } from "../mixins/ApplicationContextMixin";
+
+export class MLTrainTestSplitContextProvider extends ContextProvider {
+    constructor(config) {
+        super(config);
+        this.initApplicationContextMixin();
+    }
 
     // eslint-disable-next-line class-methods-use-this
     get uiSchema() {
@@ -40,3 +41,5 @@ export class MLTrainTestSplitContextProvider extends mix(ContextProvider).with(
         };
     }
 }
+
+applicationContextMixin(MLTrainTestSplitContextProvider.prototype);

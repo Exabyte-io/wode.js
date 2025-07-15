@@ -1,15 +1,12 @@
-import { JSONSchemaFormDataProvider, MaterialContextMixin } from "@mat3ra/code/dist/js/context";
-import { Made } from "@mat3ra/made";
+import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
 import lodash from "lodash";
-import { mix } from "mixwith";
 
-export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaFormDataProvider).with(
-    MaterialContextMixin,
-) {
-    static Material = Made.Material;
+import { materialContextMixin } from "../mixins/MaterialContextMixin";
 
+export class NonCollinearMagnetizationContextProvider extends JSONSchemaFormDataProvider {
     constructor(config) {
         super(config);
+        this.initMaterialContextMixin();
         this.isStartingMagnetization = lodash.get(this.data, "isStartingMagnetization", true);
         this.isConstrainedMagnetization = lodash.get(
             this.data,
@@ -268,3 +265,5 @@ export class NonCollinearMagnetizationContextProvider extends mix(JSONSchemaForm
         };
     }
 }
+
+materialContextMixin(NonCollinearMagnetizationContextProvider.prototype);
