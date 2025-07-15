@@ -1,6 +1,6 @@
 application:
   name: shell
-  version: 4.2.46
+  version: 5.1.8
 config:
   isMultiMaterial: true
 method:
