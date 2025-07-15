@@ -34,4 +34,14 @@ describe("workflow property", () => {
         // eslint-disable-next-line no-unused-expressions
         expect(mmWorkflow.isMultiMaterial).to.be.true;
     });
+
+    it("properties are not empty", () => {
+        const workflow = createWorkflow({
+            appName: "espresso",
+            workflowData: allWorkflowData.workflows.espresso.total_energy,
+        });
+
+        // eslint-disable-next-line no-unused-expressions
+        expect(workflow.properties).to.be.an("array").that.is.not.empty;
+    });
 });

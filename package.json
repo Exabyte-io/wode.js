@@ -49,13 +49,13 @@
         "v20": "^0.1.0"
     },
     "devDependencies": {
-        "@exabyte-io/ade.js": "2025.7.15-0",
+        "@exabyte-io/ade.js": "2025.7.15-1",
         "@exabyte-io/application-flavors.js": "2025.7.8-0",
         "@exabyte-io/eslint-config": "2025.5.13-0",
         "@exabyte-io/ide.js": "2024.3.26-0",
         "@exabyte-io/mode.js": "2024.4.28-0",
         "@mat3ra/code": "2025.7.15-0",
-        "@mat3ra/esse": "2025.4.26-0",
+        "@mat3ra/esse": "2025.7.15-0",
         "@mat3ra/made": "2025.7.15-0",
         "chai": "^4.3.4",
         "eslint": "7.32.0",
