@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import AdeFactory from "@exabyte-io/ade.js/dist/js/AdeFactory";
+import ApplicationRegistry from "@exabyte-io/ade.js/dist/js/ApplicationRegistry";
 
 import { UNIT_TYPES } from "../../enums";
 import { UnitConfigBuilder } from "./UnitConfigBuilder";
@@ -44,7 +44,7 @@ export class ExecutionUnitConfigBuilder extends UnitConfigBuilder {
      * @returns {Executable} The created executable instance
      */
     _createExecutable(application, execName) {
-        return AdeFactory.getExecutableByName(application.name, execName);
+        return ApplicationRegistry.getExecutableByName(application.name, execName);
     }
 
     /**
@@ -54,6 +54,6 @@ export class ExecutionUnitConfigBuilder extends UnitConfigBuilder {
      * @returns {Flavor} The created flavor instance
      */
     _createFlavor(executable, flavorName) {
-        return AdeFactory.getFlavorByName(executable, flavorName);
+        return ApplicationRegistry.getFlavorByName(executable, flavorName);
     }
 }

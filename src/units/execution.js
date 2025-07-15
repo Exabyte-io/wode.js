@@ -1,5 +1,5 @@
 import { Template } from "@exabyte-io/ade.js";
-import AdeFactory from "@exabyte-io/ade.js/dist/js/AdeFactory";
+import ApplicationRegistry from "@exabyte-io/ade.js/dist/js/ApplicationRegistry";
 import {
     calculateHashFromObject,
     removeCommentsFromSourceCode,
@@ -26,12 +26,12 @@ export class ExecutionUnit extends BaseUnit {
      * @override this method to provide entities from other sources
      */
     _initApplication(config) {
-        this._application = AdeFactory.createApplication(config.application);
-        this._executable = AdeFactory.getExecutableByConfig(
+        this._application = ApplicationRegistry.createApplication(config.application);
+        this._executable = ApplicationRegistry.getExecutableByConfig(
             this._application.name,
             config.executable,
         );
-        this._flavor = AdeFactory.getFlavorByConfig(this._executable, config.flavor);
+        this._flavor = ApplicationRegistry.getFlavorByConfig(this._executable, config.flavor);
         this._templates = this._flavor ? this._flavor.inputAsTemplates : [];
     }
 
@@ -39,14 +39,14 @@ export class ExecutionUnit extends BaseUnit {
      * @override this method to provide default executable from other source
      */
     _getDefaultExecutable() {
-        return AdeFactory.getExecutableByName(this.application.name);
+        return ApplicationRegistry.getExecutableByName(this.application.name);
     }
 
     /**
      * @override this method to provide default flavor from other source
      */
     _getDefaultFlavor() {
-        return AdeFactory.getFlavorByName(this.executable.name);
+        return ApplicationRegistry.getFlavorByName(this.executable.name);
     }
 
     /**
@@ -62,7 +62,10 @@ export class ExecutionUnit extends BaseUnit {
     _getInput() {
         return (
             this.input ||
-            AdeFactory.getInputAsRenderedTemplates(this.flavor, this.getCombinedContext()) ||
+            ApplicationRegistry.getInputAsRenderedTemplates(
+                this.flavor,
+                this.getCombinedContext(),
+            ) ||
             []
         );
     }
@@ -71,7 +74,7 @@ export class ExecutionUnit extends BaseUnit {
      * @override this method to provide custom input as templates
      */
     _getInputAsTemplates() {
-        return AdeFactory.getInputAsTemplates(this.flavor);
+        return ApplicationRegistry.getInputAsTemplates(this.flavor);
     }
 
     _initRuntimeItems(keys, config) {

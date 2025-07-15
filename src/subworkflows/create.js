@@ -1,4 +1,4 @@
-import AdeFactoryDefault from "@exabyte-io/ade.js/dist/js/AdeFactory";
+import ApplicationRegistry from "@exabyte-io/ade.js/dist/js/ApplicationRegistry";
 import {
     default_methods as MethodConfigs,
     default_models as ModelConfigs,
@@ -52,14 +52,14 @@ function createMethod({ config, methodFactoryCls }) {
 /**
  * @summary Create top-level objects used in subworkflow initialization
  * @param subworkflowData {Object} subworkflow data
- * @param AdeFactory
+ * @param AppRegistry
  * @param modelFactoryCls {any} model factory class
  * @param methodFactoryCls {any} method factory class
  * @returns {{application: *, method: *, model: (DFTModel|Model), setSearchText: String|null}}
  */
-function createTopLevel({ subworkflowData, modelFactoryCls, methodFactoryCls, AdeFactory }) {
+function createTopLevel({ subworkflowData, modelFactoryCls, methodFactoryCls, AppRegistry }) {
     const { application: appConfig, model: modelConfig, method: methodConfig } = subworkflowData;
-    const application = AdeFactory.createApplication(appConfig);
+    const application = AppRegistry.createApplication(appConfig);
     const model = createModel({ config: modelConfig, modelFactoryCls });
     const { method, setSearchText } = createMethod({ config: methodConfig, methodFactoryCls });
     return {
@@ -132,7 +132,7 @@ function createDynamicUnits({
 
 function createSubworkflow({
     subworkflowData,
-    AdeFactory = AdeFactoryDefault,
+    AppRegistry = ApplicationRegistry,
     modelFactoryCls = ModelFactory,
     methodFactoryCls = MethodFactory,
     subworkflowCls = Subworkflow,
@@ -141,7 +141,7 @@ function createSubworkflow({
 }) {
     const { application, model, method, setSearchText } = createTopLevel({
         subworkflowData,
-        AdeFactory,
+        AppRegistry,
         modelFactoryCls,
         methodFactoryCls,
     });
