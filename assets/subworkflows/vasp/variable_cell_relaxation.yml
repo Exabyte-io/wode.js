@@ -1,6 +1,6 @@
 application:
   name: vasp
-  version: 5.3.5
+  version: 5.4.4
 config:
   systemName: vasp-variable-cell-relaxation
 method:
