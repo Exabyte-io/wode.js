@@ -1,7 +1,6 @@
 name: K-point Convergence
 application:
   name: vasp
-  version: 5.3.5
 model:
   name: DFTModel
 method:
