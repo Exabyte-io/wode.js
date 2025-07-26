@@ -39,21 +39,24 @@
         "@babel/preset-react": "^7.26.3",
         "@babel/register": "^7.25.9",
         "@babel/runtime-corejs3": "^7.26.7",
+        "@exabyte-io/periodic-table.js": "2022.6.8-0",
+        "crypto-js": "^4.2.0",
         "js-yaml": "^4.1.0",
         "lodash": "^4.17.21",
         "mixwith": "^0.1.1",
         "underscore": "^1.13.7",
-        "underscore.string": "^3.3.6"
+        "underscore.string": "^3.3.6",
+        "v20": "^0.1.0"
     },
     "devDependencies": {
-        "@exabyte-io/ade.js": "2024.12.5-0",
-        "@exabyte-io/application-flavors.js": "2024.12.5-0",
-        "@exabyte-io/eslint-config": "^2025.1.15-0",
+        "@exabyte-io/ade.js": "2025.7.15-1",
+        "@exabyte-io/application-flavors.js": "2025.7.23-0",
+        "@exabyte-io/eslint-config": "2025.5.13-0",
         "@exabyte-io/ide.js": "2024.3.26-0",
         "@exabyte-io/mode.js": "2024.4.28-0",
-        "@mat3ra/code": "2025.1.27-0",
-        "@mat3ra/esse": "git+https://github.com/Exabyte-io/esse.git#3e9d522838ad7bb3021efc682d8ce1eb28021ba2",
-        "@mat3ra/made": "2025.1.23-0",
+        "@mat3ra/code": "2025.7.15-0",
+        "@mat3ra/esse": "2025.7.15-0",
+        "@mat3ra/made": "2025.7.15-0",
         "chai": "^4.5.0",
         "eslint": "^7.32.0",
         "eslint-config-airbnb": "^19.0.4",
@@ -80,7 +83,7 @@
         "@mat3ra/made": "*"
     },
     "engines": {
-        "node": ">=20"
+        "node": ">=20.0.0"
     },
     "lint-staged": {
         "*.js": "eslint --cache --fix",

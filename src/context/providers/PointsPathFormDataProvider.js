@@ -1,29 +1,21 @@
 /* eslint-disable max-classes-per-file */
 /* eslint react/prop-types: 0 */
-import { Application } from "@exabyte-io/ade.js";
-import {
-    ApplicationContextMixin,
-    JSONSchemaFormDataProvider,
-    MaterialContextMixin,
-} from "@mat3ra/code/dist/js/context";
+import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
 import { math as codeJSMath } from "@mat3ra/code/dist/js/math";
 import { Made } from "@mat3ra/made";
-import { mix } from "mixwith";
 import s from "underscore.string";
+
+import { applicationContextMixin } from "../mixins/ApplicationContextMixin";
+import { materialContextMixin } from "../mixins/MaterialContextMixin";
 
 const defaultPoint = "Г";
 const defaultSteps = 10;
 
-export class PointsPathFormDataProvider extends mix(JSONSchemaFormDataProvider).with(
-    ApplicationContextMixin,
-    MaterialContextMixin,
-) {
-    static Material = Made.Material;
-
-    static Application = Application;
-
+export class PointsPathFormDataProvider extends JSONSchemaFormDataProvider {
     constructor(config) {
         super(config);
+        this.initMaterialContextMixin();
+        this.initApplicationContextMixin();
         this.reciprocalLattice = new Made.ReciprocalLattice(this.material.lattice);
         this.symmetryPoints = this.symmetryPointsFromMaterial;
     }
@@ -168,3 +160,6 @@ export class ExplicitPointsPath2PIBAFormDataProvider extends ExplicitPointsPathF
         return true;
     }
 }
+
+materialContextMixin(PointsPathFormDataProvider.prototype);
+applicationContextMixin(PointsPathFormDataProvider.prototype);
