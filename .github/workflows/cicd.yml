@@ -77,4 +77,3 @@ jobs:
         with:
           npm-token: ${{ secrets.NPM_TOKEN }}
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
-
