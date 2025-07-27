@@ -15,8 +15,8 @@ const cutoffConfig = {
 export class PlanewaveCutoffsContextProvider extends ContextProvider {
     constructor(config) {
         super(config);
-        this.initApplicationContextMixin();
         this.initMethodDataContextMixin();
+        this.initApplicationContextMixin();
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -123,5 +123,5 @@ export class PlanewaveCutoffsContextProvider extends ContextProvider {
     }
 }
 
-applicationContextMixin(PlanewaveCutoffsContextProvider.prototype);
 methodDataContextMixin(PlanewaveCutoffsContextProvider.prototype);
+applicationContextMixin(PlanewaveCutoffsContextProvider.prototype);
