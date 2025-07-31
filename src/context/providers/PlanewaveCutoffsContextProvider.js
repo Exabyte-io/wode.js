@@ -1,6 +1,7 @@
 import ContextProvider from "@exabyte-io/ade.js/dist/js/context/ContextProvider";
 
 import { applicationContextMixin } from "../mixins/ApplicationContextMixin";
+import { methodDataContextMixin } from "../mixins/MethodDataContextMixin";
 
 const cutoffConfig = {
     vasp: {}, // assuming default cutoffs for VASP
@@ -14,6 +15,7 @@ const cutoffConfig = {
 export class PlanewaveCutoffsContextProvider extends ContextProvider {
     constructor(config) {
         super(config);
+        this.initMethodDataContextMixin();
         this.initApplicationContextMixin();
     }
 
@@ -37,10 +39,22 @@ export class PlanewaveCutoffsContextProvider extends ContextProvider {
     }
 
     get defaultECUTWFC() {
+        const [ecutwfc] = this.highestCutoffsFromPseudos;
+
+        if (ecutwfc > 0) {
+            return ecutwfc;
+        }
+
         return this._cutoffConfigPerApplication.wavefunction || null;
     }
 
     get defaultECUTRHO() {
+        const [, ecutrho] = this.highestCutoffsFromPseudos; // destructure and select second item
+
+        if (ecutrho > 0) {
+            return ecutrho;
+        }
+
         return this._cutoffConfigPerApplication.density || null;
     }
 
@@ -65,4 +79,5 @@ export class PlanewaveCutoffsContextProvider extends ContextProvider {
     }
 }
 
+methodDataContextMixin(PlanewaveCutoffsContextProvider.prototype);
 applicationContextMixin(PlanewaveCutoffsContextProvider.prototype);
