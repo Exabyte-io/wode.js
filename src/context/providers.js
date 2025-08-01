@@ -17,6 +17,11 @@ const {
     IonDynamicsContextProvider,
     CollinearMagnetizationContextProvider,
     NonCollinearMagnetizationContextProvider,
+    VASPContextProvider,
+    VASPNEBContextProvider,
+    QEPWXContextProvider,
+    QENEBContextProvider,
+    NWChemTotalEnergyContextProvider,
 } = context;
 
 const CONTEXT_DOMAINS = {
@@ -111,5 +116,25 @@ export const wodeProviders = {
     NonCollinearMagnetizationDataManager: {
         providerCls: NonCollinearMagnetizationContextProvider,
         config: _makeImportant({ name: "nonCollinearMagnetization" }),
+    },
+    QEPWXInputDataManager: {
+        providerCls: QEPWXContextProvider,
+        config: { name: "input" },
+    },
+    QENEBInputDataManager: {
+        providerCls: QENEBContextProvider,
+        config: { name: "input" },
+    },
+    VASPInputDataManager: {
+        providerCls: VASPContextProvider,
+        config: { name: "input" },
+    },
+    VASPNEBInputDataManager: {
+        providerCls: VASPNEBContextProvider,
+        config: { name: "input" },
+    },
+    NWChemInputDataManager: {
+        providerCls: NWChemTotalEnergyContextProvider,
+        config: { name: "input" },
     },
 };

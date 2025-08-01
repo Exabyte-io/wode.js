@@ -1,11 +1,9 @@
-import {
-    JSONSchemaFormDataProvider,
-    MaterialContextMixin,
-    MethodDataContextMixin,
-} from "@mat3ra/code/dist/js/context";
+import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
 import { Made } from "@mat3ra/made";
 import { Utils } from "@mat3ra/utils";
-import { mix } from "mixwith";
+
+import { materialContextMixin } from "../mixins/MaterialContextMixin";
+import { methodDataContextMixin } from "../mixins/MethodDataContextMixin";
 
 const defaultHubbardConfig = {
     atomicSpecies: "",
@@ -13,14 +11,13 @@ const defaultHubbardConfig = {
     hubbardUValue: 1.0,
 };
 
-export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).with(
-    MaterialContextMixin,
-    MethodDataContextMixin,
-) {
-    static Material = Made.Material;
-
+export class HubbardUContextProvider extends JSONSchemaFormDataProvider {
     constructor(config) {
         super(config);
+
+        this.initMaterialContextMixin();
+        this.initMethodDataContextMixin();
+
         this.uniqueElements = this.material?.Basis?.uniqueElements || [];
         // orbitals are sorted according to stability (Madelung's rule)
         this.orbitalListByStability = [
@@ -152,3 +149,6 @@ export class HubbardUContextProvider extends mix(JSONSchemaFormDataProvider).wit
         };
     }
 }
+
+materialContextMixin(HubbardUContextProvider.prototype);
+methodDataContextMixin(HubbardUContextProvider.prototype);

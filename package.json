@@ -39,22 +39,25 @@
         "@babel/preset-react": "7.16.7",
         "@babel/register": "^7.16.0",
         "@babel/runtime-corejs3": "7.16.8",
-        "@mat3ra/utils": "git+https://github.com/Exabyte-io/utils.git#33b5f3822cbfec5c9f29242c27b7140961fa8d6f",
+        "@mat3ra/utils": "2025.4.15-0",
+        "@exabyte-io/periodic-table.js": "2022.6.8-0",
+        "crypto-js": "^4.2.0",
         "js-yaml": "^4.1.0",
         "lodash": "^4.17.21",
         "mixwith": "^0.1.1",
         "underscore": "^1.13.3",
-        "underscore.string": "^3.3.4"
+        "underscore.string": "^3.3.4",
+        "v20": "^0.1.0"
     },
     "devDependencies": {
-        "@exabyte-io/ade.js": "2024.9.8-1",
-        "@exabyte-io/application-flavors.js": "2024.9.8-1",
-        "@exabyte-io/eslint-config": "^2022.11.17-0",
+        "@exabyte-io/ade.js": "2025.7.15-1",
+        "@exabyte-io/application-flavors.js": "2025.7.23-0",
+        "@exabyte-io/eslint-config": "2025.5.13-0",
         "@exabyte-io/ide.js": "2024.3.26-0",
         "@exabyte-io/mode.js": "2024.4.28-0",
-        "@mat3ra/code": "git+https://github.com/Exabyte-io/code.git#a2bb276c51a98371364567d8668cca1b83223848",
-        "@mat3ra/esse": "2024.4.19-1",
-        "@mat3ra/made": "git+https://github.com/Exabyte-io/made.git#7cfa418b728523c2b16e178324534516a0c9d48c",
+        "@mat3ra/code": "2025.7.15-0",
+        "@mat3ra/esse": "2025.7.15-0",
+        "@mat3ra/made": "git+https://github.com/Exabyte-io/made.git#c3d3cd3f40985126410c36090e78d28ae5300bca",
         "chai": "^4.3.4",
         "eslint": "7.32.0",
         "eslint-config-airbnb": "19.0.2",
@@ -81,7 +84,7 @@
         "@mat3ra/made": "*"
     },
     "engines": {
-        "node": ">=14.0.0"
+        "node": ">=20.0.0"
     },
     "lint-staged": {
         "*.js": "eslint --cache --fix",
