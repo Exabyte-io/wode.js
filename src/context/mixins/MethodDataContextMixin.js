@@ -42,6 +42,22 @@ export function methodDataContextMixin(item) {
         get isMethodDataUpdated() {
             return Boolean(this.extraData && this.extraData.methodDataHash !== this.methodDataHash);
         },
+
+        /**
+         * Returns array of orbital names: [{element: "Si", valenceOrbitals: ["3s", "3p"]}]
+         */
+        get valenceOrbitals() {
+            const pseudoData = this.methodData?.pseudo || [];
+            return pseudoData.map((data) => {
+                const valenceConfiguration = data?.valenceConfiguration || [];
+                return {
+                    element: data.element,
+                    valenceOrbitals: valenceConfiguration.map((entry) =>
+                        entry?.orbitalName?.toLowerCase(),
+                    ),
+                };
+            });
+        },
     };
 
     Object.defineProperties(item, Object.getOwnPropertyDescriptors(properties));
