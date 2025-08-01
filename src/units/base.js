@@ -1,17 +1,12 @@
-import {
-    NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity,
-    TaggableMixin,
-} from "@mat3ra/code/dist/js/entity";
+import { NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity } from "@mat3ra/code/dist/js/entity";
+import { taggableMixin } from "@mat3ra/code/dist/js/entity/mixins/TaggableMixin";
 import { getUUID } from "@mat3ra/code/dist/js/utils";
 import lodash from "lodash";
-import { mix } from "mixwith";
 
 import { UNIT_STATUSES } from "../enums";
 
 // eslint-disable-next-line max-len
-export class BaseUnit extends mix(
-    NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity,
-).with(TaggableMixin) {
+export class BaseUnit extends NamedDefaultableRepetitionRuntimeItemsImportantSettingsContextAndRenderHashedInMemoryEntity {
     constructor(config) {
         super({
             ...config,
@@ -92,3 +87,5 @@ export class BaseUnit extends mix(
         return super.clone(flowchartIDOverrideConfigAsExtraContext);
     }
 }
+
+taggableMixin(BaseUnit.prototype);

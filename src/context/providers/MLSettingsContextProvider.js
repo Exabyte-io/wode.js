@@ -1,9 +1,12 @@
-import { Application } from "@exabyte-io/ade.js";
-import { ApplicationContextMixin, ContextProvider } from "@mat3ra/code/dist/js/context";
-import { mix } from "mixwith";
+import ContextProvider from "@exabyte-io/ade.js/dist/js/context/ContextProvider";
 
-export class MLSettingsContextProvider extends mix(ContextProvider).with(ApplicationContextMixin) {
-    static Application = Application;
+import { applicationContextMixin } from "../mixins/ApplicationContextMixin";
+
+export class MLSettingsContextProvider extends ContextProvider {
+    constructor(config) {
+        super(config);
+        this.initApplicationContextMixin();
+    }
 
     // eslint-disable-next-line class-methods-use-this
     get uiSchema() {
@@ -41,3 +44,5 @@ export class MLSettingsContextProvider extends mix(ContextProvider).with(Applica
         };
     }
 }
+
+applicationContextMixin(MLSettingsContextProvider.prototype);

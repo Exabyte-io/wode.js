@@ -1,4 +1,4 @@
-import { Application } from "@exabyte-io/ade.js";
+import ApplicationRegistry from "@exabyte-io/ade.js/dist/js/ApplicationRegistry";
 import { expect } from "chai";
 
 import { createSubworkflowByName } from "../src/subworkflows";
@@ -101,7 +101,7 @@ describe("subworkflows", () => {
         expect(subworkflow.units[0].application.version).to.be.equal("6.3");
         expect(subworkflow.units[1].application?.version).to.be.equal(undefined);
 
-        const newApplication = Application.createFromNameVersionBuild({
+        const newApplication = ApplicationRegistry.createApplication({
             name: "espresso",
             version: "6.7.0",
         });

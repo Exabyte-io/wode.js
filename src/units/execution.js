@@ -1,16 +1,16 @@
-import { Application, Template } from "@exabyte-io/ade.js";
-import { HashedInputArrayMixin } from "@mat3ra/code/dist/js/entity";
-import { removeTimestampableKeysFromConfig } from "@mat3ra/code/dist/js/utils";
-import { mix } from "mixwith";
+import { Template } from "@exabyte-io/ade.js";
+import ApplicationRegistry from "@exabyte-io/ade.js/dist/js/ApplicationRegistry";
+import {
+    calculateHashFromObject,
+    removeCommentsFromSourceCode,
+    removeEmptyLinesFromString,
+    removeTimestampableKeysFromConfig,
+} from "@mat3ra/code/dist/js/utils";
 import _ from "underscore";
 
 import { BaseUnit } from "./base";
 
-export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
-    static Application = Application;
-
-    static Template = Template;
-
+export class ExecutionUnit extends BaseUnit {
     // keys to be omitted during toJSON
     static omitKeys = [
         "job",
@@ -22,16 +22,74 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         "hasRelaxation",
     ];
 
+    /**
+     * @override this method to provide entities from other sources
+     */
     _initApplication(config) {
-        this._application = this.constructor.Application.create(config.application);
-        this._executable = this._application.getExecutableByConfig(config.executable);
-        this._flavor = this._executable.getFlavorByConfig(config.flavor);
+        this._application = ApplicationRegistry.createApplication(config.application);
+        this._executable = ApplicationRegistry.getExecutableByConfig(
+            this._application.name,
+            config.executable,
+        );
+        this._flavor = ApplicationRegistry.getFlavorByConfig(this._executable, config.flavor);
         this._templates = this._flavor ? this._flavor.inputAsTemplates : [];
+    }
+
+    /**
+     * @override this method to provide default executable from other source
+     */
+    _getDefaultExecutable() {
+        return ApplicationRegistry.getExecutableByName(this.application.name);
+    }
+
+    /**
+     * @override this method to provide default flavor from other source
+     */
+    _getDefaultFlavor() {
+        return ApplicationRegistry.getFlavorByName(this.executable.name);
+    }
+
+    /**
+     * @override this method to provide custom templates
+     */
+    _getTemplatesFromInput() {
+        return this.getInput().map((i) => new Template(i));
+    }
+
+    /**
+     * @override this method to provide custom input from other sources
+     */
+    _getInput() {
+        return (
+            this.input ||
+            ApplicationRegistry.getInputAsRenderedTemplates(
+                this.flavor,
+                this.getCombinedContext(),
+            ) ||
+            []
+        );
+    }
+
+    /**
+     * @override this method to provide custom input as templates
+     */
+    _getInputAsTemplates() {
+        return ApplicationRegistry.getInputAsTemplates(this.flavor);
     }
 
     _initRuntimeItems(keys, config) {
         this._initApplication(config);
         super._initRuntimeItems(keys);
+    }
+
+    /*
+     * @summary expects an array with elements containing field [{content: "..."}]
+     */
+    get hashFromArrayInputContent() {
+        const objectForHashing = this._getInput().map((i) => {
+            return removeEmptyLinesFromString(removeCommentsFromSourceCode(i.content));
+        });
+        return calculateHashFromObject(objectForHashing);
     }
 
     get name() {
@@ -54,29 +112,25 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         return this._templates;
     }
 
-    get templatesFromInput() {
-        return this.input.map((i) => new this.constructor.Template(i));
-    }
-
     setApplication(application, omitSettingExecutable = false) {
         this._application = application;
         this.setProp("application", application.toJSON());
         if (!omitSettingExecutable) {
-            this.setExecutable(this.application.defaultExecutable);
+            this.setExecutable(this._getDefaultExecutable());
         }
     }
 
     setExecutable(executable) {
         this._executable = executable;
         this.setProp("executable", executable.toJSON());
-        this.setFlavor(this.executable.defaultFlavor);
+        this.setFlavor(this._getDefaultFlavor());
     }
 
     setFlavor(flavor) {
         this._flavor = flavor;
         this.setRuntimeItemsToDefaultValues();
         this.setProp("flavor", flavor.toJSON());
-        this.setTemplates(this.flavor.inputAsTemplates);
+        this.setTemplates(this._getInputAsTemplates());
     }
 
     setTemplates(templates) {
@@ -126,11 +180,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
     }
 
     get input() {
-        return (
-            this.prop("input") ||
-            this.flavor.getInputAsRenderedTemplates(this.getCombinedContext()) ||
-            []
-        );
+        return this.prop("input");
     }
 
     get renderingContext() {
@@ -167,7 +217,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
         const newRenderingContext = {};
         const renderingContext = { ...this.context, ...context };
         this.updateContext(renderingContext); // update in-memory context to properly render templates from input below
-        (fromTemplates ? this.templates : this.templatesFromInput).forEach((t) => {
+        (fromTemplates ? this.templates : this._getTemplatesFromInput()).forEach((t) => {
             newInput.push(t.getRenderedJSON(renderingContext));
             Object.assign(
                 newRenderingContext,
@@ -204,7 +254,7 @@ export class ExecutionUnit extends mix(BaseUnit).with(HashedInputArrayMixin) {
             ...super.toJSON(),
             executable: this.executable.toJSON(),
             flavor: this.flavor.toJSON(),
-            input: this.input,
+            input: this._getInput(),
             // keys below are not propagated to the parent class on initialization of a new unit unless explicitly given
             name: this.name,
             // TODO: figure out the problem with storing context below
