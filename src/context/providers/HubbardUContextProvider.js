@@ -1,10 +1,13 @@
 import JSONSchemaFormDataProvider from "@exabyte-io/ade.js/dist/js/context/JSONSchemaFormDataProvider";
+import { Made } from "@mat3ra/made";
+import { Utils } from "@mat3ra/utils";
 
 import { materialContextMixin } from "../mixins/MaterialContextMixin";
+import { methodDataContextMixin } from "../mixins/MethodDataContextMixin";
 
 const defaultHubbardConfig = {
     atomicSpecies: "",
-    atomicOrbital: "2p",
+    atomicOrbital: "3d",
     hubbardUValue: 1.0,
 };
 
@@ -13,27 +16,31 @@ export class HubbardUContextProvider extends JSONSchemaFormDataProvider {
         super(config);
 
         this.initMaterialContextMixin();
+        this.initMethodDataContextMixin();
 
         this.uniqueElements = this.material?.Basis?.uniqueElements || [];
-        this.orbitalList = [
+        // orbitals are sorted according to stability (Madelung's rule)
+        this.orbitalListByStability = [
+            "1s",
+            "2s",
             "2p",
             "3s",
             "3p",
-            "3d",
             "4s",
+            "3d",
             "4p",
-            "4d",
-            "4f",
             "5s",
+            "4d",
             "5p",
-            "5d",
-            "5f",
             "6s",
+            "4f",
+            "5d",
             "6p",
-            "6d",
             "7s",
+            "5f",
+            "6d",
             "7p",
-            "7d",
+            "8s",
         ];
         const _elementsWithLabels = this.material?.Basis?.elementsWithLabelsArray || [];
         this.uniqueElementsWithLabels = [...new Set(_elementsWithLabels)];
@@ -46,6 +53,9 @@ export class HubbardUContextProvider extends JSONSchemaFormDataProvider {
             {
                 ...defaultHubbardConfig,
                 atomicSpecies: this.firstElement,
+                atomicOrbital: this.getOutermostOrbital(
+                    this.getValenceOrbitalsByElement(this.firstElement),
+                ),
             },
         ];
     }
@@ -65,6 +75,38 @@ export class HubbardUContextProvider extends JSONSchemaFormDataProvider {
         };
     }
 
+    sortedValanceOrbitalsByElement = (element) => {
+        return Utils.array.sortArrayByOrder(
+            this.getValenceOrbitalsByElement(element),
+            this.orbitalListByStability,
+        );
+    };
+
+    orbitalDependencyArray = (elementList, atomicSpecies, atomicOrbital) => {
+        return {
+            oneOf: elementList.map((elementWithLabel) => {
+                const orbitals = this.sortedValanceOrbitalsByElement(
+                    Made.Basis.stripLabelToGetElementSymbol(elementWithLabel),
+                );
+                return {
+                    properties: {
+                        [atomicSpecies]: {
+                            enum: [elementWithLabel],
+                        },
+                        [atomicOrbital]: {
+                            enum: orbitals.length > 0 ? orbitals : this.orbitalListByStability,
+                            default: this.getOutermostOrbital(orbitals),
+                        },
+                    },
+                };
+            }),
+        };
+    };
+
+    getOutermostOrbital = (orbitals, defaultOrbital = defaultHubbardConfig.atomicOrbital) => {
+        return orbitals.length > 0 ? orbitals[orbitals.length - 1] : defaultOrbital;
+    };
+
     get jsonSchema() {
         return {
             $schema: "http://json-schema.org/draft-07/schema#",
@@ -83,8 +125,6 @@ export class HubbardUContextProvider extends JSONSchemaFormDataProvider {
                     atomicOrbital: {
                         type: "string",
                         title: "Atomic orbital",
-                        enum: this.orbitalList,
-                        default: defaultHubbardConfig.atomicOrbital,
                     },
                     hubbardUValue: {
                         type: "number",
@@ -92,9 +132,17 @@ export class HubbardUContextProvider extends JSONSchemaFormDataProvider {
                         default: defaultHubbardConfig.hubbardUValue,
                     },
                 },
+                dependencies: {
+                    atomicSpecies: this.orbitalDependencyArray(
+                        this.uniqueElementsWithLabels,
+                        "atomicSpecies",
+                        "atomicOrbital",
+                    ),
+                },
             },
         };
     }
 }
 
 materialContextMixin(HubbardUContextProvider.prototype);
+methodDataContextMixin(HubbardUContextProvider.prototype);
