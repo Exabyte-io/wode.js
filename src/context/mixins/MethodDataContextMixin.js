@@ -58,6 +58,19 @@ export function methodDataContextMixin(item) {
                 };
             });
         },
+
+        getValenceOrbitalsByElement(element) {
+            const valenceOrbitals = this.valenceOrbitals || [];
+            let orbitals = [];
+            valenceOrbitals.every((entry) => {
+                if (entry.element === element) {
+                    orbitals = entry?.valenceOrbitals || [];
+                }
+                return entry.element !== element; // break when first match is found
+            });
+
+            return orbitals;
+        },
     };
 
     Object.defineProperties(item, Object.getOwnPropertyDescriptors(properties));

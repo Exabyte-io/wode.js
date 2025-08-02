@@ -75,23 +75,17 @@ export class HubbardUContextProvider extends JSONSchemaFormDataProvider {
         };
     }
 
-    getValenceOrbitalsByElement = (element) => {
-        const valenceOrbitals = this.valenceOrbitals || [];
-        let orbitals = [];
-        valenceOrbitals.every((item) => {
-            if (item.element === element) {
-                orbitals = item?.valenceOrbitals || [];
-            }
-            return item.element !== element; // break when first match is found
-        });
-
-        return Utils.array.sortArrayByOrder(orbitals, this.orbitalListByStability);
+    sortedValanceOrbitalsByElement = (element) => {
+        return Utils.array.sortArrayByOrder(
+            this.getValenceOrbitalsByElement(element),
+            this.orbitalListByStability,
+        );
     };
 
     orbitalDependencyArray = (elementList, atomicSpecies, atomicOrbital) => {
         return {
             oneOf: elementList.map((elementWithLabel) => {
-                const orbitals = this.getValenceOrbitalsByElement(
+                const orbitals = this.sortedValanceOrbitalsByElement(
                     Made.Basis.stripLabelToGetElementSymbol(elementWithLabel),
                 );
                 return {
