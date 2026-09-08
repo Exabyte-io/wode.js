@@ -27,7 +27,7 @@ import { ApplicationRegistry, setUnitLinks } from "@mat3ra/standata";
 import { Utils } from "@mat3ra/utils";
 
 import type { AssignmentContext, ExternalContext } from "./context/providers";
-import type { WorkflowExternalContext } from "./context/providers/by_application/espresso/QEPWXInputDataManager";
+import type { WorkflowExternalContext } from "./context/providers/base/ContextProvider";
 import { createConvergenceParameter } from "./convergence/factory";
 import { UnitTag, UnitType } from "./enums";
 import {

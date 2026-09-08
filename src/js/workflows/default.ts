@@ -8,9 +8,9 @@ const defaultWorkflowConfig: WorkflowSchema = {
             _id: "c6e9dbbee8929de01f4e76ee",
             application: {
                 name: "espresso",
-                shortName: "espresso",
-                summary: "Quantum Espresso",
-                build: "6.3",
+                shortName: "qe",
+                summary: "Quantum ESPRESSO",
+                build: "GNU",
                 version: "6.3",
             },
             model: {

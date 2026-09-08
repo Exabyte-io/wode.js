@@ -10,14 +10,21 @@ import materialContextMixin, {
     type MaterialContextMixin,
     type MaterialExternalContext,
 } from "../../../mixins/MaterialContextMixin";
-import type { UnitContext } from "../../base/ContextProvider";
+import type {
+    JobExternalContext,
+    UnitContext,
+    WorkflowExternalContext,
+} from "../../base/ContextProvider";
 import JSONSchemaDataProvider, {
     type JinjaExternalContext,
 } from "../../base/JSONSchemaDataProvider";
 
 type Data = NWChemTotalEnergyContextProviderSchema;
 type Schema = InputContextItemSchema & { data: Data };
-type ExternalContext = JinjaExternalContext & MaterialExternalContext;
+type ExternalContext = JinjaExternalContext &
+    MaterialExternalContext &
+    WorkflowExternalContext &
+    JobExternalContext;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface NWChemInputDataManager extends MaterialContextMixin {}
@@ -34,6 +41,8 @@ class NWChemInputDataManager extends JSONSchemaDataProvider<Schema, ExternalCont
 
     isEdited = false;
 
+    workflowHasRelaxation: boolean;
+
     static createFromUnitContext(unitContext: UnitContext, externalContext: ExternalContext) {
         const contextItem = this.findContextItem<Schema>(unitContext, "input");
 
@@ -47,6 +56,8 @@ class NWChemInputDataManager extends JSONSchemaDataProvider<Schema, ExternalCont
     constructor(config: Partial<Schema>, externalContext: ExternalContext) {
         super(config, externalContext);
         this.initMaterialContextMixin(externalContext);
+
+        this.workflowHasRelaxation = externalContext.workflowHasRelaxation;
 
         const jsonSchema = JSONSchemasInterface.getSchemaById(jsonSchemaId);
 
@@ -62,6 +73,7 @@ class NWChemInputDataManager extends JSONSchemaDataProvider<Schema, ExternalCont
      */
     getDefaultData() {
         const basis = this.material.getBasis();
+        const { workflowHasRelaxation } = this;
 
         const NTYP = basis.uniqueElements.length;
         const ATOMIC_POSITIONS_WITHOUT_CONSTRAINTS = basis.atomicPositions.join("\n") || "";
@@ -83,6 +95,12 @@ class NWChemInputDataManager extends JSONSchemaDataProvider<Schema, ExternalCont
             ATOMIC_SPECIES,
             FUNCTIONAL: "B3LYP",
             CARTESIAN: basis.toCartesian !== undefined,
+            // Continue from the previous unit's RTDB, which carries its optimized geometry. Units of
+            // one job share a work_dir, so nwchem.db is already there. Deliberately NOT
+            // `jobHasParent || ...` as espresso does: rupy's nwchem prepare_restart symlinks only the
+            // parent's perm/, while nwchem.db sits at the work-dir root, so a child job would render
+            // `restart` with no database to restart from.
+            RESTART: Boolean(workflowHasRelaxation),
             contextProviderName: this.contextProviderName,
         };
     }

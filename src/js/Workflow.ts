@@ -31,7 +31,7 @@ import { Utils } from "@mat3ra/utils";
 import type { MaterialExternalContext } from "./context/mixins/MaterialContextMixin";
 import type { MaterialsExternalContext } from "./context/mixins/MaterialsContextMixin";
 import type { MaterialsSetExternalContext } from "./context/mixins/MaterialsSetContextMixin";
-import type { JobExternalContext } from "./context/providers/by_application/espresso/QEPWXInputDataManager";
+import type { JobExternalContext } from "./context/providers/base/ContextProvider";
 import { UnitType } from "./enums";
 import { type WorkflowSchemaMixin, workflowSchemaMixin } from "./generated/WorkflowSchemaMixin";
 import Subworkflow from "./Subworkflow";
@@ -344,7 +344,17 @@ class Workflow<S extends Schema = Schema> extends InMemoryEntity<S> implements W
         } else {
             const vcRelax = this.getStandataRelaxationSubworkflow();
             if (vcRelax) {
-                this.addSubworkflow(new Subworkflow(vcRelax), true);
+                const application = structuredClone(this.subworkflowInstances[0].application);
+                this.addSubworkflow(
+                    new Subworkflow({
+                        ...vcRelax,
+                        application,
+                        units: vcRelax.units.map((unit) =>
+                            unit.type === UnitType.execution ? { ...unit, application } : unit,
+                        ),
+                    }),
+                    true,
+                );
             }
         }
     }
@@ -367,15 +377,12 @@ class Workflow<S extends Schema = Schema> extends InMemoryEntity<S> implements W
             return undefined;
         }
 
-        const executionUnit = subworkflow.units.find((unit) => unit.type === UnitType.execution);
-        if (!executionUnit) {
+        const hasExecutionUnit = subworkflow.units.some((unit) => unit.type === UnitType.execution);
+        if (!hasExecutionUnit) {
             throw new Error("Relaxation subworkflow is missing an execution unit");
         }
 
-        return {
-            ...subworkflow,
-            application: executionUnit.application,
-        };
+        return subworkflow;
     }
 
     private getRelaxationSubworkflow() {

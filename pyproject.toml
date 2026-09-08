@@ -26,6 +26,7 @@ dependencies = [
     "mat3ra-mode",
     "mat3ra-ade",
     "mat3ra-made",
+    "scipy",
     "mat3ra-standata",
 ]
 

@@ -4,14 +4,16 @@ import type { ApplicationExternalContext } from "../mixins/ApplicationContextMix
 import type { MaterialExternalContext } from "../mixins/MaterialContextMixin";
 import type { MaterialsExternalContext } from "../mixins/MaterialsContextMixin";
 import type { MaterialsSetExternalContext } from "../mixins/MaterialsSetContextMixin";
-import type { UnitContext } from "./base/ContextProvider";
+import type {
+    JobExternalContext,
+    UnitContext,
+    WorkflowExternalContext,
+} from "./base/ContextProvider";
 import type { JinjaExternalContext } from "./base/JSONSchemaDataProvider";
 import BoundaryConditionsFormDataManager from "./BoundaryConditionsFormDataManager";
 import QENEBInputDataManager from "./by_application/espresso/QENEBInputDataManager";
 import QEPWXInputDataManager, {
-    type JobExternalContext,
     type MethodDataExternalContext,
-    type WorkflowExternalContext,
 } from "./by_application/espresso/QEPWXInputDataManager";
 import NWChemInputDataManager from "./by_application/nwchem/NWChemInputDataManager";
 import VASPInputDataManager from "./by_application/vasp/VASPInputDataManager";

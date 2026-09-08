@@ -1,13 +1,16 @@
 import pytest
 from mat3ra.ade.application import Application
+from mat3ra.made.material import Material
 from mat3ra.mode.method import Method
 from mat3ra.mode.model import Model
 from mat3ra.mode.models.dft import DFTModel
 from mat3ra.standata.applications import ApplicationStandata
+from mat3ra.standata.materials import Materials
 from mat3ra.standata.workflows import WorkflowStandata
 
 from mat3ra.wode import Subworkflow, Unit, Workflow, ExecutionUnit
 from mat3ra.wode.context.providers import PointsGridDataProvider
+
 
 SUBWORKFLOW_NAME = "Total Energy"
 SUBWORKFLOW_APPLICATION = Application(**ApplicationStandata.get_by_name_first_match("espresso"))
@@ -106,7 +109,11 @@ def test_set_unit_keeps_rendered_input_for_context_only_update(method):
 
     unit_to_modify.add_context({"name": "test_key", "data": "test_value"})
     unit_to_modify.add_context({"name": "another_key", "data": 42})
-    points_grid_provider = PointsGridDataProvider(dimensions=[2, 2, 1], isEdited=True)
+    points_grid_provider = PointsGridDataProvider(
+        dimensions=[2, 2, 1],
+        material=Material.create(Materials.get_by_name_first_match("Silicon")),
+        isEdited=True,
+    )
     unit_to_modify.add_context(points_grid_provider.get_context_item_data())
 
     if method == "only_new_unit":

@@ -30,6 +30,15 @@ export type EntityName = "unit" | "subworkflow";
 /** Minimal bound for provider external context; the full contract is ExternalContext in context/providers/index.ts */
 export type BaseExternalContext = object;
 
+/** Application-agnostic external context, set by Workflow / Subworkflow for any provider to consume. */
+export type JobExternalContext = {
+    jobHasParent: boolean;
+};
+
+export type WorkflowExternalContext = {
+    workflowHasRelaxation: boolean;
+};
+
 const nunjucksEnvironment = setupNunjucksEnvironment(new nunjucks.Environment());
 
 const parseNumericStrings = (_key: string, value: unknown) => {

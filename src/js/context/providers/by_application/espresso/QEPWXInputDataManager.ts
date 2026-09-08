@@ -18,7 +18,11 @@ import materialsContextMixin, {
     type MaterialsContextMixin,
     type MaterialsExternalContext,
 } from "../../../mixins/MaterialsContextMixin";
-import type { UnitContext } from "../../base/ContextProvider";
+import type {
+    JobExternalContext,
+    UnitContext,
+    WorkflowExternalContext,
+} from "../../base/ContextProvider";
 import JSONSchemaDataProvider, {
     type JinjaExternalContext,
 } from "../../base/JSONSchemaDataProvider";
@@ -30,14 +34,6 @@ type MethodData = BaseMethod["data"] & {
 
 export type MethodDataExternalContext = {
     methodData?: MethodData;
-};
-
-export type JobExternalContext = {
-    jobHasParent: boolean;
-};
-
-export type WorkflowExternalContext = {
-    workflowHasRelaxation: boolean;
 };
 
 type Data = QEPwxContextProviderSchema;

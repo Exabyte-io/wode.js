@@ -1,6 +1,10 @@
 import { type Taggable } from "@mat3ra/code/dist/js/entity/mixins/TaggableMixin";
 import JSONSchemasInterface from "@mat3ra/esse/dist/js/esse/JSONSchemasInterface";
-import type { ExecutionUnitInputItemSchema, ExecutionUnitSchema } from "@mat3ra/esse/dist/js/types";
+import type {
+    ExecutionUnitInputItemSchema,
+    ExecutionUnitSchema,
+    TemplateSchema,
+} from "@mat3ra/esse/dist/js/types";
 import { ApplicationRegistry, applicationVersionSatisfiesSupportedRange } from "@mat3ra/standata";
 import { Utils } from "@mat3ra/utils";
 
@@ -111,8 +115,9 @@ class ExecutionUnit extends BaseUnit<Schema> implements Schema {
 
         // flavor is missing on the first run, so do not use getter this.flavor with requiredProperty
         const previousFlavor = this._json.flavor;
+        const isSameFlavor = previousFlavor?.name === flavor.name;
 
-        if (previousFlavor?.name !== flavor.name) {
+        if (!isSameFlavor) {
             this.results = flavor.results;
             this.monitors = flavor.monitors;
             this.preProcessors = flavor.preProcessors;
@@ -120,7 +125,13 @@ class ExecutionUnit extends BaseUnit<Schema> implements Schema {
         }
 
         this.flavor = flavor;
-        this.setDefaultInput();
+        // Persisted input belongs to the flavor it was saved with: another flavor's files are a
+        // different set of templates under names that often collide (`script.py`,
+        // `requirements.txt`), so keeping them would silently serve the previous flavor's content
+        // - and leave slots the new flavor adds (e.g. `utils.py`) to be filled by whatever row sits
+        // in the same position. Reuse persisted rows only when the flavor is unchanged, i.e. when
+        // reconstructing a unit from saved JSON rather than switching flavor in the UI.
+        this.setDefaultInput({ reusePersistedInput: isSameFlavor });
     }
 
     /**
@@ -151,20 +162,52 @@ class ExecutionUnit extends BaseUnit<Schema> implements Schema {
     }
 
     /**
-     * Build `inputInstances` from the current flavor’s defaults (`ApplicationRegistry#getInput(application, flavor)`),
-     * merged with persisted `this.input` from saved workflow JSON. For each input slot from the registry we
-     * prefer a compatible persisted row matched by `template.name`, else by index; incompatible or missing
-     * rows use the registry template. `render()` then serializes from these instances into `this.input`, so UI
-     * and saved JSON stay aligned when Subworkflow re-serializes units after render.
+     * Pair each input slot of the current flavor with a row persisted in saved workflow JSON. A slot
+     * first claims the persisted row carrying the same `template.name`; slots still unpaired then fall
+     * back to the row in the same position, which is how a row the user renamed in the UI is still
+     * recognized. Every persisted row is claimed by at most one slot, so a flavor with more input files
+     * than the saved JSON has rows cannot end up with the same file twice.
      */
-    setDefaultInput() {
-        const driverTemplates = new ApplicationRegistry().getInput(this.application, this.flavor);
+    private matchPersistedInput(
+        driverTemplates: TemplateSchema[],
+    ): (ExecutionUnitInputItemSchema | undefined)[] {
         const persisted = Array.isArray(this.input) ? this.input : [];
+        const claimedIndices = new Set<number>();
+
+        const matchedIndices = driverTemplates.map((driverTemplate) => {
+            const index = persisted.findIndex(
+                (item, i) => !claimedIndices.has(i) && item?.template?.name === driverTemplate.name,
+            );
+
+            if (index !== -1) claimedIndices.add(index);
+
+            return index;
+        });
+
+        return matchedIndices.map((matchedIndex, index) => {
+            if (matchedIndex !== -1) return persisted[matchedIndex];
+            if (claimedIndices.has(index)) return undefined;
+
+            claimedIndices.add(index);
+
+            return persisted[index];
+        });
+    }
+
+    /**
+     * Build `inputInstances` from the current flavor’s defaults (`ApplicationRegistry#getInput(application, flavor)`),
+     * merged with persisted `this.input` from saved workflow JSON (see `matchPersistedInput`); incompatible or
+     * missing rows use the registry template. `render()` then serializes from these instances into `this.input`,
+     * so UI and saved JSON stay aligned when Subworkflow re-serializes units after render. Pass
+     * `reusePersistedInput: false` to ignore `this.input` and take every slot from the registry, as `setFlavor`
+     * does when the flavor changes and the persisted rows describe the previous flavor's files.
+     */
+    setDefaultInput({ reusePersistedInput = true }: { reusePersistedInput?: boolean } = {}) {
+        const driverTemplates = new ApplicationRegistry().getInput(this.application, this.flavor);
+        const persistedItems = reusePersistedInput ? this.matchPersistedInput(driverTemplates) : [];
 
         this.inputInstances = driverTemplates.map((driverTemplate, index) => {
-            const persistedItem =
-                persisted.find((item) => item?.template?.name === driverTemplate.name) ??
-                persisted[index];
+            const persistedItem = persistedItems[index];
 
             if (persistedItem && this.isPersistedInputItemCompatible(persistedItem)) {
                 return new ExecutionUnitInput(persistedItem);

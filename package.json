@@ -47,7 +47,7 @@
         "@mat3ra/ide": "https://github.com/mat3ra/ide/releases/download/wip-6c4177b/ide.tgz",
         "@mat3ra/made": "2026.8.18-0",
         "@mat3ra/mode": "2026.8.18-0",
-        "@mat3ra/prode": "https://github.com/mat3ra/prode/releases/download/wip-1d8901b/prode.tgz",
+        "@mat3ra/prode": "2026.8.18-0",
         "@mat3ra/standata": "2026.8.18-0",
         "@mat3ra/tsconfig": "^2024.6.3-0",
         "@mat3ra/utils": "2026.8.18-1",

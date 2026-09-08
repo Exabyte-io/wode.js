@@ -22,10 +22,12 @@ import type { WorkflowRenderContext } from "src/js/Workflow";
 
 import { Subworkflow, UnitFactory, Workflow } from "../../src/js";
 import { UnitType } from "../../src/js/enums";
+import type { ExecutionUnit } from "../../src/js/units";
 import { repairWorkflow } from "../../src/js/utils/repair";
 import type { WorkflowEntity } from "../../src/js/Workflow";
 import type { WorkflowSchema } from "../../src/js/workflows/types";
 import workflowHashes from "../fixtures/workflow_hashes.json";
+import { assertNotNull } from "./assertNotNull";
 
 function invalidExecutionUnit(flowchartId: string) {
     return {
@@ -192,6 +194,86 @@ describe("Workflow", () => {
                 shortName: "qe",
                 summary: "Quantum ESPRESSO",
                 version: "6.3",
+            });
+        });
+
+        it("inherits the existing subworkflow's application version and build", () => {
+            const config = structuredClone(Workflow.defaultConfig);
+            Object.assign(config.subworkflows[0].application, { build: "Intel", version: "7.5" });
+
+            const workflow = new Workflow(config);
+            workflow.toggleRelaxation();
+
+            const rehydrated = new Workflow(structuredClone(workflow.toJSON()));
+            const relaxation = assertNotNull(
+                rehydrated.subworkflowInstances.find(
+                    (subworkflow) => subworkflow.systemName === "espresso-variable-cell-relaxation",
+                ),
+            );
+
+            expect(relaxation.application).to.include({ build: "Intel", version: "7.5" });
+
+            const executionUnit = assertNotNull(
+                relaxation.unitsInstances.find((unit) => unit.type === UnitType.execution),
+            ) as ExecutionUnit;
+
+            expect(executionUnit.application).to.include({ build: "Intel", version: "7.5" });
+            expect(executionUnit.executable?.name).to.equal("pw.x");
+            expect(executionUnit.flavor?.name).to.equal("pw_vc-relax");
+        });
+
+        it("inherits a version and build the registry actually offers", () => {
+            const offered = (application: { name: string; version: string; build: string }) =>
+                new ApplicationRegistry()
+                    .getApplications()
+                    .some(
+                        (candidate) =>
+                            candidate.name === application.name &&
+                            candidate.version === application.version &&
+                            candidate.build === application.build,
+                    );
+
+            const workflow = new Workflow(structuredClone(Workflow.defaultConfig));
+            workflow.toggleRelaxation();
+
+            const rehydrated = new Workflow(structuredClone(workflow.toJSON()));
+            const relaxation = assertNotNull(
+                rehydrated.subworkflowInstances.find(
+                    (subworkflow) => subworkflow.systemName === "espresso-variable-cell-relaxation",
+                ),
+            );
+
+            const executionUnit = assertNotNull(
+                relaxation.unitsInstances.find((unit) => unit.type === UnitType.execution),
+            ) as ExecutionUnit;
+
+            expect(offered(relaxation.application), "subworkflow application").to.equal(true);
+            expect(offered(executionUnit.application), "unit application").to.equal(true);
+        });
+
+        it("does not reset the model to the application default when inheriting", () => {
+            const config = structuredClone(Workflow.defaultConfig);
+            Object.assign(config.subworkflows[0].application, {
+                name: "vasp",
+                shortName: "vasp",
+                summary: "Vienna Ab-initio Simulation Package",
+                build: "GNU",
+                version: "5.4.4",
+            });
+
+            const workflow = new Workflow(config);
+            workflow.toggleRelaxation();
+
+            const rehydrated = new Workflow(structuredClone(workflow.toJSON()));
+            const relaxation = assertNotNull(
+                rehydrated.subworkflowInstances.find(
+                    (subworkflow) => subworkflow.systemName === "vasp-variable-cell-relaxation",
+                ),
+            );
+
+            expect(relaxation.model.method).to.include({
+                type: "pseudopotential",
+                subtype: "paw",
             });
         });
 
