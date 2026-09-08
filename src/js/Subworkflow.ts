@@ -56,7 +56,7 @@ interface Subworkflow
         NamedEntity,
         SubworkflowSchemaMixin,
         HashedEntity,
-        Omit<ComputedEntityMixin, "compute"> {}
+        ComputedEntityMixin<SubworkflowSchemaMixin["compute"]> {}
 
 type SubworkflowExternalContext = WorkflowRenderContext & WorkflowExternalContext;
 

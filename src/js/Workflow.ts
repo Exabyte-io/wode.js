@@ -59,11 +59,8 @@ interface Workflow
         WorkflowSchemaMixin,
         Taggable,
         HashedEntity,
-        ComputedEntityMixin,
-        HasDescription {
-    // TODO: fix ComputedEntityMixin and remove this
-    compute: WorkflowSchema["compute"];
-}
+        ComputedEntityMixin<WorkflowSchema["compute"]>,
+        HasDescription {}
 
 /** Context passed to Workflow.render(); subworkflows also receive `workflowHasRelaxation`. */
 export type WorkflowRenderContext = MaterialExternalContext &
